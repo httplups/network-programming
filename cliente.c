@@ -9,7 +9,22 @@ int n_clientes = 10;
 pthread_t tid[10];
 
 void* doSomeThing(void *arg) {
-    char **arguments = (char**)arg;
+    pthread_exit(NULL);
+}
+
+int main(int argc, char **argv)
+{
+    char error[MAXLINE + 1];
+
+	if (argc != 3)
+	{
+		strcpy(error, "uso: ");
+		strcat(error, argv[0]);
+		strcat(error, " <IPaddress>");
+		perror(error);
+		exit(1);
+	}
+
     int sockfd, server_port_number, n;
 	char recvline[MAXLINE + 1];
 	struct sockaddr_in servaddr, cliaddr;
@@ -50,7 +65,7 @@ void* doSomeThing(void *arg) {
         //     exit(1);
         // }
     }
-    printf("saiu\n");
+    printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
     if (n < 0) {
         perror("read error");
         exit(1);
@@ -60,41 +75,6 @@ void* doSomeThing(void *arg) {
 
     // terminates connection
     Close(sockfd);
-    pthread_exit(NULL);
-}
-
-int main(int argc, char **argv)
-{
-    char error[MAXLINE + 1];
-    int i = 0, err;
-
-	if (argc != 3)
-	{
-		strcpy(error, "uso: ");
-		strcat(error, argv[0]);
-		strcat(error, " <IPaddress>");
-		perror(error);
-		exit(1);
-	}
-
-
-    while(i < n_clientes)
-    {
-        // printf("i:%d\n", i);
-        err = pthread_create(&(tid[i]), NULL, &doSomeThing, (void *) argv);
-        // if (err != 0)
-        //     printf("\ncan't create thread :[%s]", strerror(err));
-        // else
-        //     printf("\n Thread created successfully\n");
-
-        i++;
-    }
-    i = 0;
-    while (i < n_clientes) {
-        pthread_join(tid[i], NULL);
-        i++;
-    }
-
-    pthread_exit(0);
+    
 	return 0;
 }
