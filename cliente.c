@@ -6,7 +6,7 @@
 
 #define MAXLINE 4096
 int n_clientes = 10;
-pthread_t tid[n_clientes];
+pthread_t tid[10];
 
 void* doSomeThing(void *arg) {
     char **arguments = (char**)arg;
