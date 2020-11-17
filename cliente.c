@@ -69,7 +69,7 @@ int main(int argc, char **argv)
             exit(1);
         }
 
-        exit(0);
+        // exit(0);
 
         // terminates connection
         Close(sockfd);
