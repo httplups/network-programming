@@ -60,10 +60,6 @@ int main(int argc, char **argv)
 
     while ( (n = Read(sockfd, recvline, MAXLINE)) > 0) {
         recvline[n] = 0;
-        // if (fputs(recvline, stdout) == EOF) {
-        //     perror("fputs error");
-        //     exit(1);
-        // }
     }
     printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
     if (n < 0) {
