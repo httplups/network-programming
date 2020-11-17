@@ -95,5 +95,6 @@ int main(int argc, char **argv)
         i++;
     }
 
+    pthread_exit(0);
 	return 0;
 }
