@@ -116,7 +116,7 @@ int main(int argc, char **argv)
 		
 		if ((pid = Fork()) == 0)
 		{
-            print("%s\n", info_cliente);
+            printf("%s\n", info_cliente);
 			Close(listenfd); // filho fecha o socket de listen
             ticks = time(NULL);
             snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
