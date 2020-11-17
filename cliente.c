@@ -60,6 +60,7 @@ void* doSomeThing(void *arg) {
 
     // terminates connection
     Close(sockfd);
+    pthread_exit(NULL);
 }
 
 int main(int argc, char **argv)
