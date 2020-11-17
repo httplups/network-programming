@@ -36,7 +36,7 @@ void* doSomeThing(void *arg) {
     // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
     GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
     // printf("Informacoes do Socket Local:\n");
-    printf("%s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
+    printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
     // GetPeerName(sockfd, (struct sockaddr *)&servaddr, &lenserv);
     // printf("Informacoes do Socket Remoto:\n");
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 
     while(i < n_clientes)
     {
-        printf("i:%d\n", i);
+        // printf("i:%d\n", i);
         err = pthread_create(&(tid[i]), NULL, &doSomeThing, (void *) argv);
         // if (err != 0)
         //     printf("\ncan't create thread :[%s]", strerror(err));
