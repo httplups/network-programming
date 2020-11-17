@@ -24,22 +24,21 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-
-	/* Creating socket */
-	sockfd = Socket(AF_INET, SOCK_STREAM, 0);
-
-	// inicializando o socket com zeros
-	bzero(&servaddr, sizeof(servaddr));
-	servaddr.sin_family = AF_INET;
-
-	// obtendo o numero de porta para se conectar ao servidor
-	sscanf(argv[2], "%d", &server_port_number);
-	servaddr.sin_port = htons(server_port_number);
-
-	//obtendo o IP para se conectar ao servidor
-	Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
-
     for (int i = 0; i < 10; i++) {
+	/* Creating socket */
+        sockfd = Socket(AF_INET, SOCK_STREAM, 0);
+
+        // inicializando o socket com zeros
+        bzero(&servaddr, sizeof(servaddr));
+        servaddr.sin_family = AF_INET;
+
+        // obtendo o numero de porta para se conectar ao servidor
+        sscanf(argv[2], "%d", &server_port_number);
+        servaddr.sin_port = htons(server_port_number);
+
+        //obtendo o IP para se conectar ao servidor
+        Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
+
         printf("i:%d\n",i);
         /* Connecting to the server */
         Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
