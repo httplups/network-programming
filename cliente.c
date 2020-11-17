@@ -91,6 +91,7 @@ int main(int argc, char **argv)
     i = 0;
     while (i < 3) {
         pthread_join(tid[i], NULL);
+        i++;
     }
 
 	return 0;
