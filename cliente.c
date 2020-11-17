@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 	}
 
 
-    while(i < 1)
+    while(i < 3)
     {
         err = pthread_create(&(tid[i]), NULL, &doSomeThing, (void *) argv);
         if (err != 0)
