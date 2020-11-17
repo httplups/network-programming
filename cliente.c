@@ -9,8 +9,8 @@
 int main(int argc, char **argv)
 {
 
-	int sockfd, server_port_number;
-	char error[MAXLINE + 1];
+	int sockfd, server_port_number, n;
+	char error[MAXLINE + 1], recvline[MAXLINE + 1];
 	struct sockaddr_in servaddr, cliaddr;
 	socklen_t lencli, lenserv;
 
