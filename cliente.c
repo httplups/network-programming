@@ -37,11 +37,11 @@ int main(int argc, char **argv)
     servaddr.sin_family = AF_INET;
 
     // obtendo o numero de porta para se conectar ao servidor
-    sscanf(arguments[2], "%d", &server_port_number);
+    sscanf(argv[2], "%d", &server_port_number);
     servaddr.sin_port = htons(server_port_number);
 
     //obtendo o IP para se conectar ao servidor
-    Inet_pton(AF_INET, arguments[1], &servaddr.sin_addr);
+    Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
 
     /* Connecting to the server */
     Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
