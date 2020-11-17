@@ -50,7 +50,7 @@ void* doSomeThing(void *arg) {
             exit(1);
         }
     }
-
+    printf("saiu\n");
     if (n < 0) {
         perror("read error");
         exit(1);
