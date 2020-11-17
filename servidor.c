@@ -41,8 +41,6 @@ void setCurrentTime(char *cliente, int flag)
 	char buf[150];
 	bzero(time, 100);
 	bzero(buf, 150);
-    char   buf[MAXDATASIZE];
-    time_t ticks;
 
 
 	if (flag)
@@ -73,6 +71,8 @@ int main(int argc, char **argv)
 	int listenfd, connfd, port, i, num_lines, bufsize;
 	struct sockaddr_in servaddr, cliaddr;
 	pid_t pid;
+    char   buf[MAXDATASIZE];
+    time_t ticks;
 	socklen_t lenserv, lencli;
 	char c, info_cliente[25], resultado[MAXDATASIZE + 25], recvline[MAXDATASIZE];
 
