@@ -121,7 +121,7 @@ int main(int argc, char **argv)
             ticks = time(NULL);
             snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
             write(connfd, buf, strlen(buf));
-			sleep(10);  
+			sleep(3);  
 			Close(connfd); // filho fecha a conexao
 			setCurrentTime(info_cliente, 0); // sets time that client disconnected
 			exit(0);
