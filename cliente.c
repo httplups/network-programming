@@ -10,7 +10,7 @@ pthread_t tid[3];
 void* doSomeThing(void *arg) {
     char **arguments = (char**)arg;
     int sockfd, server_port_number, n;
-	char error[MAXLINE + 1], recvline[MAXLINE + 1];
+	char recvline[MAXLINE + 1];
 	struct sockaddr_in servaddr, cliaddr;
 	socklen_t lencli, lenserv;
     /* Creating socket */
@@ -27,7 +27,6 @@ void* doSomeThing(void *arg) {
     //obtendo o IP para se conectar ao servidor
     Inet_pton(AF_INET, arguments[1], &servaddr.sin_addr);
 
-    printf("i:%d\n",i);
     /* Connecting to the server */
     Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
     lencli = sizeof(cliaddr);
@@ -65,7 +64,7 @@ void* doSomeThing(void *arg) {
 
 int main(int argc, char **argv)
 {
-
+    char error[MAXLINE + 1]
 
 	if (argc != 3)
 	{
