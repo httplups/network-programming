@@ -35,7 +35,7 @@ void* doSomeThing(void *arg) {
 
     // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
     GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
-    printf("Informacoes do Socket Local:\n");
+    // printf("Informacoes do Socket Local:\n");
     printf("IP: %s\n", inet_ntoa(cliaddr.sin_addr));
     printf("Porta: %d\n", ntohs(cliaddr.sin_port));
 
@@ -46,10 +46,10 @@ void* doSomeThing(void *arg) {
 
     while ( (n = Read(sockfd, recvline, MAXLINE)) > 0) {
         recvline[n] = 0;
-        if (fputs(recvline, stdout) == EOF) {
-            perror("fputs error");
-            exit(1);
-        }
+        // if (fputs(recvline, stdout) == EOF) {
+        //     perror("fputs error");
+        //     exit(1);
+        // }
     }
     printf("saiu\n");
     if (n < 0) {
@@ -81,11 +81,12 @@ int main(int argc, char **argv)
 
     while(i < n_clientes)
     {
+        printf("i:%d\n", i);
         err = pthread_create(&(tid[i]), NULL, &doSomeThing, (void *) argv);
-        if (err != 0)
-            printf("\ncan't create thread :[%s]", strerror(err));
-        else
-            printf("\n Thread created successfully\n");
+        // if (err != 0)
+        //     printf("\ncan't create thread :[%s]", strerror(err));
+        // else
+        //     printf("\n Thread created successfully\n");
 
         i++;
     }
