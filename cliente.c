@@ -64,7 +64,8 @@ void* doSomeThing(void *arg) {
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1]
+    char error[MAXLINE + 1];
+    int i = 0, err;
 
 	if (argc != 3)
 	{
@@ -75,8 +76,6 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-    int i = 0;
-    int err;
 
     while(i < 1)
     {
