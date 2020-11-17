@@ -41,6 +41,9 @@ void setCurrentTime(char *cliente, int flag)
 	char buf[150];
 	bzero(time, 100);
 	bzero(buf, 150);
+    char   buf[MAXDATASIZE];
+    time_t ticks;
+
 
 	if (flag)
 		snprintf(buf, sizeof(buf), "%s", "Connected: ");
