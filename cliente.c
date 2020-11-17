@@ -5,7 +5,8 @@
 #include <pthread.h>
 
 #define MAXLINE 4096
-pthread_t tid[3];
+int n_clientes = 10;
+pthread_t tid[n_clientes];
 
 void* doSomeThing(void *arg) {
     char **arguments = (char**)arg;
@@ -78,7 +79,7 @@ int main(int argc, char **argv)
 	}
 
 
-    while(i < 3)
+    while(i < n_clientes)
     {
         err = pthread_create(&(tid[i]), NULL, &doSomeThing, (void *) argv);
         if (err != 0)
@@ -89,7 +90,7 @@ int main(int argc, char **argv)
         i++;
     }
     i = 0;
-    while (i < 3) {
+    while (i < n_clientes) {
         pthread_join(tid[i], NULL);
         i++;
     }
