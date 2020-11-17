@@ -39,38 +39,41 @@ int main(int argc, char **argv)
 	//obtendo o IP para se conectar ao servidor
 	Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
 
-	/* Connecting to the server */
-	Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
-	lencli = sizeof(cliaddr);
-	lenserv = sizeof(servaddr);
+    for (int i = 0; i < 10; i++) {
 
-	// Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
-	// GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
-	// printf("Informacoes do Socket Local:\n");
-	// printf("IP: %s\n", inet_ntoa(cliaddr.sin_addr));
-	// printf("Porta: %d\n", ntohs(cliaddr.sin_port));
+        /* Connecting to the server */
+        Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
+        lencli = sizeof(cliaddr);
+        lenserv = sizeof(servaddr);
 
-	// GetPeerName(sockfd, (struct sockaddr *)&servaddr, &lenserv);
-	// printf("Informacoes do Socket Remoto:\n");
-	// printf("IP: %s\n", inet_ntoa(servaddr.sin_addr));
-	// printf("Porta: %d\n", ntohs(servaddr.sin_port));
+        // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
+        GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
+        printf("Informacoes do Socket Local:\n");
+        printf("IP: %s\n", inet_ntoa(cliaddr.sin_addr));
+        printf("Porta: %d\n", ntohs(cliaddr.sin_port));
 
-	while ( (n = Read(sockfd, recvline, MAXLINE)) > 0) {
-        recvline[n] = 0;
-        if (fputs(recvline, stdout) == EOF) {
-            perror("fputs error");
+        // GetPeerName(sockfd, (struct sockaddr *)&servaddr, &lenserv);
+        // printf("Informacoes do Socket Remoto:\n");
+        // printf("IP: %s\n", inet_ntoa(servaddr.sin_addr));
+        // printf("Porta: %d\n", ntohs(servaddr.sin_port));
+
+        while ( (n = Read(sockfd, recvline, MAXLINE)) > 0) {
+            recvline[n] = 0;
+            if (fputs(recvline, stdout) == EOF) {
+                perror("fputs error");
+                exit(1);
+            }
+        }
+
+        if (n < 0) {
+            perror("read error");
             exit(1);
         }
+
+        exit(0);
+
+        // terminates connection
+        Close(sockfd);
     }
-
-    if (n < 0) {
-        perror("read error");
-        exit(1);
-    }
-
-    exit(0);
-
-	// terminates connection
-	Close(sockfd);
 	return 0;
 }
