@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
 
     for (int i = 0; i < 10; i++) {
-
+        printf("i:%d\n",i);
         /* Connecting to the server */
         Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
         lencli = sizeof(cliaddr);
