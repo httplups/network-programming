@@ -40,13 +40,20 @@ void Bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
 
 int Accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
 	int connfd;
-	if ((connfd = accept(sockfd, addr, addrlen)) == -1) {
-		// possible error in using invalid socket
-		perror("accept");
-		exit(1);
-	}
-	else
-		return connfd;
+
+    if ( (connfd = accept (sockfd, addr, addrlen)) < 0) {             
+        if (errno == EINTR)                 
+            continue;         /* back to for () */             
+        else                 
+            err_sys ("accept error");
+    
+	// if ((connfd = accept(sockfd, addr, addrlen)) == -1) {
+	// 	// possible error in using invalid socket
+	// 	perror("accept");
+	// 	exit(1);
+	// }
+	// else
+	return connfd;
 }
 
 void GetSockName(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
