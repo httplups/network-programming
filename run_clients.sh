@@ -1,5 +1,5 @@
 pids=""
-for i in {1..10}
+for i in {1..30}
 do
     ./cliente 127.0.0.1 1024 &
     pids="$pids $!"
