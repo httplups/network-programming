@@ -53,11 +53,6 @@ int main(int argc, char **argv)
     // printf("Informacoes do Socket Local:\n");
     printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
-    // GetPeerName(sockfd, (struct sockaddr *)&servaddr, &lenserv);
-    // printf("Informacoes do Socket Remoto:\n");
-    // printf("IP: %s\n", inet_ntoa(servaddr.sin_addr));
-    // printf("Porta: %d\n", ntohs(servaddr.sin_port));
-
     while ( (n = Read(sockfd, recvline, MAXLINE)) > 0) {
         recvline[n] = 0;
     }
