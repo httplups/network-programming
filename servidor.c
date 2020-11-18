@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	}
 
 	/* Creating listening parent socket */
-    	listenfd = Socket(AF_INET, SOCK_STREAM, LISTENQ);
+    	listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
     	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
