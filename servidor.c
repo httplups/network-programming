@@ -6,13 +6,13 @@
 // #define LISTENQ 10
 #define MAXDATASIZE 4096
 
-void sig_chld(int signo){ 
-    pid_t   pid;
-    int     stat;
-    pid = wait(&stat);
-    printf("child %d terminated\n", pid); 
-    return;
-}
+// void sig_chld(int signo){ 
+//     pid_t   pid;
+//     int     stat;
+//     pid = wait(&stat); // nao é waitpid?
+//     printf("child %d terminated\n", pid); 
+//     return;
+// }
 
 /* Function to retrive client information */
 char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
@@ -56,9 +56,9 @@ int main(int argc, char **argv)
 	}
 
 	/* Creating listening parent socket */
-    	listenfd = Socket(AF_INET, SOCK_STREAM, 0);
+    listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
-    	bzero(&servaddr, sizeof(servaddr));
+    bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
 
 	servaddr.sin_addr.s_addr = INADDR_ANY; // deixando o ip do localhost automatico
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     sscanf(argv[2], "%d", &backlog);
    	Listen(listenfd, backlog);
 
-    Signal (SIGCHLD, sig_chld) // parent waits for signal to handle it
+    // Signal (SIGCHLD, sig_chld) // parent waits for signal to handle it
 
 	for (;;) {
 		/* Opening connection */
