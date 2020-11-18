@@ -65,5 +65,5 @@ int main(int argc, char **argv)
     // terminates connection
     Close(sockfd);
     
-	// return 0;
+	return 0;
 }
