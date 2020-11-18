@@ -2,7 +2,7 @@
 #include "mysockfunctions.h"
 #include <stdint.h>
 
-#define LISTENQ 0
+#define LISTENQ 10
 #define MAXDATASIZE 4096
 
 /* Function to retrive client information */
