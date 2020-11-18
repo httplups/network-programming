@@ -2,7 +2,7 @@
 #include "mysockfunctions.h"
 #include <stdint.h>
 
-#define LISTENQ 10
+#define LISTENQ 1
 #define MAXDATASIZE 4096
 
 /* Function to retrive client information */
@@ -28,42 +28,6 @@ char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
 	}
 
     	return NULL;
-}
-
-/* Function to write in the log.txt file the current time of host
-   Params: IP:port from client and flag of connect or disconnected message
- */
-void setCurrentTime(char *cliente, int flag)
-{
-	time_t now = time(NULL);
-	FILE *f;
-	char time[100];
-	char buf[150];
-	bzero(time, 100);
-	bzero(buf, 150);
-
-
-	if (flag)
-		snprintf(buf, sizeof(buf), "%s", "Connected: ");
-	else
-		snprintf(buf, sizeof(buf), "%s", "Disconnected: ");
-
-	f = fopen("log.txt", "a");
-
-	/* Get the current time */
-	strftime(time, sizeof time, "%F %H:%M:%S\n\n", localtime(&now));
-	time[strlen(time)] = 0;
-	//printf("time: %s",time);
-
-	strcat(buf, cliente);
-	buf[strlen(buf)] = '\n';
-	buf[strlen(buf)] = 0;
-	strcat(buf, time);
-
-	if (f)
-		fputs(buf, f);
-
-	fclose(f);
 }
 
 int main(int argc, char **argv)
@@ -121,7 +85,7 @@ int main(int argc, char **argv)
             ticks = time(NULL);
             snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
             write(connfd, buf, strlen(buf));
-			sleep(3);  
+			sleep(10);  
 			Close(connfd); // filho fecha a conexao
 			setCurrentTime(info_cliente, 0); // sets time that client disconnected
 			exit(0);
