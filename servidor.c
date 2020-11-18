@@ -32,7 +32,7 @@ char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
 
 int main(int argc, char **argv)
 {
-	int listenfd, connfd, port;
+	int listenfd, connfd, port, backlog;
 	struct sockaddr_in servaddr, cliaddr;
 	pid_t pid;
     char   buf[MAXDATASIZE];
@@ -40,9 +40,9 @@ int main(int argc, char **argv)
 	socklen_t lenserv, lencli;
 	char info_cliente[25];
 
-	if (argc != 2)
+	if (argc != 3)
 	{
-		perror("Numero de argumentos insuficientes.\n");
+		perror("Numero de argumentos insuficientes. Preciso da porta e backlog\n");
 		exit(0);
 	}
 
@@ -66,7 +66,8 @@ int main(int argc, char **argv)
 	printf("Numero de porta para voce se conectar: %d\n", ntohs(servaddr.sin_port));
 
 	/* Server listening... */
-   	Listen(listenfd, 2);
+    sscanf(argv[2], "%d", &backlog);
+   	Listen(listenfd, backlog);
 
 	for (;;) {
 		/* Opening connection */
