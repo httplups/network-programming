@@ -1,18 +1,18 @@
 #include <time.h>
 #include "mysockfunctions.h"
 #include <stdint.h>
-// #include     "unp.h" 
+#include <sys/wait.h> 
 
 // #define LISTENQ 10
 #define MAXDATASIZE 4096
 
-// void sig_chld(int signo){ 
-//     pid_t   pid;
-//     int     stat;
-//     pid = wait(&stat); // nao é waitpid?
-//     printf("child %d terminated\n", pid); 
-//     return;
-// }
+void sig_chld(int signo) {
+    pid_t pid;
+    int stat;
+    while ( (pid = waitpid(-1, &stat, WNOHANG)) > 0)
+        printf("child %d terminated\n", pid);
+    return;
+}
 
 /* Function to retrive client information */
 char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     sscanf(argv[2], "%d", &backlog);
    	Listen(listenfd, backlog);
 
-    // Signal (SIGCHLD, sig_chld) // parent waits for signal to handle it
+    Signal (SIGCHLD, sig_chld) // parent waits for signal to handle it
 
 	for (;;) {
 		/* Opening connection */
