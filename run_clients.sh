@@ -2,7 +2,7 @@ pids=""
 for i in {1..20}
 do
     # $1 --> porta
-    echo $i &
+    # echo $i &
     ./cliente 127.0.0.1 $1 &
     pids="$pids $!"
 done
