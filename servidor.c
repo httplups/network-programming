@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 			Close(listenfd); // filho fecha o socket de listen
             strcat(buf, "connected:");
             strcat(buf, info_cliente);
-            printf("%s\n", buf)
+            printf("%s\n", buf);
             // printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
             write(connfd, buf, strlen(buf));
 			sleep(3);  
