@@ -5,8 +5,6 @@
 #include <pthread.h>
 
 #define MAXLINE 4096
-int n_clientes = 10;
-pthread_t tid[10];
 
 void* doSomeThing(void *arg) {
     pthread_exit(NULL);
@@ -46,7 +44,6 @@ int main(int argc, char **argv)
     /* Connecting to the server */
     Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
     lencli = sizeof(cliaddr);
-    lenserv = sizeof(servaddr);
 
     // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
     GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
