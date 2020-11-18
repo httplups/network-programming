@@ -86,7 +86,7 @@ int main(int argc, char **argv)
             strcat(buf, info_cliente);
             printf("%s\n", buf);
             // printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
-            write(connfd, buf, strlen(buf));
+            Write(connfd, buf, strlen(buf));
 			sleep(3);  
 			Close(connfd); // filho fecha a conexao
 			exit(0);
