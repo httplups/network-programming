@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     int sockfd, server_port_number, n;
 	char recvline[MAXLINE + 1];
 	struct sockaddr_in servaddr, cliaddr;
-	socklen_t lencli, lenserv;
+	socklen_t lencli;
     /* Creating socket */
     sockfd = Socket(AF_INET, SOCK_STREAM, 0);
 
