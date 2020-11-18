@@ -2,7 +2,7 @@
 #include "mysockfunctions.h"
 #include <stdint.h>
 
-#define LISTENQ 1
+#define LISTENQ 0
 #define MAXDATASIZE 4096
 
 /* Function to retrive client information */
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	}
 
 	/* Creating listening parent socket */
-    	listenfd = Socket(AF_INET, SOCK_STREAM, 0);
+    	listenfd = Socket(AF_INET, SOCK_STREAM, LISTENQ);
 
     	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
