@@ -2,7 +2,7 @@
 #include "mysockfunctions.h"
 #include <stdint.h>
 
-#define LISTENQ 1
+#define LISTENQ 10
 #define MAXDATASIZE 4096
 
 /* Function to retrive client information */
@@ -30,6 +30,42 @@ char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
     	return NULL;
 }
 
+/* Function to write in the log.txt file the current time of host
+   Params: IP:port from client and flag of connect or disconnected message
+ */
+void setCurrentTime(char *cliente, int flag)
+{
+	time_t now = time(NULL);
+	FILE *f;
+	char time[100];
+	char buf[150];
+	bzero(time, 100);
+	bzero(buf, 150);
+
+
+	if (flag)
+		snprintf(buf, sizeof(buf), "%s", "Connected: ");
+	else
+		snprintf(buf, sizeof(buf), "%s", "Disconnected: ");
+
+	f = fopen("log.txt", "a");
+
+	/* Get the current time */
+	strftime(time, sizeof time, "%F %H:%M:%S\n\n", localtime(&now));
+	time[strlen(time)] = 0;
+	//printf("time: %s",time);
+
+	strcat(buf, cliente);
+	buf[strlen(buf)] = '\n';
+	buf[strlen(buf)] = 0;
+	strcat(buf, time);
+
+	if (f)
+		fputs(buf, f);
+
+	fclose(f);
+}
+
 int main(int argc, char **argv)
 {
 	int listenfd, connfd, port, i, num_lines, bufsize;
@@ -47,7 +83,7 @@ int main(int argc, char **argv)
 	}
 
 	/* Creating listening parent socket */
-    	listenfd = Socket(AF_INET, SOCK_STREAM, 1);
+    	listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
     	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
@@ -75,6 +111,7 @@ int main(int argc, char **argv)
 		bzero(info_cliente, 25);
 		snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
 		info_cliente[strlen(info_cliente)] = 0;
+		setCurrentTime(info_cliente, 1); //sets times that client connected
 
 		
 		if ((pid = Fork()) == 0)
@@ -84,8 +121,9 @@ int main(int argc, char **argv)
             ticks = time(NULL);
             snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
             write(connfd, buf, strlen(buf));
-			sleep(10);  
+			sleep(3);  
 			Close(connfd); // filho fecha a conexao
+			setCurrentTime(info_cliente, 0); // sets time that client disconnected
 			exit(0);
 		}
 		//parent closes connection
