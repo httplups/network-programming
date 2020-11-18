@@ -1,4 +1,10 @@
-for i in `seq 1 10`; do
-    # echo "conectando cliente: $i"
+pids=""
+for i in {1..10}
+do
     ./cliente 127.0.0.1 1024 &
+    pids="$pids $!"
+done
+
+for pid in $pids; do
+    wait $pid
 done
