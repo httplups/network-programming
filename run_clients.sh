@@ -1,5 +1,5 @@
 pids=""
-for i in {1..150}
+for i in {1..257}
 do
     # $1 --> porta
     # echo $i &
