@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 	printf("Numero de porta para voce se conectar: %d\n", ntohs(servaddr.sin_port));
 
 	/* Server listening... */
-   	Listen(listenfd, 1);
+   	Listen(listenfd, 2);
 
 	for (;;) {
 		/* Opening connection */
