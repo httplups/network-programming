@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <signal.h>
 
 int Socket(int family, int type, int flags) {
 	int sockfd;
