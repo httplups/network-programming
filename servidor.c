@@ -75,7 +75,6 @@ int main(int argc, char **argv)
 		bzero(info_cliente, 25);
 		snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
 		info_cliente[strlen(info_cliente)] = 0;
-		setCurrentTime(info_cliente, 1); //sets times that client connected
 
 		
 		if ((pid = Fork()) == 0)
@@ -87,7 +86,6 @@ int main(int argc, char **argv)
             write(connfd, buf, strlen(buf));
 			sleep(10);  
 			Close(connfd); // filho fecha a conexao
-			setCurrentTime(info_cliente, 0); // sets time that client disconnected
 			exit(0);
 		}
 		//parent closes connection
