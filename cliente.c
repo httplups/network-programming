@@ -50,16 +50,20 @@ int main(int argc, char **argv)
     // printf("Informacoes do Socket Local:\n");
     // printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
-    while ( (n = Read(sockfd, recvline, MAXLINE)) > 0) {
+    // while ( (n = Read(sockfd, recvline, MAXLINE)) > 0) {
+    //     recvline[n] = 0;
+    //     printf("%s\n", recvline);
+    // }
+    n = Read(sockfd, recvline, MAXLINE);
+    if (n > 0) {
         recvline[n] = 0;
         printf("%s\n", recvline);
+        printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
     }
-    printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
     if (n < 0) {
         perror("read error");
         exit(1);
     }
-
     // exit(0);
 
     // terminates connection
