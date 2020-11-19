@@ -89,7 +89,7 @@ int main(int argc, char **argv)
 		bzero(info_cliente, 25);
 		snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
 		info_cliente[strlen(info_cliente)] = 0;
-		
+		printf("Pai aceitou pedido de: %s\n", info_cliente);
 		if ((pid = Fork()) == 0)
 		{
             bzero(buf, MAXDATASIZE);
