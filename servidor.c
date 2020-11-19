@@ -82,7 +82,7 @@ int main(int argc, char **argv)
 
 	for (;;) {
 
-        // sleep(3);
+        sleep(3);
 		/* Opening connection */
 		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
 
@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 		{
             bzero(buf, MAXDATASIZE);
 			Close(listenfd); // filho fecha o socket de listen
-            strcat(buf, "connected:");
+            // strcat(buf, "connected:");
             strcat(buf, info_cliente);
             Write(connfd, buf, strlen(buf));
             printf("%s\n", buf);
