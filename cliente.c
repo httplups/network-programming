@@ -45,11 +45,6 @@ int main(int argc, char **argv)
     Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
     lencli = sizeof(cliaddr);
 
-    // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
-    GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
-    // printf("Informacoes do Socket Local:\n");
-    // printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
-
     // while ( (n = Read(sockfd, recvline, MAXLINE)) > 0) {
     //     recvline[n] = 0;
     //     printf("%s\n", recvline);
@@ -67,7 +62,7 @@ int main(int argc, char **argv)
     // exit(0);
 
     // terminates connection
-    // Close(sockfd);
+    Close(sockfd);
     
 	return 0;
 }
