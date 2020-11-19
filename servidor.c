@@ -82,7 +82,7 @@ int main(int argc, char **argv)
 
 	for (;;) {
 
-        sleep(3);
+        // sleep(3);
 		/* Opening connection */
 		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
 
