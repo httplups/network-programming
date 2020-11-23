@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#define LISTENQ 0
+#define LISTENQ 1
 #define MAXDATASIZE 100
 #define MAX_STRING_SIZE 100
 #define MAXLINE 4096
