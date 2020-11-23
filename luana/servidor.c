@@ -81,10 +81,12 @@ int main(int argc, char **argv)
 
 	for (;;) {
 
-        sleep(3);
+        
 		/* Opening connection */
 		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
+        sleep(3);
 
+        
 		bzero(info_cliente, 25);
 		snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
 		info_cliente[strlen(info_cliente)] = 0;
@@ -98,7 +100,7 @@ int main(int argc, char **argv)
             // Write(connfd, buf, strlen(buf));
             printf("Handling: %s\n", info_cliente);
             // printf("%s\n", buf);
-			sleep(5);  
+			sleep(10);  
 			Close(connfd); // filho fecha a conexao
 			exit(0);
 		}
