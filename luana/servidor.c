@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     Signal(SIGCHLD, sig_chld); // parent waits for signal to handle it
 
 	for (;;) {
-        // sleep(3);
+        sleep(3);
 		/* Opening connection */
 		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
 		bzero(info_cliente, 25);
@@ -90,27 +90,12 @@ int main(int argc, char **argv)
 		{
 			Close(listenfd); // filho fecha o socket de listen
             printf("Handling: %s\n", info_cliente);
-            sleep(3);
+            sleep(3); // para segurar a conexão um pouco
 			Close(connfd); // filho fecha a conexao
 			exit(0);
 		}
 		//parent closes connection
 		Close(connfd);
 	}
-
-
-    // for ( ; ; ) {
-	// 	connfd = Accept(listenfd, (struct sockaddr *) &cliaddr, &lencli);  //durante a escuta, todas as conexões são aceitadas	 
-	// 	sleep(3);
-	// 	if((pid = fork()) == 0){		
-	// 		close(listenfd);
-	// 		printf("%s\n",sock_ntop((struct sockaddr *)&cliaddr, lencli)); //printa IP e porta do cliente 
-            		
-	// 		close(connfd);
-	// 		exit(0);
-	// 	}
-
-	//     close(connfd); //servidor fecha a conexão
-	// }
     return (0);  
 }
