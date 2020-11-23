@@ -98,7 +98,7 @@ int main(int argc, char **argv)
             // Write(connfd, buf, strlen(buf));
             printf("Handling: %s\n", info_cliente);
             // printf("%s\n", buf);
-			// sleep(3);  
+			sleep(5);  
 			Close(connfd); // filho fecha a conexao
 			exit(0);
 		}
