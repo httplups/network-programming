@@ -114,7 +114,8 @@ int main(int argc, char **argv)
 		sleep(3);
 		if((pid = fork()) == 0){		
 			close(listenfd);
-			printf("%s\n",sock_ntop((struct sockaddr *)&cliaddr, lencli)); //printa IP e porta do cliente 		
+			printf("%s\n",sock_ntop((struct sockaddr *)&cliaddr, lencli)); //printa IP e porta do cliente 
+            sleep(3);		
 			close(connfd);
 			exit(0);
 		}
