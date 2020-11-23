@@ -5,10 +5,6 @@
 
 #define MAXLINE 4096
 
-void* doSomeThing(void *arg) {
-    pthread_exit(NULL);
-}
-
 int main(int argc, char **argv)
 {
     char error[MAXLINE + 1];
@@ -22,8 +18,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-    int sockfd, server_port_number, n;
-	char recvline[MAXLINE + 1];
+    int sockfd, server_port_number;
 	struct sockaddr_in servaddr, cliaddr;
 	socklen_t lencli;
     /* Creating socket */
