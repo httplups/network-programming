@@ -2,7 +2,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include <pthread.h>
 
 #define MAXLINE 4096
 
@@ -48,22 +47,13 @@ int main(int argc, char **argv)
     // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
     GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
     // printf("Informacoes do Socket Local:\n");
-    // printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
-
-    while ( (n = Read(sockfd, recvline, MAXLINE)) > 0) {
-        recvline[n] = 0;
-        printf("%s\n", recvline);
-    }
-    printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
-    if (n < 0) {
-        perror("read error");
-        exit(1);
-    }
+    printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
+    // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
     // exit(0);
 
     // terminates connection
-    // Close(sockfd);
+    Close(sockfd);
     
 	return 0;
 }
