@@ -44,7 +44,6 @@ int main(int argc, char **argv)
 	int listenfd, connfd, port, backlog;
 	struct sockaddr_in servaddr, cliaddr;
 	pid_t pid;
-    char   buf[MAXDATASIZE];
 	socklen_t lenserv, lencli;
 	char info_cliente[25];
 
