@@ -79,48 +79,37 @@ int main(int argc, char **argv)
 
     Signal(SIGCHLD, sig_chld); // parent waits for signal to handle it
 
-	// for (;;) {
-
-        
-	// 	/* Opening connection */
-	// 	connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
-    //     sleep(3);
-
-
-	// 	bzero(info_cliente, 25);
-	// 	snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
-	// 	info_cliente[strlen(info_cliente)] = 0;
-		
-	// 	if ((pid = Fork()) == 0)
-	// 	{
-    //         bzero(buf, MAXDATASIZE);
-	// 		Close(listenfd); // filho fecha o socket de listen
-    //         // strcat(buf, "connected:");
-    //         // strcat(buf, info_cliente);
-    //         // Write(connfd, buf, strlen(buf));
-    //         printf("Handling: %s\n", info_cliente);
-    //         // printf("%s\n", buf);
-	// 		sleep(10);  
-	// 		Close(connfd); // filho fecha a conexao
-	// 		exit(0);
-	// 	}
-	// 	//parent closes connection
-	// 	Close(connfd);
-	// }
-
-
-    for ( ; ; ) {
-		connfd = Accept(listenfd, (struct sockaddr *) &cliaddr, &lencli);  //durante a escuta, todas as conexões são aceitadas	 
-		sleep(3);
-		if((pid = fork()) == 0){		
-			close(listenfd);
-			printf("%s\n",sock_ntop((struct sockaddr *)&cliaddr, lencli)); //printa IP e porta do cliente 
-            sleep(3);		
-			close(connfd);
+	for (;;) {
+        sleep(3);
+		/* Opening connection */
+		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
+		bzero(info_cliente, 25);
+		snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
+		info_cliente[strlen(info_cliente)] = 0;
+		if ((pid = Fork()) == 0)
+		{
+			Close(listenfd); // filho fecha o socket de listen
+            printf("Handling: %s\n", info_cliente);
+			Close(connfd); // filho fecha a conexao
 			exit(0);
 		}
-
-	    close(connfd); //servidor fecha a conexão
+		//parent closes connection
+		Close(connfd);
 	}
+
+
+    // for ( ; ; ) {
+	// 	connfd = Accept(listenfd, (struct sockaddr *) &cliaddr, &lencli);  //durante a escuta, todas as conexões são aceitadas	 
+	// 	sleep(3);
+	// 	if((pid = fork()) == 0){		
+	// 		close(listenfd);
+	// 		printf("%s\n",sock_ntop((struct sockaddr *)&cliaddr, lencli)); //printa IP e porta do cliente 
+            		
+	// 		close(connfd);
+	// 		exit(0);
+	// 	}
+
+	//     close(connfd); //servidor fecha a conexão
+	// }
     return (0);  
 }

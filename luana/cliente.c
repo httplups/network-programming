@@ -46,7 +46,6 @@ int main(int argc, char **argv)
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
     sleep(3);
-
     exit(0);
 
     // terminates connection
