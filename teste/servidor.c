@@ -78,9 +78,11 @@ int main(int argc, char **argv)
     sscanf(argv[2], "%d", &backlog);
    	Listen(listenfd, backlog);
 
-    Signal(SIGCHLD, sig_chld); // parent waits for signal to handle it
+    //Signal(SIGCHLD, sig_chld); // parent waits for signal to handle it
 
 	for (;;) {
+
+		sleep(3);
 		/* Opening connection */
 		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
 

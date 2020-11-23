@@ -78,10 +78,11 @@ int main(int argc, char **argv)
     sscanf(argv[2], "%d", &backlog);
    	Listen(listenfd, backlog);
 
-    Signal(SIGCHLD, sig_chld); // parent waits for signal to handle it
-
+    //Signal(SIGCHLD, sig_chld); // parent waits for signal to handle it
 	for (;;) {
 		/* Opening connection */
+
+		sleep(5);
 		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
 
 		bzero(info_cliente, 25);
@@ -100,7 +101,7 @@ int main(int argc, char **argv)
 			Close(connfd); // filho fecha a conexao
 			exit(0);
 		}
-		//parent closes connection
+		//parent /closes connection
 		Close(connfd);
 	}
     return (0);
