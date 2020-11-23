@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 		{
 			Close(listenfd); // filho fecha o socket de listen
             printf("Handling: %s\n", info_cliente);
-            sleep(10);
+            sleep(3);
 			Close(connfd); // filho fecha a conexao
 			exit(0);
 		}
