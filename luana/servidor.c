@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     Signal(SIGCHLD, sig_chld); // parent waits for signal to handle it
 
 	for (;;) {
-        sleep(3);
+        // sleep(3);
 		/* Opening connection */
 		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
 		bzero(info_cliente, 25);
