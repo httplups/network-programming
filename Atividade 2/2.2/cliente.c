@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 {
 
 	int sockfd, server_port_number;
-	char error[MAXLINE + 1];
+	char error[MAXLINE + 1], info_server[25];
 	struct sockaddr_in servaddr, cliaddr;
 	socklen_t lencli, lenserv;
 
@@ -153,10 +153,15 @@ int main(int argc, char **argv)
 	printf("IP: %s\n", inet_ntoa(cliaddr.sin_addr));
 	printf("Porta: %d\n", ntohs(cliaddr.sin_port));
 
-	GetPeerName(sockfd, (struct sockaddr *)&servaddr, &lenserv);
+    bzero(info_server, 25);
+    snprintf(info_server, sizeof(info_server), "%s", sock_ntop((const struct sockaddr *)&servaddr, lenserv));
+    info_server[strlen(info_server)] = 0;
+
+	// GetPeerName(sockfd, (struct sockaddr *)&servaddr, &lenserv);
 	printf("Informacoes do Socket Remoto:\n");
-	printf("IP: %s\n", inet_ntoa(servaddr.sin_addr));
-	printf("Porta: %d\n", ntohs(servaddr.sin_port));
+    printf("%s\n", info_server);
+	// printf("IP: %s\n", inet_ntoa(servaddr.sin_addr));
+	// printf("Porta: %d\n", ntohs(servaddr.sin_port));
 
 	/* Calling these functions as threads because I want to listen user input while I receive data from server */
 	pthread_create(&thread1, 0, read_stdin, NULL);

@@ -56,13 +56,13 @@ void GetSockName(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
     }
 }
 
-void GetPeerName(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
+// void GetPeerName(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
 
-     if (getpeername(sockfd, addr, addrlen) == -1) {
-        perror("getpeername");
-        exit(1);
-    }
-}
+//      if (getpeername(sockfd, addr, addrlen) == -1) {
+//         perror("getpeername");
+//         exit(1);
+//     }
+// }
 
 void Write(int fd, const void *buf, size_t count){ 
     ssize_t n = write(fd, buf, count); 
@@ -111,4 +111,28 @@ pid_t Fork() {
 void Shutdown(int socket, int how) {
 	if (shutdown(socket, how) == -1) 
 		perror("shutdown");
+}
+
+char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
+{
+	char portstr[8];
+	static char str[128];
+
+	switch (sa->sa_family) {
+		case AF_INET: {
+			struct sockaddr_in *sin = (struct sockaddr_in *)sa;
+			if (inet_ntop(AF_INET, &sin->sin_addr, str, sizeof(str)) == NULL)
+			{
+				return NULL;
+			}
+			if (ntohs(sin->sin_port) != 0)
+			{
+				snprintf(portstr, sizeof(portstr), ":%d", ntohs(sin->sin_port));
+				strcat(str, portstr);
+				return str;
+			}
+		}
+	}
+
+    return NULL;
 }

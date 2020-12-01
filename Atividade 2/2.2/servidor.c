@@ -5,31 +5,6 @@
 #define LISTENQ 10
 #define MAXDATASIZE 4096
 
-/* Function to retrive client information */
-char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
-{
-	char portstr[8];
-	static char str[128];
-
-	switch (sa->sa_family) {
-		case AF_INET: {
-			struct sockaddr_in *sin = (struct sockaddr_in *)sa;
-			if (inet_ntop(AF_INET, &sin->sin_addr, str, sizeof(str)) == NULL)
-			{
-				return NULL;
-			}
-			if (ntohs(sin->sin_port) != 0)
-			{
-				snprintf(portstr, sizeof(portstr), ":%d", ntohs(sin->sin_port));
-				strcat(str, portstr);
-				return str;
-			}
-		}
-	}
-
-    	return NULL;
-}
-
 /* Function to write in the log.txt file the current time of host
    Params: IP:port from client and flag of connect or disconnected message
  */
