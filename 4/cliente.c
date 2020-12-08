@@ -72,10 +72,6 @@ int main(int argc, char **argv) {
         perror(error);
         exit(1);
     }
-
-   
-    printf("fd stdin: %d\n", STDIN_FILENO);
-
     /* Creating socket */
 	sockfd = Socket(AF_INET, SOCK_STREAM, 0);
 
@@ -92,7 +88,6 @@ int main(int argc, char **argv) {
 
 	/* Connecting to the server */
 	Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
-    printf("Connected\n");
     str_cli(sockfd);
 
 
