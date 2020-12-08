@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 
     char buffer[MAXLINE];
 
-    if( fgets(buffer, sizeof(buffer), stdin) != NULL )
+    while( fgets(buffer, sizeof(buffer), stdin) != NULL )
     {
         printf("%s\n", buffer);
         /* check and process data */
