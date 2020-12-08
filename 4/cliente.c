@@ -24,7 +24,7 @@ void str_cli(int SOCK_FD) {
 
         if (FD_ISSET(STDIN_FILENO, &rset)) {
 
-            if ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
+            while ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
                 printf("***%s***\n", sendline);
             }
         }
