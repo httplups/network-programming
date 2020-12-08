@@ -14,6 +14,17 @@
 #include <sys/time.h>
 #include <time.h>
 
+void FD_CLR(int fd, fd_set *fdset);
+int FD_ISSET(int fd, fd_set *fdset);
+void FD_SET(int fd, fd_set *fdset);
+void FD_ZERO(fd_set *fdset);
+
+void Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout){
+
+    int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
+
+}
+
 int Socket(int family, int type, int flags) {
 	int sockfd;
 	if((sockfd = socket(family, type, flags)) < 0){
@@ -140,18 +151,3 @@ char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
 
     return NULL;
 }
-
-void Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout){
-
-    int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
-
-}
-
-
-// void FD_CLR(int fd, fd_set *fdset);
-
-// int FD_ISSET(int fd, fd_set *fdset);
-
-// void FD_SET(int fd, fd_set *fdset);
-
-// void FD_ZERO(fd_set *fdset);
