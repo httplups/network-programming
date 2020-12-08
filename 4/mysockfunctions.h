@@ -141,11 +141,13 @@ char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
     return NULL;
 }
 
-int Select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, 
-fd_set *restrict errorfds, struct timeval *restrict timeout) {
-    return select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, 
-    fd_set *restrict errorfds, struct timeval *restrict timeout);
+void Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout){
+
+    int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
+
 }
+
+
 
 
 void FD_CLR(int fd, fd_set *fdset);
