@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 #define LISTENQ 10
-#define MAXDATASIZE 4096
+#define MAXLINE 4096
 
 int main (int argc, char **argv) {
     int    listenfd, connfd;
@@ -47,7 +47,7 @@ int main (int argc, char **argv) {
         // printf("IP remoto:%s\n", inet_ntoa(servaddr.sin_addr));
         // printf("Porta remota: %d\n", ntohs(servaddr.sin_port));
 
-        while(Read(SOCK_FD, recvline, MAXLINE) > 0) {
+        while(Read(connfd, recvline, MAXLINE) > 0) {
             printf("~~%s~~\n", recvline);
             // salva em um arquivo > 
         }
