@@ -38,8 +38,7 @@ int main(int argc, char **argv) {
         /* check and process data */
     }
    
-    printf("EOF...");
-     
+    printf("fd stdin: %d\n", STDIN_FILENO);
 
     // // criando o socket
     // if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
