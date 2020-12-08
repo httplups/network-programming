@@ -12,14 +12,47 @@
 
 #define MAXLINE 4096
 
+void str_cli(int SOCK_FD) {
+    char   sendline[MAXLINE + 1], recvline[MAXLINE + 1];
+    int maxfdp1;
+    fd_set rset, wset;
+
+    FD_ZERO(&rset);
+    FD_ZERO(&wset);
+
+    for ( ;; ) {
+        FD_SET(STDIN_FILENO, &rset);
+        FD_SET(SOCK_FD, &rset);
+        // FD_SET(sockfd, &wset); /* Por que o sockfd não está associado a write set, se ele chama a função write? */
+        FD_SET(STDOUT_FILENO, &wset);
+        maxfdp1 = max(STDIN_FILENO, STDOUT_FILENO, SOCK_FD)  +  1;
+        Select(maxfdp1,  &rset,  &wset,  NULL,  NULL);
+
+        if (FD_ISSET(SOCK_FD,  &rset)){ /*if socket is readable*/
+            if(Read(SOCK_FD, recvline, MAXLINE) > 0) {
+                printf("--%s--\n", recvline);
+                // salva em um arquivo > 
+            }
+        }
+
+        if (FD_ISSET(STDIN_FILENO, &rset)) {
+
+            if ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
+                printf("***%s***\n", sendline);
+            }
+        }
+    }
+}
+
 int main(int argc, char **argv) {
 
     int    sockfd, n;
-    char   recvline[MAXLINE + 1];
+    
     char   error[MAXLINE + 1];
     struct sockaddr_in servaddr;
 
     if (argc != 3) {
+        printf("./cliente ip porta < arquivo.in");
         strcpy(error,"uso: ");
         strcat(error,argv[0]);
         strcat(error," <IPaddress>");
@@ -27,44 +60,38 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
-
-    /* This code snippet should be in a function */
-
-    char line[MAXLINE];
-
-    while( fgets(line, sizeof(line), stdin) != NULL )
-    {
-        printf("***%s***\n", line);
-        /* check and process data */
-    }
    
     printf("fd stdin: %d\n", STDIN_FILENO);
 
-    // // criando o socket
-    // if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-    //     perror("socket error");
-    //     exit(1);
-    // }
+    /* Creating socket */
+	sockfd = Socket(AF_INET, SOCK_STREAM, 0);
 
-    // // inicializando o socket com zeros
-    // bzero(&servaddr, sizeof(servaddr));
-    // servaddr.sin_family = AF_INET;
-    
-    // // obtendo o numero de porta para se conectar ao servidor
-    // int server_port_number;
-    // sscanf(argv[2], "%d", &server_port_number);
-    // servaddr.sin_port   = htons(server_port_number);
+	// inicializando o socket com zeros
+	bzero(&servaddr, sizeof(servaddr));
+	servaddr.sin_family = AF_INET;
 
-    // //obtendo o IP para se conectar ao servidor
-    // if (inet_pton(AF_INET, argv[1], &servaddr.sin_addr) <= 0) {
-    //     perror("inet_pton error");
-    //     exit(1);
-    // }
-    
-    // if (connect(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0) {
-    //     perror("connect error");
-    //     exit(1);
-    // }
+	// obtendo o numero de porta para se conectar ao servidor
+	sscanf(argv[2], "%d", &server_port_number);
+	servaddr.sin_port = htons(server_port_number);
+
+	//obtendo o IP para se conectar ao servidor
+	Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
+
+	/* Connecting to the server */
+	Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
+
+    str_cli(sockfd);
+
+
+	// lencli = sizeof(cliaddr);
+	// lenserv = sizeof(servaddr);
+
+	// Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
+	// GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
+	// printf("Informacoes do Socket Local:\n");
+	// printf("IP: %s\n", inet_ntoa(cliaddr.sin_addr));
+	// printf("Porta: %d\n", ntohs(cliaddr.sin_port));
+
     
     // socklen_t len = sizeof(servaddr);
     // // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
