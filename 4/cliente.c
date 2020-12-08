@@ -9,7 +9,8 @@
 void str_cli(int SOCK_FD) {
     char   sendline[MAXLINE + 1], recvline[MAXLINE + 1];
     int maxfdp1, eof_stdin = 0;
-    fd_set rset, wset;
+    fd_set rset;
+    // fd_set wset;
 
     FD_ZERO(&rset);
     FD_ZERO(&wset);
@@ -20,14 +21,13 @@ void str_cli(int SOCK_FD) {
         FD_SET(STDIN_FILENO, &rset);
         FD_SET(SOCK_FD, &rset);
         // FD_SET(sockfd, &wset); /* Por que o sockfd não está associado a write set, se ele chama a função write? */
-        FD_SET(STDOUT_FILENO, &wset);
+        // FD_SET(STDOUT_FILENO, &wset); Nao sei se precisa
         maxfdp1 = max(STDIN_FILENO, STDOUT_FILENO, SOCK_FD)  +  1;
         Select(maxfdp1,  &rset,  &wset,  NULL,  NULL);
 
         if (FD_ISSET(STDIN_FILENO, &rset)) {
 
             if ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
-                // printf("li:%s", sendline);
                 Write(SOCK_FD, sendline, strlen(sendline));
                 bzero(sendline, strlen(sendline));
             }
@@ -35,13 +35,14 @@ void str_cli(int SOCK_FD) {
                 eof_stdin = 1;
                 FD_CLR(STDIN_FILENO, &rset);
                 fclose(stdin);
-                shutdown(SOCK_FD, SHUT_WR);
+                shutdown(SOCK_FD, SHUT_WR); /* nao vai mandar mais nada pro servidor */
             }
         }
 
         if (FD_ISSET(SOCK_FD,  &rset)){ /*if socket is readable*/
             if(Read(SOCK_FD, recvline, MAXLINE) > 0) {
                 printf("%s", recvline);
+                fflush(stdout);
                 bzero(recvline, strlen(recvline));
                 // salva em um arquivo > 
                 // fputs(recvline, stdout);
@@ -49,7 +50,8 @@ void str_cli(int SOCK_FD) {
         }
 
         if (eof_stdin) {
-            Close(SOCK_FD);
+            shutdown(sockfd, SHUT_RD); 
+            FD_CLR(sockfd, &rset);
             exit(0);
         }
         
