@@ -30,11 +30,11 @@ int main(int argc, char **argv) {
 
     /* This code snippet should be in a function */
 
-    char buffer[MAXLINE];
+    char line[MAXLINE];
 
-    while( fgets(buffer, sizeof(buffer), stdin) != NULL )
+    while( fgets(line, sizeof(line), stdin) != NULL )
     {
-        printf("***%s***", buffer);
+        printf("***%s***\n", line);
         /* check and process data */
     }
    
