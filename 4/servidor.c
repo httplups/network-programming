@@ -3,12 +3,12 @@
 #include <stdint.h>
 
 #define LISTENQ 10
-#define MAXDATASIZE 100
+#define MAXDATASIZE 4096
 
 int main (int argc, char **argv) {
     int    listenfd, connfd;
     struct sockaddr_in servaddr;
-    char   buf[MAXDATASIZE];
+    char   recvline[MAXLINE + 1];
     time_t ticks;
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
@@ -47,9 +47,14 @@ int main (int argc, char **argv) {
         // printf("IP remoto:%s\n", inet_ntoa(servaddr.sin_addr));
         // printf("Porta remota: %d\n", ntohs(servaddr.sin_port));
 
-        ticks = time(NULL);
-        snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
-        Write(connfd, buf, strlen(buf));
+        while(Read(SOCK_FD, recvline, MAXLINE) > 0) {
+            printf("~~%s~~\n", recvline);
+            // salva em um arquivo > 
+        }
+
+        // ticks = time(NULL);
+        // snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
+        // Write(connfd, buf, strlen(buf));
 
         // fechando conexão
         Close(connfd);
