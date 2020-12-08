@@ -1,16 +1,10 @@
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <stdio.h>
-#include <netdb.h>
-#include <string.h>
-#include <errno.h>
-#include <string.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include "mysockfunctions.h"
 
 #define MAXLINE 4096
+#define max(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? (n) : (p)))
 
 void str_cli(int SOCK_FD) {
     char   sendline[MAXLINE + 1], recvline[MAXLINE + 1];
@@ -46,7 +40,7 @@ void str_cli(int SOCK_FD) {
 
 int main(int argc, char **argv) {
 
-    int    sockfd, n;
+    int    sockfd, n, server_port_number;
     
     char   error[MAXLINE + 1];
     struct sockaddr_in servaddr;
