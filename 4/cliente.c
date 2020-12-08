@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
 
 	/* Connecting to the server */
 	Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
-
+    printf("Connected\n");
     str_cli(sockfd);
 
 
