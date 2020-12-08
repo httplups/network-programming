@@ -49,12 +49,13 @@ int main (int argc, char **argv) {
         // printf("Porta remota: %d\n", ntohs(servaddr.sin_port));
 
         while((n = Read(connfd, recvline, MAXLINE)) > 0) {
-            printf("n:%d\n", n);
+            // printf("n:%d\n", n);
             printf("~~%s~~\n", recvline);
             bzero(recvline, strlen(recvline));
+            Write(connfd, recvline, strlen(recvline));
             // salva em um arquivo > 
         }
-        printf("n:%d\n", n);
+        // printf("n:%d\n", n);
 
         // ticks = time(NULL);
         // snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
