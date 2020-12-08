@@ -34,6 +34,8 @@ int main (int argc, char **argv) {
 
     for ( ; ; ) {
 
+        bzero(recvline, strlen(recvline));
+        bzero(sendline, strlen(sendline));
         // aceitando pedido de conexão no socket
         connfd = Accept(listenfd, (struct sockaddr *) NULL, NULL);
 
@@ -49,6 +51,7 @@ int main (int argc, char **argv) {
 
         while(Read(connfd, recvline, MAXLINE) > 0) {
             printf("~~%s~~\n", recvline);
+            bzero(recvline, strlen(recvline));
             // salva em um arquivo > 
         }
 

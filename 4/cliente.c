@@ -15,6 +15,8 @@ void str_cli(int SOCK_FD) {
     FD_ZERO(&wset);
 
     for ( ;; ) {
+        bzero(recvline, strlen(recvline));
+        bzero(sendline, strlen(sendline));
         FD_SET(STDIN_FILENO, &rset);
         FD_SET(SOCK_FD, &rset);
         // FD_SET(sockfd, &wset); /* Por que o sockfd não está associado a write set, se ele chama a função write? */
@@ -27,6 +29,7 @@ void str_cli(int SOCK_FD) {
             while ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
                 printf("***%s***\n", sendline);
                 Write(SOCK_FD, sendline, strlen(sendline));
+                bzero(sendline, strlen(sendline));
             }
         }
 
