@@ -8,7 +8,7 @@
 
 void str_cli(int SOCK_FD) {
     char   sendline[MAXLINE + 1], recvline[MAXLINE + 1];
-    int maxfdp1;
+    int maxfdp1, eof_stdin = 0;
     fd_set rset, wset;
 
     FD_ZERO(&rset);
@@ -31,13 +31,25 @@ void str_cli(int SOCK_FD) {
                 Write(SOCK_FD, sendline, strlen(sendline));
                 bzero(sendline, strlen(sendline));
             }
+            else {
+                eof_stdin = 1;
+                FD_CLR(STDIN_FILENO, &rset);
+                fclose(stdin);
+                shutdown(SOCK_FD, SHUT_WR);
+            }
         }
 
         if (FD_ISSET(SOCK_FD,  &rset)){ /*if socket is readable*/
             if(Read(SOCK_FD, recvline, MAXLINE) > 0) {
                 printf("recebi:%s", recvline);
                 // salva em um arquivo > 
+                fputs(recvline, stdout);
             }
+        }
+
+        if (eof_stdin) {
+            Close(SOCK_FD);
+            exit(0);
         }
         
     }
