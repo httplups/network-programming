@@ -14,11 +14,6 @@
 #include <sys/time.h>
 #include <time.h>
 
-struct timeval  {  
-    long   tv_sec;          /* seconds */  
-    long   tv_usec;         /* microseconds */
-};
-
 // void FD_CLR(int fd, fd_set *fdset);
 // int FD_ISSET(int fd, fd_set *fdset);
 // void FD_SET(int fd, fd_set *fdset);
