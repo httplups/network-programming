@@ -10,6 +10,9 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/select.h>
+#include <signal.h>
+#include <sys/time.h>
+#include <time.h>
 
 int Socket(int family, int type, int flags) {
 	int sockfd;
@@ -57,13 +60,13 @@ void GetSockName(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
     }
 }
 
-// void GetPeerName(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
+void GetPeerName(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
 
-//      if (getpeername(sockfd, addr, addrlen) == -1) {
-//         perror("getpeername");
-//         exit(1);
-//     }
-// }
+     if (getpeername(sockfd, addr, addrlen) == -1) {
+        perror("getpeername");
+        exit(1);
+    }
+}
 
 void Write(int fd, const void *buf, size_t count){ 
     ssize_t n = write(fd, buf, count); 
@@ -138,11 +141,10 @@ char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
     return NULL;
 }
 
-int Select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict errorfds,
-struct timeval *restrict timeout) {
-    int res = select(int nfds, fd_set *restrict, fd_set *restrict, fd_set *restrict,
-         struct timeval *restrict);
-    return res;
+int Select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, 
+fd_set *restrict errorfds, struct timeval *restrict timeout) {
+    return select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, 
+    fd_set *restrict errorfds, struct timeval *restrict timeout);
 }
 
 
