@@ -43,7 +43,8 @@ int main(int argc, char **argv) {
     int    sockfd, n, server_port_number;
     
     char   error[MAXLINE + 1];
-    struct sockaddr_in servaddr;
+    struct sockaddr_in servaddr,cliaddr;
+	socklen_t lencli, lenserv;
 
     if (argc != 3) {
         printf("./cliente ip porta < arquivo.in");
@@ -73,6 +74,10 @@ int main(int argc, char **argv) {
 
 	/* Connecting to the server */
 	Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
+    GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
+	printf("Informacoes do Socket Local:\n");
+	printf("IP: %s\n", inet_ntoa(cliaddr.sin_addr));
+	printf("Porta: %d\n", ntohs(cliaddr.sin_port));
 
     str_cli(sockfd);
 
@@ -81,10 +86,7 @@ int main(int argc, char **argv) {
 	// lenserv = sizeof(servaddr);
 
 	// Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
-	// GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
-	// printf("Informacoes do Socket Local:\n");
-	// printf("IP: %s\n", inet_ntoa(cliaddr.sin_addr));
-	// printf("Porta: %d\n", ntohs(cliaddr.sin_port));
+	
 
     
     // socklen_t len = sizeof(servaddr);
