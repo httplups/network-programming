@@ -35,7 +35,6 @@ int main (int argc, char **argv) {
     for ( ; ; ) {
 
         bzero(recvline, strlen(recvline));
-        bzero(sendline, strlen(sendline));
         // aceitando pedido de conexão no socket
         connfd = Accept(listenfd, (struct sockaddr *) NULL, NULL);
 
