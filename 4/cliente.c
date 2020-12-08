@@ -23,7 +23,7 @@ void str_cli(int SOCK_FD) {
         // FD_SET(sockfd, &wset); /* Por que o sockfd não está associado a write set, se ele chama a função write? */
         // FD_SET(STDOUT_FILENO, &wset); Nao sei se precisa
         maxfdp1 = max(STDIN_FILENO, STDOUT_FILENO, SOCK_FD)  +  1;
-        Select(maxfdp1,  &rset,  &wset,  NULL,  NULL);
+        Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
 
         if (FD_ISSET(STDIN_FILENO, &rset)) {
 
@@ -60,11 +60,10 @@ void str_cli(int SOCK_FD) {
 
 int main(int argc, char **argv) {
 
-    int    sockfd, n, server_port_number;
+    int    sockfd, server_port_number;
     
     char   error[MAXLINE + 1];
-    struct sockaddr_in servaddr,cliaddr;
-	socklen_t lencli, lenserv;
+    struct sockaddr_in servaddr;
 
     if (argc != 3) {
         printf("./cliente ip porta < arquivo.in");
