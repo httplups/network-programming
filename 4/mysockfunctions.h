@@ -138,9 +138,10 @@ char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
     return NULL;
 }
 
-int select(int nfds, fd_set *restrict readfds,
-    fd_set *restrict writefds, fd_set *restrict errorfds,
-    struct timeval *restrict timeout);
+int Select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict errorfds,struct timeval *restrict timeout) {
+    return select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict errorfds, struct timeval *restrict timeout);
+}
+
 
 void FD_CLR(int fd, fd_set *fdset);
 
