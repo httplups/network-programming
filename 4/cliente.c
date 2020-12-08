@@ -28,6 +28,7 @@ void str_cli(int SOCK_FD) {
         if (FD_ISSET(STDIN_FILENO, &rset)) {
 
             if ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
+                sendline[strlen(sendline)] = 0;
                 Write(SOCK_FD, sendline, strlen(sendline));
                 bzero(sendline, strlen(sendline));
             }
@@ -41,11 +42,10 @@ void str_cli(int SOCK_FD) {
 
         if (FD_ISSET(SOCK_FD,  &rset)){ /*if socket is readable*/
             if(Read(SOCK_FD, recvline, MAXLINE) > 0) {
+                recvline[strlen(recvline)] = 0;
                 printf("%s", recvline);
                 fflush(stdout);
                 bzero(recvline, strlen(recvline));
-                // salva em um arquivo > 
-                // fputs(recvline, stdout);
             }
         }
 
