@@ -50,7 +50,6 @@ int main (int argc, char **argv) {
 
         while((n = Read(connfd, recvline, MAXLINE)) > 0) {
             // printf("n:%d\n", n);
-            recvline[strlen(recvline)] = 0;
             printf("%s", recvline);
             Write(connfd, recvline, strlen(recvline));
 

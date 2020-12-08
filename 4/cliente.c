@@ -42,7 +42,7 @@ void str_cli(int SOCK_FD) {
 
         if (FD_ISSET(SOCK_FD,  &rset)){ /*if socket is readable*/
             if(Read(SOCK_FD, recvline, MAXLINE) > 0) {
-                recvline[strlen(recvline)] = 0;
+                // recvline[strlen(recvline)] = 0;
                 printf("%s", recvline);
                 fflush(stdout);
                 bzero(recvline, strlen(recvline));
