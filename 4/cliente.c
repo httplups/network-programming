@@ -13,7 +13,7 @@ void str_cli(int SOCK_FD) {
     // fd_set wset;
 
     FD_ZERO(&rset);
-    FD_ZERO(&wset);
+    // FD_ZERO(&wset);
 
     for ( ;; ) {
         bzero(recvline, strlen(recvline));
@@ -49,10 +49,10 @@ void str_cli(int SOCK_FD) {
             }
         }
 
-        if (eof_stdin) {
-            shutdown(sockfd, SHUT_RD); 
-            FD_CLR(sockfd, &rset);
-            exit(0);
+        if (eof_stdin) { 
+            FD_CLR(SOCK_FD, &rset);
+            shutdown(SOCK_FD, SHUT_RD);
+            break;
         }
         
     }
@@ -123,5 +123,5 @@ int main(int argc, char **argv) {
     //     exit(1);
     // }
 
-    exit(0);
+    return 0;
 }
