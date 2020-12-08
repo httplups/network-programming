@@ -51,9 +51,9 @@ int main (int argc, char **argv) {
         while((n = Read(connfd, recvline, MAXLINE)) > 0) {
             // printf("n:%d\n", n);
             printf("~~%s~~\n", recvline);
-            bzero(recvline, strlen(recvline));
             Write(connfd, recvline, strlen(recvline));
-            // salva em um arquivo > 
+
+            bzero(recvline, strlen(recvline));
         }
         // printf("n:%d\n", n);
 
