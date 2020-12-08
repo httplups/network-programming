@@ -148,12 +148,10 @@ void Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, stru
 }
 
 
+// void FD_CLR(int fd, fd_set *fdset);
 
+// int FD_ISSET(int fd, fd_set *fdset);
 
-void FD_CLR(int fd, fd_set *fdset);
+// void FD_SET(int fd, fd_set *fdset);
 
-int FD_ISSET(int fd, fd_set *fdset);
-
-void FD_SET(int fd, fd_set *fdset);
-
-void FD_ZERO(fd_set *fdset);
+// void FD_ZERO(fd_set *fdset);
