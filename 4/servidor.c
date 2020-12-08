@@ -38,15 +38,6 @@ int main (int argc, char **argv) {
         // aceitando pedido de conexão no socket
         connfd = Accept(listenfd, (struct sockaddr *) NULL, NULL);
 
-        // // obtendo informações sobre socket remoto (cliente)
-        // if (getpeername(connfd, (struct sockaddr *) &servaddr,&len) == -1) {
-        //     perror("getppername");
-        //     exit(1);
-        // }
-
-        // printf("Informacoes sobre socket remoto:\n");
-        // printf("IP remoto:%s\n", inet_ntoa(servaddr.sin_addr));
-        // printf("Porta remota: %d\n", ntohs(servaddr.sin_port));
 
         while((n = Read(connfd, recvline, MAXLINE)) > 0) {
             // printf("n:%d\n", n);
@@ -55,13 +46,6 @@ int main (int argc, char **argv) {
 
             memset(recvline, 0, strlen(recvline));
         }
-        // printf("n:%d\n", n);
-
-        // ticks = time(NULL);
-        // snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
-        // Write(connfd, buf, strlen(buf));
-
-        // fechando conexão
         Close(connfd);
     }
 

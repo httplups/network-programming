@@ -4,32 +4,33 @@
 #include "mysockfunctions.h"
 
 #define MAXLINE 10000
-#define max(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? (n) : (p)))
+#define max(a,b) (((a)>(b))?(a):(b))
 
 void str_cli(int SOCK_FD) {
     char   sendline[MAXLINE + 1], recvline[MAXLINE + 1];
     int maxfdp1, eof_stdin = 0;
     fd_set rset;
-    // fd_set wset;
 
     FD_ZERO(&rset);
-    // FD_ZERO(&wset);
 
     for ( ;; ) {
+
+        /*Limpando buffers */
         memset(recvline, 0, strlen(recvline));
         memset(sendline, 0, strlen(sendline));
+
+        /* Associando file descriptors ao conjunto read*/
         FD_SET(STDIN_FILENO, &rset);
         FD_SET(SOCK_FD, &rset);
-        // FD_SET(sockfd, &wset); /* Por que o sockfd não está associado a write set, se ele chama a função write? */
-        // FD_SET(STDOUT_FILENO, &wset); Nao sei se precisa
-        maxfdp1 = max(STDIN_FILENO, STDOUT_FILENO, SOCK_FD)  +  1;
+        
+        maxfdp1 = max(STDIN_FILENO, SOCK_FD)  +  1;
         Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
 
-        if (FD_ISSET(STDIN_FILENO, &rset)) {
+        if (FD_ISSET(STDIN_FILENO, &rset)) { /* conseguimos ler do stdin */
 
-            if ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
+            if ( fgets(sendline, sizeof(sendline), stdin) != NULL ) {
                 sendline[strlen(sendline)] = 0;
-                Write(SOCK_FD, sendline, strlen(sendline));
+                Write(SOCK_FD, sendline, strlen(sendline)); // envia para o servidor
                 memset(sendline, 0, strlen(sendline));
             }
             else {
@@ -40,10 +41,9 @@ void str_cli(int SOCK_FD) {
             }
         }
 
-        if (FD_ISSET(SOCK_FD,  &rset)){ /*if socket is readable*/
+        if (FD_ISSET(SOCK_FD,  &rset)){ /* conseguimos ler do socket*/
             if(Read(SOCK_FD, recvline, MAXLINE) > 0) {
-                // recvline[strlen(recvline)] = 0;
-                printf("%s", recvline);
+                printf("%s", recvline); // print que será redirecionado para > saida.out
                 fflush(stdout);
                 memset(recvline, 0, strlen(recvline));
             }
@@ -61,19 +61,18 @@ void str_cli(int SOCK_FD) {
 int main(int argc, char **argv) {
 
     int    sockfd, server_port_number;
-    
     char   error[MAXLINE + 1];
     struct sockaddr_in servaddr;
 
     if (argc != 3) {
-        printf("./cliente ip porta < arquivo.in");
+        printf("./cliente ip porta < entrada.in > saida.out ");
         strcpy(error,"uso: ");
         strcat(error,argv[0]);
         strcat(error," <IPaddress>");
         perror(error);
         exit(1);
     }
-    /* Creating socket */
+    /* Criando socket */
 	sockfd = Socket(AF_INET, SOCK_STREAM, 0);
 
 	// inicializando o socket com zeros
@@ -87,40 +86,9 @@ int main(int argc, char **argv) {
 	//obtendo o IP para se conectar ao servidor
 	Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
 
-	/* Connecting to the server */
+	/* Conectando ao servidor */
 	Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
-    str_cli(sockfd);
-
-
-	// lencli = sizeof(cliaddr);
-	// lenserv = sizeof(servaddr);
-
-	// Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
-	
-
-    
-    // socklen_t len = sizeof(servaddr);
-    // // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
-    // if (getsockname(sockfd, (struct sockaddr *) &servaddr, &len) == -1) {
-    //     perror("getsockname");
-    //         exit(1);
-    // }
-    // printf("Informacoes do Socket Local:\n");
-    // printf("IP local: %s\n", inet_ntoa(servaddr.sin_addr));
-    // printf("Porta local: %d\n", ntohs(servaddr.sin_port));
-
-    // while ( (n = read(sockfd, recvline, MAXLINE)) > 0) {
-    //     recvline[n] = 0;
-    //     if (fputs(recvline, stdout) == EOF) {
-    //         perror("fputs error");
-    //         exit(1);
-    //     }
-    // }
-
-    // if (n < 0) {
-    //     perror("read error");
-    //     exit(1);
-    // }
+    str_cli(sockfd);   
 
     return 0;
 }
