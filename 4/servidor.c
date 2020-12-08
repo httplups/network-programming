@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 #define LISTENQ 10
-#define MAXLINE 4096
+#define MAXLINE 10000
 
 int main (int argc, char **argv) {
     int    listenfd, connfd, n;
@@ -34,7 +34,7 @@ int main (int argc, char **argv) {
 
     for ( ; ; ) {
 
-        bzero(recvline, strlen(recvline));
+        memset(recvline, 0, strlen(recvline));
         // aceitando pedido de conexão no socket
         connfd = Accept(listenfd, (struct sockaddr *) NULL, NULL);
 
@@ -53,7 +53,7 @@ int main (int argc, char **argv) {
             printf("%s", recvline);
             Write(connfd, recvline, strlen(recvline));
 
-            bzero(recvline, strlen(recvline));
+            memset(recvline, 0, strlen(recvline));
         }
         // printf("n:%d\n", n);
 

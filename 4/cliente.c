@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "mysockfunctions.h"
 
-#define MAXLINE 4096
+#define MAXLINE 10000
 #define max(m,n,p) ( (m) > (n) ? ((m) > (p) ? (m) : (p)) : ((n) > (p) ? (n) : (p)))
 
 void str_cli(int SOCK_FD) {
@@ -16,8 +16,8 @@ void str_cli(int SOCK_FD) {
     // FD_ZERO(&wset);
 
     for ( ;; ) {
-        bzero(recvline, strlen(recvline));
-        bzero(sendline, strlen(sendline));
+        memset(recvline, 0, strlen(recvline));
+        memset(sendline, 0, strlen(sendline));
         FD_SET(STDIN_FILENO, &rset);
         FD_SET(SOCK_FD, &rset);
         // FD_SET(sockfd, &wset); /* Por que o sockfd não está associado a write set, se ele chama a função write? */
@@ -30,7 +30,7 @@ void str_cli(int SOCK_FD) {
             if ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
                 sendline[strlen(sendline)] = 0;
                 Write(SOCK_FD, sendline, strlen(sendline));
-                bzero(sendline, strlen(sendline));
+                memset(sendline, 0, strlen(sendline));
             }
             else {
                 eof_stdin = 1;
@@ -45,7 +45,7 @@ void str_cli(int SOCK_FD) {
                 // recvline[strlen(recvline)] = 0;
                 printf("%s", recvline);
                 fflush(stdout);
-                bzero(recvline, strlen(recvline));
+                memset(recvline, 0, strlen(recvline));
             }
         }
 
