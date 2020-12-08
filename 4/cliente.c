@@ -74,10 +74,6 @@ int main(int argc, char **argv) {
 
 	/* Connecting to the server */
 	Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
-    GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
-	printf("Informacoes do Socket Local:\n");
-	printf("IP: %s\n", inet_ntoa(cliaddr.sin_addr));
-	printf("Porta: %d\n", ntohs(cliaddr.sin_port));
 
     str_cli(sockfd);
 
