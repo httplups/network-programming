@@ -1,4 +1,3 @@
-#include <time.h>
 #include "mysockfunctions.h"
 #include <stdint.h>
 
@@ -9,7 +8,6 @@ int main (int argc, char **argv) {
     int    listenfd, connfd, n;
     struct sockaddr_in servaddr;
     char   recvline[MAXLINE + 1];
-    time_t ticks;
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
