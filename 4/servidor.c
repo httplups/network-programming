@@ -6,7 +6,7 @@
 #define MAXLINE 4096
 
 int main (int argc, char **argv) {
-    int    listenfd, connfd;
+    int    listenfd, connfd, n;
     struct sockaddr_in servaddr;
     char   recvline[MAXLINE + 1];
     time_t ticks;
@@ -48,11 +48,13 @@ int main (int argc, char **argv) {
         // printf("IP remoto:%s\n", inet_ntoa(servaddr.sin_addr));
         // printf("Porta remota: %d\n", ntohs(servaddr.sin_port));
 
-        while(Read(connfd, recvline, MAXLINE) > 0) {
+        while((n = Read(connfd, recvline, MAXLINE)) > 0) {
+            printf("n:%d\n", n);
             printf("~~%s~~\n", recvline);
             bzero(recvline, strlen(recvline));
             // salva em um arquivo > 
         }
+        printf("n:%d\n", n);
 
         // ticks = time(NULL);
         // snprintf(buf, sizeof(buf), "%.24s\r\n", ctime(&ticks));
