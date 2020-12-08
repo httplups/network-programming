@@ -37,11 +37,9 @@ int main(int argc, char **argv) {
         printf("%s\n", buffer);
         /* check and process data */
     }
-    else
-    {
-        printf("EOF...");
-        /* handle EOF or error */
-    }
+   
+    printf("EOF...");
+     
 
     // // criando o socket
     // if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
