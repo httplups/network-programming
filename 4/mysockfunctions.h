@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <sys/select.h>
 
 int Socket(int family, int type, int flags) {
 	int sockfd;
@@ -136,3 +137,15 @@ char *sock_ntop(const struct sockaddr *sa, socklen_t salen)
 
     return NULL;
 }
+
+int select(int nfds, fd_set *restrict readfds,
+    fd_set *restrict writefds, fd_set *restrict errorfds,
+    struct timeval *restrict timeout);
+
+void FD_CLR(int fd, fd_set *fdset);
+
+int FD_ISSET(int fd, fd_set *fdset);
+
+void FD_SET(int fd, fd_set *fdset);
+
+void FD_ZERO(fd_set *fdset);
