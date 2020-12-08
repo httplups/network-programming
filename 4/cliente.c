@@ -22,19 +22,20 @@ void str_cli(int SOCK_FD) {
         maxfdp1 = max(STDIN_FILENO, STDOUT_FILENO, SOCK_FD)  +  1;
         Select(maxfdp1,  &rset,  &wset,  NULL,  NULL);
 
-        if (FD_ISSET(SOCK_FD,  &rset)){ /*if socket is readable*/
-            if(Read(SOCK_FD, recvline, MAXLINE) > 0) {
-                printf("--%s--\n", recvline);
-                // salva em um arquivo > 
-            }
-        }
-
         if (FD_ISSET(STDIN_FILENO, &rset)) {
 
             if ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
                 printf("***%s***\n", sendline);
             }
         }
+
+        if (FD_ISSET(SOCK_FD,  &rset)){ /*if socket is readable*/
+            if(Read(SOCK_FD, recvline, MAXLINE) > 0) {
+                printf("--%s--\n", recvline);
+                // salva em um arquivo > 
+            }
+        }
+        
     }
 }
 
