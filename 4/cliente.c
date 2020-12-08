@@ -26,7 +26,7 @@ void str_cli(int SOCK_FD) {
 
         if (FD_ISSET(STDIN_FILENO, &rset)) {
 
-            while ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
+            if ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
                 printf("%s", sendline);
                 Write(SOCK_FD, sendline, strlen(sendline));
                 bzero(sendline, strlen(sendline));
