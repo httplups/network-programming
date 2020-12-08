@@ -26,6 +26,7 @@ void str_cli(int SOCK_FD) {
 
             while ( fgets(sendline, sizeof(sendline), stdin) != NULL ) { /* Devo trocar por while? */
                 printf("***%s***\n", sendline);
+                Write(SOCK_FD, sendline, strlen(sendline));
             }
         }
 
