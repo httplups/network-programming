@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
     while( fgets(buffer, sizeof(buffer), stdin) != NULL )
     {
-        printf("%s\n", buffer);
+        printf("***%s***", buffer);
         /* check and process data */
     }
    
