@@ -24,16 +24,12 @@ int main() {
     int n;
     socklen_t len; 
 
-    Connect(sockfd, (const struct sockaddr *) &servaddr, len);
-
     while(fgets(sendline, MAXLINE, stdin) != NULL) {
 
-        Write(sockfd, sendline, strlen(sendline));
-        // Sendto(sockfd, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &servaddr, sizeof(servaddr)); 
+        Sendto(sockfd, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &servaddr, sizeof(servaddr)); 
         printf("Hello message sent.\n"); 
-        
-        n = Read(sockfd, recvline, MAXLINE);
-        // n = Recvfrom(sockfd, &recvline, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len); 
+            
+        n = Recvfrom(sockfd, &recvline, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len); 
         recvline[n] = '\0'; 
         printf("Server : %s\n", recvline); 
     }
