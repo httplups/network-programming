@@ -4,6 +4,7 @@
 
 #define LISTENQ 10
 #define MAXDATASIZE 4096
+int n_users = 0;
 
 typedef struct {
     char username[15];
@@ -20,8 +21,14 @@ void clear_users(User users[10]) {
     }
 }
 
-void insert_user(char *username, char * ip, int port) {
-    printf("New user: %s%s\t%d\n", username, ip, port);
+void insert_user(char *username, char * ip, int port, User users[10]) {
+
+    strcpy(users[n_users].username,  username);
+    strcpy(users[n_users].ip, ip);
+    users[n_users].port = port;
+
+    printf("New user: %s\n%s\t%d\n", username, ip, port);
+    
 }
 
 int main(int argc, char **argv)
@@ -81,7 +88,7 @@ int main(int argc, char **argv)
             Read(connfd, username, 10);
             username[strlen(username) -1] = 0;
             GetPeerName(connfd, (struct sockaddr *)&cliaddr, &lencli);
-            insert_user(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port));
+            insert_user(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), users);
 
 
             // bzero(info_cliente, 25);
