@@ -12,7 +12,9 @@ typedef struct {
     int port;
 } User;
 
-void clear_users(User users[10]) {
+User users[10];
+
+void clear_users() {
     int i;
     for(i=0; i<10; i++) {
         strcpy(users[i].username, "NULL");
@@ -21,7 +23,7 @@ void clear_users(User users[10]) {
     }
 }
 
-void show_users(User users[10]) {
+void show_users() {
     int i;
     for(i=0; i<10; i++) {
         if (strcmp(users[i].username, "NULL"))
@@ -29,7 +31,7 @@ void show_users(User users[10]) {
     }
 }
 
-void insert_user(char *username, char * ip, int port, User users[10]) {
+void insert_user(char *username, char * ip, int port) {
 
     strcpy(users[n_users].username,  username);
     strcpy(users[n_users].ip, ip);
@@ -45,8 +47,7 @@ int main(int argc, char **argv)
 	struct sockaddr_in servaddr, cliaddr;
 	pid_t pid;
 	socklen_t lenserv, lencli;
-    User users[10];
-	char recvline[MAXDATASIZE], option;
+    char recvline[MAXDATASIZE], option;
     char *welcome = "Welcome! If you want to join the game, enter your username:\n"; 
     char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n3 - Quit\n";
 
@@ -56,7 +57,7 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 
-    clear_users(users);
+    clear_users();
 
 	/* Creating listening parent socket */
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
@@ -98,7 +99,7 @@ int main(int argc, char **argv)
             Read(connfd, username, 10);
             username[strlen(username) -1] = 0;
             GetPeerName(connfd, (struct sockaddr *)&cliaddr, &lencli);
-            insert_user(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), users);
+            insert_user(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port));
 
             do {
                 Write(connfd, menu, strlen(menu));
@@ -107,7 +108,7 @@ int main(int argc, char **argv)
                 switch (option) {
                     case '1': {
                         // show users
-                        show_users(users);
+                        show_users();
                         Read(connfd, otheruser, 10);
                         otheruser[strlen(otheruser) -1] = 0;
                         printf("O %s quer jogar com %s\n", username, otheruser);
