@@ -27,7 +27,7 @@ int main() {
     // Bind the socket with the server address 
     Bind(sockfd, (const struct sockaddr *)&servaddr,sizeof(servaddr));
       
-    while (true) {
+    while (1) {
         len = sizeof(cliaddr);  //len is value/resuslt 
         n = Recvfrom(sockfd, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliaddr, &len);
         buffer[n] = '\0'; 
