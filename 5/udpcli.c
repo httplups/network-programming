@@ -35,6 +35,7 @@ int main(int argc, char **argv) {
         printf("usage: udpcli <IPaddress>");
         exit(1);
     }
+    printf("OLA");
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(7); // standart echo server
