@@ -11,13 +11,14 @@ typedef struct {
     int port;
 } User;
 
-void clear_users(User users[10]) {
+void clear_users(struct User users[10]) {
     int i;
     for(i=0; i<10; i++) {
-        strcpy(users[i]->username, "NULL");
-        strcpy(users[i]->ip, "NULL");
-        users[i]->port = 0;
+        strcpy(users[i].username, "NULL");
+        strcpy(users[i].ip, "NULL");
+        users[i].port = 1;
     }
+    printf("%d\n",users[0].port);
 }
 int main(int argc, char **argv)
 {
@@ -36,6 +37,7 @@ int main(int argc, char **argv)
 	}
 
     clear_users(users);
+    printf("%d\n",users[0].port);
 	/* Creating listening parent socket */
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
