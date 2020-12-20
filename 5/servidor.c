@@ -27,14 +27,14 @@ int main() {
     // Bind the socket with the server address 
     Bind(sockfd, (const struct sockaddr *)&servaddr,sizeof(servaddr));
       
-    
-    len = sizeof(cliaddr);  //len is value/resuslt 
-    n = Recvfrom(sockfd, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliaddr, &len);
-    buffer[n] = '\0'; 
-    printf("Client : %s\n", buffer); 
-    
-    Sendto(sockfd, hello, strlen(hello),MSG_CONFIRM, (const struct sockaddr *) &cliaddr, len); 
-    printf("Hello message sent.\n");  
+    while (true) {
+        len = sizeof(cliaddr);  //len is value/resuslt 
+        n = Recvfrom(sockfd, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliaddr, &len);
+        buffer[n] = '\0'; 
+        printf("Client : %s\n", buffer); 
+        Sendto(sockfd, hello, strlen(hello),MSG_CONFIRM, (const struct sockaddr *) &cliaddr, len); 
+        printf("Hello message sent.\n");  
+    }
       
     return 0; 
 } 
