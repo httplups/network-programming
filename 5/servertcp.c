@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	pid_t pid;
 	socklen_t lenserv, lencli;
     User users[10];
-	char recvline[MAXDATASIZE];
+	char recvline[MAXDATASIZE], option;
     char *welcome = "Welcome! If you want to join the game, enter your username:\n"; 
     char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n3 - Quit\n";
 
@@ -82,7 +82,7 @@ int main(int argc, char **argv)
             char username[10], otheruser[10];
 
 			Close(listenfd); // filho fecha o socket de listen
-            memset(recvline, 0, strlen(recvline));
+            memset(option, 0, strlen(option));
             memset(username, 0, strlen(username));
             memset(otheruser, 0, strlen(otheruser));
 
@@ -95,8 +95,8 @@ int main(int argc, char **argv)
 
             do {
                 Write(connfd, menu, strlen(menu));
-                n = Read(connfd, recvline, 1);
-                switch ((int)recvline) {
+                n = Read(connfd, option, 1);
+                switch ((int)option) {
                     case 1: {
                         Read(connfd, otheruser, 10);
                         otheruser[strlen(otheruser) -1] = 0;
