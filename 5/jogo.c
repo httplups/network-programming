@@ -17,13 +17,13 @@ void jogada(int tabuleiro[][DIM]);
  
 int main(void)
 {
-    int tabuleiro[DIM][DIM],
-        continuar;
+    int tabuleiro[DIM][DIM], continuar;
  
     do
     {
         vez=1;
         continuar = menu();
+        printf("%d\n", continuar);
         if(continuar == 1)
             jogar(tabuleiro);
  
@@ -36,22 +36,22 @@ int menu(void)
 {
     int opcao;
  
-        printf("\t\tJogo da Velha 1.0 - Site C Progressivo\n");
-        printf("\n1.Jogar\n");
-        printf("0.Sair\n");
-        printf("\nOpcao: ");
- 
-        scanf("%d", &opcao);
- 
-        switch(opcao)
-        {
-           case 1:
-           case 0:
-                break;
-           default:
-                clear();
-                printf("Opcao invalida. Tente de novo!\n");
-        }
+    printf("\t\tJogo da Velha 1.0 - Site C Progressivo\n");
+    printf("\n1.Jogar\n");
+    printf("0.Sair\n");
+    printf("\nOpcao: ");
+
+    scanf("%d", &opcao);
+
+    switch(opcao)
+    {
+        case 1:
+        case 0:
+            break;
+        default:
+            clear();
+            printf("Opcao invalida. Tente de novo!\n");
+    }
  
     return opcao;
 }
