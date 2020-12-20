@@ -38,8 +38,9 @@ int main(int argc, char **argv)
 	pid_t pid;
 	socklen_t lenserv, lencli;
     User users[10];
-	char c, username[10], resultado[MAXDATASIZE + 25], recvline[MAXDATASIZE];
+	char recvline[MAXDATASIZE];
     char *welcome = "Welcome! If you want to join the game, enter your username:\n"; 
+    char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n3 - Quit\n";
 
 	if (argc != 2)
 	{
@@ -78,10 +79,12 @@ int main(int argc, char **argv)
 		
 		if ((pid = Fork()) == 0)
 		{
+            char username[10], otheruser[10];
 
 			Close(listenfd); // filho fecha o socket de listen
             memset(recvline, 0, strlen(recvline));
             memset(username, 0, strlen(username));
+            memset(otheruser, 0, strlen(otheruser));
 
 
             Write(connfd, welcome, strlen(welcome));
@@ -90,6 +93,22 @@ int main(int argc, char **argv)
             GetPeerName(connfd, (struct sockaddr *)&cliaddr, &lencli);
             insert_user(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), users);
 
+            do {
+                Write(connfd, menu, strlen(menu));
+                n = Read(connfd, recvline, MAXDATASIZE);
+                switch (recvline) {
+                    case 1: {
+                        Read(connfd, otheruser, 10);
+                        otheruser[strlen(otheruser) -1] = 0;
+                        printf("O %s quer jogar com %s\n", username, otheruser);
+                    }
+                    case 2: {
+                        // close conn
+                        n = 0;
+                        break;
+                    }
+                }
+            } while(n > 0);
 
             // bzero(info_cliente, 25);
             // snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
