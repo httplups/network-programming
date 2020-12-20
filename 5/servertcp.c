@@ -80,7 +80,7 @@ int main(int argc, char **argv)
             Write(connfd, welcome, strlen(welcome));
             Read(connfd, username, 10);
             GetPeerName(connfd, (struct sockaddr *)&cliaddr, &lencli);
-            insert_user(username, inet_ntoa(servaddr.sin_addr),ntohs(servaddr.sin_port));
+            insert_user(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port));
 
 
             // bzero(info_cliente, 25);
