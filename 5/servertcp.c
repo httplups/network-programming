@@ -16,19 +16,23 @@ void clear_users(User users[10]) {
     for(i=0; i<10; i++) {
         strcpy(users[i].username, "NULL");
         strcpy(users[i].ip, "NULL");
-        users[i].port = 1;
+        users[i].port = 0;
     }
-    printf("%d\n",users[0].port);
 }
+
+int insert_user(char *username, char * ip, int port) {
+    print("New user: %s\n%s\t%d\n", username, ip, port);
+}
+
 int main(int argc, char **argv)
 {
 	int listenfd, connfd, port, i, num_lines, bufsize;
-    int participantes[10];
 	struct sockaddr_in servaddr, cliaddr;
 	pid_t pid;
 	socklen_t lenserv, lencli;
     User users[10];
-	char c, info_cliente[25], resultado[MAXDATASIZE + 25], recvline[MAXDATASIZE];
+	char c, username[10], resultado[MAXDATASIZE + 25], recvline[MAXDATASIZE];
+    char *welcome = "Welcome! If you want to join the game, enter your username:\n"; 
 
 	if (argc != 2)
 	{
@@ -37,7 +41,7 @@ int main(int argc, char **argv)
 	}
 
     clear_users(users);
-    printf("%d\n",users[0].port);
+
 	/* Creating listening parent socket */
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
@@ -53,9 +57,9 @@ int main(int argc, char **argv)
 
 	lenserv = sizeof(servaddr);
 	lencli = sizeof(cliaddr);
-	GetSockName(listenfd, (struct sockaddr *)&servaddr, &lenserv);
-	printf("IP para conectar: %s\n", inet_ntoa(servaddr.sin_addr));
-	printf("Numero de porta para voce se conectar: %d\n", ntohs(servaddr.sin_port));
+	// GetSockName(listenfd, (struct sockaddr *)&servaddr, &lenserv);
+	// printf("IP: %s\n", inet_ntoa(servaddr.sin_addr));
+	// printf("Porta: %d\n", ntohs(servaddr.sin_port));
 
 	/* Server listening... */
    	Listen(listenfd, LISTENQ);
@@ -63,46 +67,56 @@ int main(int argc, char **argv)
 	for (;;) {
 		/* Opening connection */
 		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
-
-        // Adiciona-o à fila de jogadores
         
-        // participantes[sizeof(participantes)]
-		bzero(info_cliente, 25);
-		snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
-		info_cliente[strlen(info_cliente)] = 0;
-        printf("%s\n", info_cliente);
 		
-		// if ((pid = Fork()) == 0)
-		// {
+		if ((pid = Fork()) == 0)
+		{
 
-		// 	Close(listenfd); // filho fecha o socket de listen
-		// 	bzero(recvline, MAXDATASIZE);
+			Close(listenfd); // filho fecha o socket de listen
+            memset(recvline, 0, strlen(recvline));
+            memset(username, 0, strlen(username));
 
-        //     bufsize = Read(connfd, recvline, MAXDATASIZE);
 
-        //     if (bufsize > 0)
-        //     {
-        //         // ip e porta do cliente sem a resposta do resultado
-        //         printf("%s\n", info_cliente);
+            Write(connfd, welcome, sizeof(welcome));
+            Read(connfd, username, 10);
+            GetPeerName(connfd, (struct sockaddr *)&cliaddr, &lencli);
+            insert_user(username, inet_ntoa(servaddr.sin_addr),ntohs(servaddr.sin_port));
+
+
+            // bzero(info_cliente, 25);
+            // snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
+            // info_cliente[strlen(info_cliente)] = 0;
+            // printf("%s\n", info_cliente);
+
+            // // Adiciona-o à fila de jogadores
+            // insert_user();
+
+
+            // bufsize = Read(connfd, recvline, MAXDATASIZE);
+
+            // if (bufsize > 0)
+            // {
+            //     // ip e porta do cliente sem a resposta do resultado
+            //     printf("%s\n", info_cliente);
                 
                 
-        //         fputs(resultado, stdout);
+            //     fputs(resultado, stdout);
 
-        //         /* Coloquei este sleep apenas para conseguir ver
-        //             o funcionamento de uma forma mais devagar,
-        //             ele não impede a concorrencia
-        //         */
-        //     }
-        //     else
-        //     {
-        //         // Se não recebe mais dados do servidor, termina
-        //         break;
-        //     }
+            //     /* Coloquei este sleep apenas para conseguir ver
+            //         o funcionamento de uma forma mais devagar,
+            //         ele não impede a concorrencia
+            //     */
+            // }
+            // else
+            // {
+            //     // Se não recebe mais dados do servidor, termina
+            //     break;
+            // }
 				
-		// 	Close(connfd); // filho fecha a conexao
+			Close(connfd); // filho fecha a conexao
 			
-		// 	exit(0);
-		// }
+			exit(0);
+		}
 		//parent closes connection
 		Close(connfd);
 	}
