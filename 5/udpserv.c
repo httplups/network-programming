@@ -9,6 +9,7 @@ void dg_echo(int sockfd, struct sockaddr *pcliaddr, socklen_t clilen) {
     char    mesg[MAXLINE];
     for ( ; ; ) {
         len = clilen;
+        printf("~%s\n", mesg);
         n = Recvfrom(sockfd, mesg, MAXLINE, 0, pcliaddr, &len);
         Sendto(sockfd, mesg, n, 0, pcliaddr, len);
     }
