@@ -31,9 +31,10 @@ void dg_cli(FILE *fp, int sockfd, const struct sockaddr *pservaddr, socklen_t se
 int main(int argc, char **argv) {
     int     sockfd;
     struct sockaddr_in servaddr;
-    if(argc != 2)
+    if(argc != 2) {
         printf("usage: udpcli <IPaddress>");
         exit(1);
+    }
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(7); // standart echo server
