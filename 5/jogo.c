@@ -229,6 +229,7 @@ int checaTermino(int tabuleiro[][DIM], int vez)
 void jogada(int tabuleiro[][DIM])
 {
     int linha, coluna;
+    printf("vez: %d\n", vez);
     vez++;
     printf("\n--> Jogador %d \n", (vez % 2) + 1);
  
