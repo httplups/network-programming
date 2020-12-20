@@ -24,7 +24,7 @@ int main() {
     int n;
     socklen_t len; 
 
-    Connect(sockfd, (const struct sockaddr *) &servaddr, len);
+    Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
     while(fgets(sendline, MAXLINE, stdin) != NULL) {
 
