@@ -4,38 +4,40 @@
 
 #define LISTENQ 10
 #define MAXDATASIZE 4096
-
+	
 typedef struct {
-    char username[15];
-    char ip[15];
-    int port;
-} User;
+    char name[15];
+    int ip;
+    float port;
+} Usuario;
 
-void clear_users(User *users) {
-    int i;
+void inicializa_participantes(Usuario *participantes) {
+	int i
     for(i=0; i<10; i++) {
-        strcpy(users[i].username, NULL);
-        strcpy(users[i].ip, NULL);
-        users[i].port = NULL;
+        strcpy(participantes[i].name, "NULL");
+        func[i].ip = NULL;
+        func[i].port = NULL;
     }
 }
+
 int main(int argc, char **argv)
 {
-	int listenfd, connfd, port, i, num_lines, bufsize;
-    int participantes[10];
+	int listenfd, connfd, port, bufsize, num_jog = 0;
 	struct sockaddr_in servaddr, cliaddr;
 	pid_t pid;
 	socklen_t lenserv, lencli;
-    User users[10];
 	char c, info_cliente[25], resultado[MAXDATASIZE + 25], recvline[MAXDATASIZE];
+    Usuario participantes[10];
+    
+    // inicializa struct
+    inicializa_participantes(&participantes);
 
 	if (argc != 2)
 	{
-		perror("Wrong number os args\n");
+		perror("Numero de argumentos insuficientes.\n");
 		exit(0);
 	}
 
-    clear_users(&users);
 	/* Creating listening parent socket */
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
@@ -61,9 +63,8 @@ int main(int argc, char **argv)
 	for (;;) {
 		/* Opening connection */
 		connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &lencli);
-
         // Adiciona-o à fila de jogadores
-        
+        participantes[num_jog]
         // participantes[sizeof(participantes)]
 		bzero(info_cliente, 25);
 		snprintf(info_cliente, sizeof(info_cliente), "%s", sock_ntop((const struct sockaddr *)&cliaddr, lencli));
