@@ -16,7 +16,7 @@ void clear_users(User *users[10]) {
     for(i=0; i<10; i++) {
         strcpy(users[i]->username, "NULL");
         strcpy(users[i]->ip, "NULL");
-        users[i]->port = NULL;
+        users[i]->port = 0;
     }
 }
 int main(int argc, char **argv)
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 
-    clear_users(&users);
+    clear_users(users);
 	/* Creating listening parent socket */
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
