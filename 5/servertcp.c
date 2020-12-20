@@ -103,15 +103,15 @@ int main(int argc, char **argv)
                 Write(connfd, menu, strlen(menu));
                 n = Read(connfd, &option, 1);
                 printf("op: %c\n", option);
-                switch ((int)option) {
-                    case 1: {
+                switch (option) {
+                    case "1": {
                         // show users
                         show_users(users);
                         Read(connfd, otheruser, 10);
                         otheruser[strlen(otheruser) -1] = 0;
                         printf("O %s quer jogar com %s\n", username, otheruser);
                     }
-                    case 2: {
+                    case "2": {
                         // close conn
                         n = 0;
                         break;
