@@ -25,8 +25,7 @@ void show_users(User users[10]) {
     int i;
     for(i=0; i<10; i++) {
         if (strcmp(users[i].username, "NULL"))
-            continue;
-        printf("%d -\t%s\n",i,users[i].username);
+            printf("%d -\t%s\n",i,users[i].username);
     }
 }
 
