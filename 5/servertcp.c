@@ -95,7 +95,7 @@ int main(int argc, char **argv)
 
             do {
                 Write(connfd, menu, strlen(menu));
-                n = Read(connfd, recvline, MAXDATASIZE);
+                n = Read(connfd, recvline, 1);
                 switch ((int)recvline) {
                     case 1: {
                         Read(connfd, otheruser, 10);
