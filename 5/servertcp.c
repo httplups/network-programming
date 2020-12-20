@@ -95,6 +95,7 @@ int main(int argc, char **argv)
             do {
                 Write(connfd, menu, strlen(menu));
                 n = Read(connfd, &option, 1);
+                print("op: %c\n", option);
                 switch (option) {
                     case 1: {
                         Read(connfd, otheruser, 10);

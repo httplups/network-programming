@@ -47,8 +47,9 @@ int main(int argc, char **argv)
 
     while((Read(sockfd, recvline, MAXLINE) > 0)) {
         printf("%s\n", recvline);
-        fgets(sendline, MAXLINE, stdin);
+        fgets(sendline, 1, stdin);
         Write(sockfd, sendline, strlen(sendline));
+        memset(sendline, 0, strlen(sendline));
     }
 
     sleep(3);
