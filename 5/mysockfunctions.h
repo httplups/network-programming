@@ -8,16 +8,10 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include <unistd.h>
 #include <sys/select.h>
 #include <signal.h>
 #include <sys/time.h>
 #include <time.h>
-
-// void FD_CLR(int fd, fd_set *fdset);
-// int FD_ISSET(int fd, fd_set *fdset);
-// void FD_SET(int fd, fd_set *fdset);
-// void FD_ZERO(fd_set *fdset);
 
 void Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout){
 
