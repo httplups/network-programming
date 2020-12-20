@@ -21,6 +21,13 @@ void clear_users(User users[10]) {
     }
 }
 
+void show_users(User users[10]) {
+    int i;
+    for(i=0; i<10; i++) {
+        printf("%d -\t%s\n",i,users[i].username);
+    }
+}
+
 void insert_user(char *username, char * ip, int port, User users[10]) {
 
     strcpy(users[n_users].username,  username);
@@ -98,6 +105,8 @@ int main(int argc, char **argv)
                 printf("op: %c\n", option);
                 switch ((int)option) {
                     case 1: {
+                        // show users
+                        show_users(users);
                         Read(connfd, otheruser, 10);
                         otheruser[strlen(otheruser) -1] = 0;
                         printf("O %s quer jogar com %s\n", username, otheruser);
