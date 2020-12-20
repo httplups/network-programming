@@ -27,7 +27,7 @@ int main(void)
         if(continuar == 1)
             jogar(tabuleiro);
  
-    }while(continuar == 0);
+    }while(continuar == 1);
  
     return 0;
 }
