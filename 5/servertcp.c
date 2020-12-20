@@ -21,7 +21,7 @@ void clear_users(User users[10]) {
 }
 
 void insert_user(char *username, char * ip, int port) {
-    printf("New user: %s\n%s\t%d\n", username, ip, port);
+    printf("New user: %s%s\t%d\n", username, ip, port);
 }
 
 int main(int argc, char **argv)
