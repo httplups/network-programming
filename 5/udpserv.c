@@ -3,7 +3,7 @@
 #define SERV_PORT 9877
 #define MAXLINE 10000
 
-void dg_echo(int sockfd, (struct sockaddr *) *pcliaddr, socklen_t clilen) {
+void dg_echo(int sockfd, const struct sockaddr *pcliaddr, socklen_t clilen) {
     int     n;
     socklen_t len;
     char    mesg[MAXLINE];
