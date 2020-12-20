@@ -14,8 +14,8 @@ typedef struct {
 void clear_users(User *users) {
     int i;
     for(i=0; i<10; i++) {
-        strcpy(users[i].username, NULL);
-        strcpy(users[i].ip, NULL);
+        strcpy(users[i].username, "NULL");
+        strcpy(users[i].ip, "NULL");
         users[i].port = NULL;
     }
 }
