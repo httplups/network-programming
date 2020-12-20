@@ -8,8 +8,7 @@
 // Driver code 
 int main() { 
     int sockfd; 
-    char buffer[MAXLINE]; 
-    char *hello = "Hello from client"; 
+    char sendline[MAXLINE], recvline[MAXLINE + 1]; 
     struct sockaddr_in     servaddr; 
   
     // Creating socket file descriptor 
@@ -24,14 +23,16 @@ int main() {
       
     int n;
     socklen_t len; 
-      
-    Sendto(sockfd, hello, strlen(hello),MSG_CONFIRM, (const struct sockaddr *) &servaddr, sizeof(servaddr)); 
-    printf("Hello message sent.\n"); 
-          
-    n = Recvfrom(sockfd, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len); 
-    buffer[n] = '\0'; 
-    printf("Server : %s\n", buffer); 
-  
+
+    while(fgets(sendline, MAXLINE, stdin) != NULL) {
+
+        Sendto(sockfd, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &servaddr, sizeof(servaddr)); 
+        printf("Hello message sent.\n"); 
+            
+        n = Recvfrom(sockfd, &recvline, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len); 
+        recvline[n] = '\0'; 
+        printf("Server : %s\n", recvline); 
+    }
     close(sockfd); 
     return 0; 
 } 
