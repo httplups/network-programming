@@ -82,7 +82,6 @@ int main(int argc, char **argv)
             char username[10], otheruser[10];
 
 			Close(listenfd); // filho fecha o socket de listen
-            memset(option, 0, strlen(option));
             memset(username, 0, strlen(username));
             memset(otheruser, 0, strlen(otheruser));
 
@@ -96,7 +95,7 @@ int main(int argc, char **argv)
             do {
                 Write(connfd, menu, strlen(menu));
                 n = Read(connfd, option, 1);
-                switch ((int)option) {
+                switch (option) {
                     case 1: {
                         Read(connfd, otheruser, 10);
                         otheruser[strlen(otheruser) -1] = 0;
