@@ -85,7 +85,7 @@ void exibeTabuleiro(int tabuleiro[][DIM])
         for(coluna = 0 ; coluna < DIM ; coluna++)
         {
             if(tabuleiro[linha][coluna] == 0)
-                printf("    ");
+                printf("__");
             else
                 if(tabuleiro[linha][coluna] == 1)
                     printf("  X ");
@@ -102,7 +102,7 @@ void exibeTabuleiro(int tabuleiro[][DIM])
  
 void jogar(int tabuleiro[][DIM])
 {
-    int continua;
+    // int continua;
     zeraTabuleiro(tabuleiro);
  
     do
