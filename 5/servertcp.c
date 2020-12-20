@@ -33,7 +33,7 @@ void insert_user(char *username, char * ip, int port, User users[10]) {
 
 int main(int argc, char **argv)
 {
-	int listenfd, connfd, port, i, num_lines, bufsize;
+	int listenfd, connfd, port, i, num_lines, bufsize, n;
 	struct sockaddr_in servaddr, cliaddr;
 	pid_t pid;
 	socklen_t lenserv, lencli;
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
             do {
                 Write(connfd, menu, strlen(menu));
                 n = Read(connfd, recvline, MAXDATASIZE);
-                switch (recvline) {
+                switch ((int)recvline) {
                     case 1: {
                         Read(connfd, otheruser, 10);
                         otheruser[strlen(otheruser) -1] = 0;
