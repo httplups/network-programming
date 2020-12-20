@@ -56,7 +56,8 @@ int main(int argc, char **argv)
     /*  READING MENU */
     while((Read(sockfd, recvline, MAXLINE) > 0)) {
         printf("%s\n", recvline);
-        scanf(" %c", &option);
+        // scanf(" %c", &option);
+        option = getchar();
         Write(sockfd, &option, 1);
     }
 
