@@ -34,7 +34,7 @@ int main() {
     //             MSG_WAITALL, ( struct sockaddr *) &cliaddr, 
     //             &len); 
 
-    n = Recvfrom(sockfd, hello, MAXLINE, MSG_WAITALL, (const struct sockaddr *) &cliaddr, &len);
+    n = Recvfrom(sockfd, hello, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliaddr, &len);
     buffer[n] = '\0'; 
     printf("Client : %s\n", buffer); 
     // sendto(sockfd, (const char *)hello, strlen(hello),  
