@@ -3,7 +3,7 @@
 #define SERV_PORT 9877
 #define MAXLINE 10000
 
-void dg_cli(FILE *fp, int sockfd, const SA *pservaddr, socklen_t servlen) {
+void dg_cli(FILE *fp, int sockfd, const struct sockaddr *pservaddr, socklen_t servlen) {
     int     n;
     char    sendline[MAXLINE], recvline[MAXLINE + 1];
     socklen_t len;
@@ -11,7 +11,7 @@ void dg_cli(FILE *fp, int sockfd, const SA *pservaddr, socklen_t servlen) {
 
     preply_addr = malloc(servlen);
 
-    while (Fgets(sendline, MAXLINE, fp) != NULL) {
+    while (fgets(sendline, MAXLINE, fp) != NULL) {
 
         Sendto(sockfd, sendline, strlen(sendline), 0, pservaddr, servlen);
 
@@ -24,7 +24,7 @@ void dg_cli(FILE *fp, int sockfd, const SA *pservaddr, socklen_t servlen) {
         }
 
         recvline[n] = 0;        /* null terminate */
-        Fputs(recvline, stdout);
+        fputs(recvline, stdout);
     }
 }
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
     sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
 
-    dg_cli(stdin, sockfd, (SA *) &servaddr, sizeof(servaddr));
+    dg_cli(stdin, sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr));
     exit(0);
 }
 
