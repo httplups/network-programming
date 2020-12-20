@@ -7,17 +7,16 @@
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1], recvline[MAXLINE], sendline[MAXLINE];
+    char error[MAXLINE + 1], recvline[MAXLINE], username[10], option;
+    int sockfd, server_port_number;
+	struct sockaddr_in servaddr, cliaddr;
+	socklen_t lencli;
 
-	if (argc != 3)
+    if (argc != 3)
 	{
 		printf("I need ip port\n");
 		exit(1);
 	}
-
-    int sockfd, server_port_number;
-	struct sockaddr_in servaddr, cliaddr;
-	socklen_t lencli;
 
     /* Creating socket */
     sockfd = Socket(AF_INET, SOCK_STREAM, 0);
@@ -44,12 +43,21 @@ int main(int argc, char **argv)
     // printf("Informacoes do Socket Local:\n");
     printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
+    
+    Read(sockfd, recvline, MAXLINE);
 
+    printf("%s\n", recvline);
+    memset(username, 0, strlen(username));
+    fgets(username, 10, stdin);
+
+    Write(sockfd, username, strlen(username));
+    memset(recvline, 0, strlen(recvline));
+
+    /*  READING MENU */
     while((Read(sockfd, recvline, MAXLINE) > 0)) {
         printf("%s\n", recvline);
-        fgets(sendline, MAXLINE, stdin);
-        Write(sockfd, sendline, strlen(sendline));
-        memset(sendline, 0, strlen(sendline));
+        fgets(option, 1, stdin);
+        Write(sockfd, option, 1);
     }
 
     sleep(3);
