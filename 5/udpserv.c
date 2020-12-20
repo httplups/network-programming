@@ -3,7 +3,7 @@
 #define SERV_PORT 9877
 #define MAXLINE 10000
 
-void dg_echo(int sockfd, SA *pcliaddr, socklen_t clilen) {
+void dg_echo(int sockfd, (struct sockaddr *) *pcliaddr, socklen_t clilen) {
     int     n;
     socklen_t len;
     char    mesg[MAXLINE];
@@ -25,8 +25,8 @@ int main(int argc, char **argv) {
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(SERV_PORT);
 
-    Bind(sockfd, (SA *) &servaddr, sizeof(servaddr));
+    Bind(sockfd,(struct sockaddr *) &servaddr, sizeof(servaddr));
     
-    dg_echo(sockfd, (SA *) &cliaddr, sizeof(cliaddr));
+    dg_echo(sockfd, (struct sockaddr *) &cliaddr, sizeof(cliaddr));
 }
 
