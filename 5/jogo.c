@@ -125,8 +125,7 @@ int checaLocal(int tabuleiro[][DIM], int linha, int coluna)
  
 int checaLinha(int tabuleiro[][DIM])
 {
-    int linha, coluna,
-        soma;
+    int linha, coluna, soma;
  
     for(linha = 0 ; linha < DIM ; linha++)
     {
@@ -164,9 +163,7 @@ int checaColuna(int tabuleiro[][DIM])
  
 int checaDiagonal(int tabuleiro[][DIM])
 {
-    int linha,
-        diagonal_principal=0,
-        diagonal_secundaria=0;
+    int linha, diagonal_principal=0, diagonal_secundaria=0;
  
     for(linha = 0 ; linha < DIM ; linha++)
     {
