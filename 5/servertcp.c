@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 
             Write(connfd, welcome, strlen(welcome));
             Read(connfd, username, 10);
-            username[strlen(username)] = 0;
+            username[strlen(username) -1] = 0;
             GetPeerName(connfd, (struct sockaddr *)&cliaddr, &lencli);
             insert_user(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port));
 
