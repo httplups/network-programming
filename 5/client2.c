@@ -5,7 +5,7 @@
 #include <pthread.h>
 
 #define MAXLINE 4096
-pthread_t thread1, thread2;
+pthread_t thread1, thread2, thread3;
 struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
 
 
@@ -78,6 +78,8 @@ void *tcp_client(void *p) {
                 /* getting port of player assuming it's listening on 0.0.0.0 */
                 Read(socktcp, player_port, MAXLINE);
                 printf("Port: %s\n", player_port);
+
+                pthread_create(&thread3, 0, udp_client, &player_port);
                 
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
@@ -97,6 +99,11 @@ void *tcp_client(void *p) {
 
 }
 
+void *udp_client(void *p) {
+    int player_port = *((int *)p);
+    printf("Trying to connect to %d by UDP\n", player_port);
+    pthread_exit(NULL);
+}
 void *udp_server(void *p) {
     int sockudp, n;
     socklen_t lencli, lenserv;
@@ -126,6 +133,7 @@ void *udp_server(void *p) {
         printf("Client : %s\n", buffer); 
         Sendto(sockudp, buffer, strlen(buffer),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
     }
+    pthread_exit(NULL);
 }
 
 int main(int argc, char **argv)
