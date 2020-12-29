@@ -177,7 +177,7 @@ int main(int argc, char **argv) {
                         /* send the players available */
                         printf("%s\n",show_other_players(sockfd));
                         memset(resp, 0, strlen(resp));
-                        resp = show_other_players(sockfd);
+                        strcpy(resp, show_other_players(sockfd));
                         Write(sockfd, resp, strlen(resp));
                     }
                     // Write(sockfd, buf, n);
