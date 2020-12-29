@@ -151,12 +151,12 @@ void *udp_server(void *p) {
     // printf("server udp: %s:%d\n", inet_ntoa(serv_local_udp_addr.sin_addr), ntohs(serv_local_udp_addr.sin_port));
     char * hello = "Hello, welcome!";
     while (1) {
-        Write(sockudp, hello, strlen(hello));
+        // Write(sockudp, hello, strlen(hello));
         // lencli = sizeof(cliudpaddr);  //len is value/resuslt 
         // n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
         // buffer[n] = '\0'; 
         // printf("Client : %s\n", buffer); 
-        // Sendto(sockudp, buffer, strlen(buffer),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
+        Sendto(sockudp, hello, strlen(hello),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
     }
     pthread_exit(NULL);
 }
