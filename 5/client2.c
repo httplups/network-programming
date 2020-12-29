@@ -6,11 +6,17 @@
 
 #define MAXLINE 4096
 pthread_t thread1, thread2, thread3;
-struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
+struct sockaddr_in servtcpaddr, serv_local_udp_addr, serv_remote_udp_addr, clitcpaddr, cliudpaddr;
 
 void *udp_client(void *p) {
     int player_port = *((int *)p);
     printf("Trying to connect to %d by UDP\n", player_port);
+
+    serv_remote_udp_addr.sin_port = htons(player_port);
+    serv_remote_udp_addr.sin_addr.s_addr = INADDR_ANY; 
+
+    Connect(sockudp, (const struct sockaddr *) &serv_remote_udp_addr, sizeof(serv_remote_udp_addr));
+
     pthread_exit(NULL);
 }
 
@@ -116,20 +122,20 @@ void *udp_server(void *p) {
 
     /* STARTING A UDP SERVER */
     sockudp = Socket(AF_INET, SOCK_DGRAM, 0);
-    bzero(&servudpaddr, sizeof(servudpaddr));
+    bzero(&serv_local_udp_addr, sizeof(serv_local_udp_addr));
     bzero(&cliudpaddr, sizeof(cliudpaddr));
 
     // Filling me-as-server information 
-    servudpaddr.sin_family    = AF_INET; // IPv4 
-    servudpaddr.sin_addr.s_addr = INADDR_ANY; 
-    servudpaddr.sin_port = clitcpaddr.sin_port; /* My server UDP port is the same as my TCP client port*/
-    // servudpaddr.sin_port = 0;
+    serv_local_udp_addr.sin_family    = AF_INET; // IPv4 
+    serv_local_udp_addr.sin_addr.s_addr = INADDR_ANY; 
+    serv_local_udp_addr.sin_port = clitcpaddr.sin_port; /* My server UDP port is the same as my TCP client port*/
+    // serv_local_udp_addr.sin_port = 0;
     // Bind the socket with the my server udp address 
-    Bind(sockudp, (const struct sockaddr *)&servudpaddr,sizeof(servudpaddr));
+    Bind(sockudp, (const struct sockaddr *)&serv_local_udp_addr,sizeof(serv_local_udp_addr));
 
-    lenserv = sizeof(servudpaddr);
-    GetSockName(sockudp, (struct sockaddr *)&servudpaddr, &lenserv);
-    printf("server udp: %s:%d\n", inet_ntoa(servudpaddr.sin_addr), ntohs(servudpaddr.sin_port));
+    lenserv = sizeof(serv_local_udp_addr);
+    GetSockName(sockudp, (struct sockaddr *)&serv_local_udp_addr, &lenserv);
+    // printf("server udp: %s:%d\n", inet_ntoa(serv_local_udp_addr.sin_addr), ntohs(serv_local_udp_addr.sin_port));
 
     while (1) {
         lencli = sizeof(cliudpaddr);  //len is value/resuslt 
