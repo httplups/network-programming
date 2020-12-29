@@ -25,7 +25,7 @@ void *udp_client(void *p) {
     serv_remote_udp_addr.sin_addr.s_addr = INADDR_ANY; 
 
     Connect(sockudp_remote, (const struct sockaddr *) &serv_remote_udp_addr, sizeof(serv_remote_udp_addr));
-    char * hello = "Hello, Let's play now?!";
+    char * hello = "Hello, Let's play now?! (yes/no)";
     
     Write(sockudp_remote, hello, strlen(hello));
     Read(sockudp_remote, buffer, MAXLINE);
