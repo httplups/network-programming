@@ -87,8 +87,7 @@ int main(int argc, char **argv) {
     int     nready;
     ssize_t n;
     fd_set  rset, allset;
-    char    buf[MAXLINE], option;
-    char *resp;
+    char    buf[MAXLINE], resp[MAXLINE];
     socklen_t  clilen;
     struct sockaddr_in cliaddr, servaddr;
 
