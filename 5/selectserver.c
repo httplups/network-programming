@@ -44,7 +44,7 @@ char * show_other_players(int socket) {
         }
     }
 
-    printf("%d\n", strlen(info_players));
+    printf("%lu\n", strlen(info_players));
 
     return i_ptr;
 }
