@@ -83,7 +83,8 @@ void *tcp_client(void *p) {
                 /* getting port of player assuming it's listening on 0.0.0.0 */
                 Read(socktcp, player_port, MAXLINE);
                 printf("Port: %s\n", player_port);
-                sprintf(player_port, "%d", port);
+                port = atoi(player_port);
+                // sprintf(player_port, "%d", port);
                 printf("PORTA: %d\n", port);
 
                 pthread_create(&thread3, 0, udp_client, &port);
