@@ -47,6 +47,7 @@ char * show_other_players(int socket) {
     if ( strlen(info_players) == 0) 
         snprintf(info_players, sizeof(info_players),"No players avaiable. Try again soon...");
 
+    info_players[strlen(info_players)] = 0;
     return i_ptr;
 }
 

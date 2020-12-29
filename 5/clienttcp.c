@@ -56,6 +56,8 @@ int main(int argc, char **argv)
             case 1: {
                 int op = htonl(1);
                 Write(sockfd, &op, sizeof(op));
+                Read(sockfd, players, MAXDATASIZE);
+                printf("%s\n", players);
             }
             case 0:
                 //finish conn
