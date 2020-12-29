@@ -136,10 +136,10 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-    pthread_create(&thread1, 0, tcp_client, argv);
+    // pthread_create(&thread1, 0, tcp_client, argv);
 	pthread_create(&thread2, 0, udp_server, NULL);
 	pthread_join(thread2, NULL);
-	pthread_join(thread1, NULL);
+	// pthread_join(thread1, NULL);
     
 	return 0;
 }
