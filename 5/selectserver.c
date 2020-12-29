@@ -199,7 +199,9 @@ int main(int argc, char **argv) {
 
                         Read(sockfd, otherclient, 100); /*this call is blocking*/
                         printf("Id of other: %s\n", otherclient);
-                         
+
+                        if (atoi(otherclient) == -1)
+                            continue;                         
 
 
                         // memset(resp, 0, strlen(resp));
