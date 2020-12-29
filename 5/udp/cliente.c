@@ -14,6 +14,7 @@ int main() {
     sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
   
     memset(&servaddr, 0, sizeof(servaddr)); 
+    printf("oi\n");
       
     // Filling server information 
     servaddr.sin_family = AF_INET; 
