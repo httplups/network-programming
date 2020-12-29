@@ -44,7 +44,8 @@ char * show_other_players(int socket) {
         }
     }
 
-    printf("%lu\n", strlen(info_players));
+    if ( strlen(info_players) == 0) 
+        snprintf(info_players, sizeof(info_players),"No players avaiable. Try again soon...");
 
     return i_ptr;
 }
@@ -174,6 +175,8 @@ int main(int argc, char **argv) {
                     if (atoi(buf) == 1) {
                         /* send the players available */
                         printf("%s\n",show_other_players(sockfd));
+                        char *resp = show_other_players(sockfd);
+                        Write(sockfd, resp, strlen(resp));
                     }
                     // Write(sockfd, buf, n);
                 }                   
