@@ -179,7 +179,7 @@ int main(int argc, char **argv) {
                         char *resp = show_other_players(sockfd);
                         Write(sockfd, resp, strlen(resp));
                     }
-                    Write(sockfd, buf, n);
+                    // Write(sockfd, buf, n);
                 }                   
                    
                 
