@@ -202,7 +202,7 @@ int main(int argc, char **argv) {
                          
 
                         memset(resp, 0, strlen(resp));
-                        strcpy(resp, get_info_player(otherclient));
+                        strcpy(resp, get_info_player(atoi(otherclient)));
                         Write(sockfd, resp, strlen(resp));
                     }
                     // Write(sockfd, buf, n);
