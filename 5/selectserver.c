@@ -27,7 +27,7 @@ void show_clients() {
     for(i=0; i< FD_SETSIZE; i++) {
         if (strcmp(clients[i].username, "NULL"))
             // printf("%d -\t%s\n",i,clients[i].username);
-            printf("%d - %s\t%s\t%d\n", clients[i].username, clients[i].ip, clients[i].port);
+            printf("%d - %s\t%s\t%d\n", i, clients[i].username, clients[i].ip, clients[i].port);
     }
 }
 
@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
     maxi = -1;                   /* index into client[] array */
     // for (i = 0; i < FD_SETSIZE;  i++)
     //     client[i] = -1;          /* -1 indicates available entry */
-    initialize_clients()
+    initialize_clients();
     FD_ZERO(&allset);
     FD_SET(listenfd, &allset);
 
@@ -97,6 +97,7 @@ int main(int argc, char **argv) {
             // connfd = Accept(listenfd, (SA *) &cliaddr, &clilen);
             connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &clilen);
 
+            char username[15], otheruser[15];
             memset(username, 0, strlen(username));
             memset(otheruser, 0, strlen(otheruser));
 
@@ -104,7 +105,7 @@ int main(int argc, char **argv) {
             Read(connfd, username, 15);
             username[strlen(username) -1] = 0;
             GetPeerName(connfd, (struct sockaddr *)&cliaddr, &clilen);
-            i = insert_user(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), connfd);
+            i = insert_client(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), connfd);
             
             // for (i = 0; i < FD_SETSIZE; i++)
             //     if (client[i] < 0) {
@@ -124,7 +125,7 @@ int main(int argc, char **argv) {
             if (--nready <= 0)
                 continue;          /* no more readable descriptors */
 
-            show_clients()
+            show_clients();
         }
         
         // for (i = 0; i <= maxi; i++) {       /* check all clients for data */
