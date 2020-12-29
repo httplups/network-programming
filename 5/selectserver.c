@@ -42,6 +42,21 @@ void show_other_players(int socket) {
     }
 }
 
+int insert_client_socket(int socket) {
+    int i;
+    for (i = 0; i < FD_SETSIZE; i++) {
+
+        /* Add client at the first avaiable position */
+        if (clients[i].socket_conn < 0) {
+            clients[i].socket_conn = socket;
+            break;
+        }
+    }
+
+    /*The client's info is still empty */
+    return i;
+    
+}
 int  insert_client(char *username, char * ip, int port, int socket) {
     int i;
     for (i = 0; i < FD_SETSIZE; i++) {
@@ -56,13 +71,8 @@ int  insert_client(char *username, char * ip, int port, int socket) {
         }
     }
 
-    if (i == FD_SETSIZE) {
-        printf("too many clients");
-        exit(1);
-    }
-
-    printf("New user: %s\t%s\t%d\t%d\n", username, ip, port, socket);
-
+    // printf("New user: %s\t%s\t%d\t%d\n", username, ip, port, socket);
+    printf("New client inserted at %d\n", i);
     return i;
 }
 
@@ -112,11 +122,11 @@ int main(int argc, char **argv) {
             memset(username, 0, strlen(username));
             memset(otheruser, 0, strlen(otheruser));
 
-            Write(connfd, welcome, strlen(welcome));
-            Read(connfd, username, 15);
-            username[strlen(username) -1] = 0;
-            GetPeerName(connfd, (struct sockaddr *)&cliaddr, &clilen);
-            i = insert_client(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), connfd);
+            // Write(connfd, welcome, strlen(welcome));
+            // Read(connfd, username, 15);
+            // username[strlen(username) -1] = 0;
+            // GetPeerName(connfd, (struct sockaddr *)&cliaddr, &clilen);
+            // i = insert_client(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), connfd);
             
             // for (i = 0; i < FD_SETSIZE; i++)
             //     if (client[i] < 0) {
@@ -125,16 +135,18 @@ int main(int argc, char **argv) {
             //     }
 
             
+            i = insert_client_socket(connfd);
+            if (i == FD_SETSIZE) {
+                printf("too many clients");
+                exit(1);
+            }
 
             FD_SET(connfd, &allset);       /* add new descriptor to set */
 
-            
             if (connfd > maxfd)
                 maxfd = connfd; /* for select */
             if (i > maxi)
                 maxi = i;          /* max index in client[] array */
-
-
 
             if (--nready <= 0)
                 continue;          /* no more readable descriptors */
