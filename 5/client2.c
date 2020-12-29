@@ -84,6 +84,7 @@ void *tcp_client(void *p) {
                 Read(socktcp, player_port, MAXLINE);
                 printf("Port: %s\n", player_port);
                 sprintf(player_port, "%d", port);
+                printf("PORTA: %d\n", port);
 
                 pthread_create(&thread3, 0, udp_client, &port);
                 pthread_join(thread3, NULL);
