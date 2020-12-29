@@ -39,9 +39,7 @@ void *tcp_client(void *p) {
 
     // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
     GetSockName(socktcp, (struct sockaddr *)&clitcpaddr, &lencli);
-    // printf("Informacoes do Socket Local:\n");
-    printf("connected: %s:%d\n", inet_ntoa(clitcpaddr.sin_addr), ntohs(clitcpaddr.sin_port));
-    // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
+    printf("cliente tcp: %s:%d\n", inet_ntoa(clitcpaddr.sin_addr), ntohs(clitcpaddr.sin_port));
 
     printf("Welcome to the game!\n");
 
@@ -118,14 +116,13 @@ void *udp_server(void *p) {
 
     lenserv = sizeof(servudpaddr);
     GetSockName(sockudp, (struct sockaddr *)&servudpaddr, &lenserv);
-    printf("my info: %s:%d\n", inet_ntoa(servudpaddr.sin_addr), ntohs(servudpaddr.sin_port));
+    printf("server udp: %s:%d\n", inet_ntoa(servudpaddr.sin_addr), ntohs(servudpaddr.sin_port));
 
     while (1) {
         lencli = sizeof(cliudpaddr);  //len is value/resuslt 
         n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
         buffer[n] = '\0'; 
         printf("Client : %s\n", buffer); 
-        sleep(10);
         Sendto(sockudp, buffer, strlen(buffer),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
     }
 }
@@ -142,7 +139,7 @@ int main(int argc, char **argv)
 	}
 
     pthread_create(&thread1, 0, tcp_client, argv);
-    sleep(2);
+    sleep(2); /* Fiz isso pro tcp ja ter definido a porta antes de o udp utilizar */
 	pthread_create(&thread2, 0, udp_server, NULL);
     
 	pthread_join(thread2, NULL);
