@@ -78,7 +78,7 @@ int main(int argc, char **argv)
         FD_SET(sockudp, &rset);
         
         maxfdp1 = max(socktcp, sockudp)  +  1;
-        Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
+        // Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
 
         printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
         scanf(" %d", &option);
