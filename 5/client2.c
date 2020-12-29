@@ -10,7 +10,7 @@ struct sockaddr_in servtcpaddr, serv_local_udp_addr, serv_remote_udp_addr, clitc
 
 void *udp_client(void *p) {
     int player_port = *((int *)p);
-    int sockudp_remote;
+    int sockudp_remote, n;
     char buffer[MAXLINE];
     printf("Trying to connect to %d by UDP\n", player_port);
 
