@@ -152,7 +152,7 @@ void *udp_server(void *p) {
     char * hello = "Hello, welcome!";
     while (1) {
         // Write(sockudp, hello, strlen(hello));
-        // lencli = sizeof(cliudpaddr);  //len is value/resuslt 
+        lencli = sizeof(cliudpaddr);  //len is value/resuslt 
         // n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
         // buffer[n] = '\0'; 
         // printf("Client : %s\n", buffer); 
