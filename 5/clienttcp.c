@@ -53,7 +53,7 @@ int main(int argc, char **argv)
     do {
         printf("%s\n",menu);
         option = getchar();
-    } while(strcmp(option, "0") == 0);
+    } while(option != "0");
     
     
     // Read(sockfd, recvline, MAXLINE);
