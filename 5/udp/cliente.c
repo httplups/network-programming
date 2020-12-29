@@ -14,7 +14,6 @@ int main(int argc, char **argv) {
     sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
   
     memset(&servaddr, 0, sizeof(servaddr)); 
-    printf("oi\n");
       
     // Filling server information 
     servaddr.sin_family = AF_INET; 
@@ -27,6 +26,8 @@ int main(int argc, char **argv) {
     socklen_t len; 
 
     Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+
+    printf("whats ur mssg?\n");
 
     while(fgets(sendline, MAXLINE, stdin) != NULL) {
 
