@@ -30,13 +30,22 @@ void show_clients() {
     }
 }
 
-void show_other_players(int socket) {
+char * show_other_players(int socket) {
+    char info_players[MAXDATASIZE];
+    char aux[MAXDATASIZE];
+    
+    snprintf(info_players, sizeof(info_players),"\nID\tIP\tPort\n");
     printf("\nID\tIP\tPort\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
-        if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket))
-            printf("%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
+        if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket)) {
+            snprintf(aux, sizeof(aux),"%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
+            strcat(info_players, aux);
+        }
     }
+
+    free(aux);
+    return info_players;
 }
 
 int insert_client_socket(int socket) {
@@ -160,6 +169,11 @@ int main(int argc, char **argv) {
                 } 
                 else{
                     printf("%s\n", buf);
+
+                    if (atoi(buf) == 1) {
+                        /* send the players available */
+
+                    }
                     // Write(sockfd, buf, n);
                 }                   
                    
