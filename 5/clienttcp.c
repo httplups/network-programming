@@ -37,12 +37,12 @@ int main(int argc, char **argv)
     /* Connecting to the server */
     Connect(socktcp, (struct sockaddr *)&servtcpaddr, sizeof(servtcpaddr));
 
-    lencli = sizeof(cliaddr);
+    lencli = sizeof(clitcpaddr);
 
     // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
-    GetSockName(socktcp, (struct sockaddr *)&cliaddr, &lencli);
+    GetSockName(socktcp, (struct sockaddr *)&clitcpaddr, &lencli);
     // printf("Informacoes do Socket Local:\n");
-    printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
+    printf("connected: %s:%d\n", inet_ntoa(clitcpaddr.sin_addr), ntohs(clitcpaddr.sin_port));
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
 
