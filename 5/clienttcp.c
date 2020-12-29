@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1], recvline[MAXLINE];
+    char error[MAXLINE + 1], recvline[MAXLINE], players[MAXLINE];
     char *welcome = "Welcome to the game!\n"; 
     char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n";
     int sockfd, server_port_number, option;
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
             case 1: {
                 int op = htonl(1);
                 Write(sockfd, &op, sizeof(op));
-                Read(sockfd, players, MAXDATASIZE);
+                Read(sockfd, players, MAXLINE);
                 printf("%s\n", players);
             }
             case 0:
