@@ -23,12 +23,12 @@ void initialize_clients() {
 }
 
 void show_clients() {
-    printf("entrou aqui\n");
+    printf("ID\tUsername\tIP\nPort\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
         if (clients[i].socket_conn > 0)
             // printf("%d -\t%s\n",i,clients[i].username);
-            printf("%d - %s\t%s\t%d\n", i, clients[i].username, clients[i].ip, clients[i].port);
+            printf("%d\t%s\t%s\t%d\n", i, clients[i].username, clients[i].ip, clients[i].port);
     }
 }
 
