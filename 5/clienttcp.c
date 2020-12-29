@@ -7,10 +7,8 @@
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1], recvline[MAXLINE], players[MAXLINE];
-    char *welcome = "Welcome to the game!\n"; 
-    char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n";
-    int sockfd, server_port_number, option;
+    char error[MAXLINE + 1], ID_str[100], players[MAXLINE];
+    int sockfd, server_port_number, option, ID;
 	struct sockaddr_in servaddr, cliaddr;
 	socklen_t lencli;
 
@@ -46,10 +44,10 @@ int main(int argc, char **argv)
     printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
-    printf("%s\n", welcome);
+    printf("Welcome to the game!\n");
 
     do {
-        printf("%s\n",menu);
+        printf("Choose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
         scanf(" %d", &option);
 
         switch (option) {
@@ -65,7 +63,12 @@ int main(int argc, char **argv)
                 }
                 
                 printf("============ List of players: ============\n");
+                printf("\nID\tIP\tPort\n");
                 printf("%s\n", players);
+                printf("Choose one player to play with by ID:");
+                scanf(" %d", &ID);
+                sprintf(ID_str, "%d", ID);
+                Write(sockfd, ID_str, strlen(ID_str));
                 
             }
             case 0:

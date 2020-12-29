@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
     int     nready;
     ssize_t n;
     fd_set  rset, allset;
-    char    buf[MAXLINE], resp[MAXLINE];
+    char    buf[MAXLINE], resp[MAXLINE], otherclient[100];
     socklen_t  clilen;
     struct sockaddr_in cliaddr, servaddr;
 
@@ -183,6 +183,8 @@ int main(int argc, char **argv) {
                         memset(resp, 0, strlen(resp));
                         strcpy(resp, show_other_players(sockfd));
                         Write(sockfd, resp, strlen(resp));
+                        Read(sockfd, otherclient, 100);
+                        printf("Id other: %s\n", otherclient);
                     }
                     // Write(sockfd, buf, n);
                 }                   
