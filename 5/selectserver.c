@@ -32,6 +32,16 @@ void show_clients() {
     }
 }
 
+void show_other_players(int socket) {
+    printf("\nID\tUsername\tIP\tPort\n");
+    int i;
+    for(i=0; i< FD_SETSIZE; i++) {
+        if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket))
+            // printf("%d -\t%s\n",i,clients[i].username);
+            printf("%d\t%s\t%s\t%d\n", i, clients[i].username, clients[i].ip, clients[i].port);
+    }
+}
+
 int  insert_client(char *username, char * ip, int port, int socket) {
     int i;
     for (i = 0; i < FD_SETSIZE; i++) {
@@ -132,7 +142,7 @@ int main(int argc, char **argv) {
                 switch (option) {
                     case '1': {
                         // show users
-                        show_clients();
+                        show_other_players(connfd);
                         Read(connfd, otheruser, 10);
                         otheruser[strlen(otheruser) -1] = 0;
                         printf("O %s quer jogar com %s\n", username, otheruser);
