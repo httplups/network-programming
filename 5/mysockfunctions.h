@@ -13,9 +13,13 @@
 #include <sys/time.h>
 #include <time.h>
 
+#define LISTENQ 10
+#define MAXDATASIZE 4096
+#define MAXLINE 4096
+
 void Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout){
 
-    int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
+    return select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
 
 }
 

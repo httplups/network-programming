@@ -2,7 +2,7 @@
 #define FD_SETSIZE 10
 
 int main(int argc, char **argv) {
-    int     i, maxi, maxfd, listenfd, connfd, sockfd;
+    int     i, maxi, maxfd, listenfd, connfd, sockfd, port;
     int     nready, client[FD_SETSIZE];
     ssize_t n;
     fd_set  rset, allset;
@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
                 }
 
             if (i == FD_SETSIZE) {
-                print("too many clients");
+                printf("too many clients");
                 exit(1);
             }
 
