@@ -153,9 +153,9 @@ void *udp_server(void *p) {
     while (1) {
         // Write(sockudp, hello, strlen(hello));
         lencli = sizeof(cliudpaddr);  //len is value/resuslt 
-        // n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
-        // buffer[n] = '\0'; 
-        // printf("Client : %s\n", buffer); 
+        n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
+        buffer[n] = '\0'; 
+        printf("Client : %s\n", buffer); 
         Sendto(sockudp, hello, strlen(hello),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
     }
     pthread_exit(NULL);
