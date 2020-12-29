@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
         
         for (i = 0; i <= maxi; i++) {       /* check all clients for data */
 
-            if ( (sockfd = client[i]) < 0) /* check connection socket for each client */
+            if ( (sockfd = client[i].socket_conn) < 0) /* check connection socket for each client */
                 continue;
 
             if (FD_ISSET(sockfd, &rset)) {
