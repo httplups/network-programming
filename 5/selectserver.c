@@ -207,6 +207,7 @@ int main(int argc, char **argv) {
                         /* Sending port of client */
                         memset(resp, 0, strlen(resp));
                         strcpy(resp, get_info_player(atoi(otherclient)));
+                        printf("resp %s\n", resp);
                         Write(sockfd, resp, strlen(resp));
                     }
                     // Write(sockfd, buf, n);
