@@ -50,6 +50,7 @@ char * show_other_players(int socket) {
 
     info_players[strlen(info_players)] = 0;
     printf("2 - %s\n", info_players);
+    free(info_players);
     return i_ptr;
 }
 
