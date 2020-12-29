@@ -7,7 +7,7 @@ typedef struct {
     char ip[15];
     int port;
     int socket_conn;
-    bool available;
+    int available;
 } Client;
 
 Client clients[FD_SETSIZE];
@@ -18,7 +18,7 @@ void initialize_clients() {
         strcpy(clients[i].ip, "NULL");
         clients[i].port = -1;
         clients[i].socket_conn = -1; /* -1 indicates available entry */
-        clients[i].available = true;
+        clients[i].available = 1;
     }
 }
 
@@ -43,7 +43,7 @@ char * show_other_players(int socket) {
     // printf("\nID\tIP\tPort\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
-        if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket) && (clients[i].available == true)) {
+        if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket) && (clients[i].available == 1)) {
             snprintf(aux, sizeof(aux),"%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
             strcat(info_players, aux);
         }
