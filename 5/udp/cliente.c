@@ -18,7 +18,9 @@ int main() {
       
     // Filling server information 
     servaddr.sin_family = AF_INET; 
-    servaddr.sin_port = 0; 
+
+    sscanf(argv[1], "%d", &server_port_number);
+    servaddr.sin_port = htons(server_port_number);
     servaddr.sin_addr.s_addr = INADDR_ANY; 
       
     int n;
