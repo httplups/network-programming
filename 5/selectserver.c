@@ -88,6 +88,7 @@ int main(int argc, char **argv) {
     ssize_t n;
     fd_set  rset, allset;
     char    buf[MAXLINE], option;
+    char *resp;
     socklen_t  clilen;
     struct sockaddr_in cliaddr, servaddr;
 
@@ -176,7 +177,8 @@ int main(int argc, char **argv) {
                     if (strcmp(buf, "get") == 0) {
                         /* send the players available */
                         printf("%s\n",show_other_players(sockfd));
-                        char *resp = show_other_players(sockfd);
+                        memset(resp, 0, strlen(resp));
+                        resp = show_other_players(sockfd);
                         Write(sockfd, resp, strlen(resp));
                     }
                     // Write(sockfd, buf, n);
