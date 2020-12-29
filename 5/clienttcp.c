@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     printf("Welcome to the game!\n");
 
     do {
-        printf("Choose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
+        printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
         scanf(" %d", &option);
 
         switch (option) {
@@ -66,7 +66,8 @@ int main(int argc, char **argv)
                 printf("\nID\tIP\tPort\n");
                 printf("%s\n", players);
                 printf("Choose one player to play with by ID:");
-                // scanf(" %d", &ID);
+                scanf(" %d", &ID);
+                printf("You chose %d\n", ID);
                 // sprintf(ID_str, "%d", ID);
                 // Write(sockfd, ID_str, strlen(ID_str));
                 
