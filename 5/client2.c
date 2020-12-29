@@ -142,8 +142,7 @@ int main(int argc, char **argv)
 	}
 
     pthread_create(&thread1, 0, tcp_client, argv);
-    
-    sleep(5);
+    sleep(2);
 	pthread_create(&thread2, 0, udp_server, NULL);
     
 	pthread_join(thread2, NULL);
