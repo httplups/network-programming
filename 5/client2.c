@@ -18,7 +18,7 @@ void *udp_client(void *p) {
     memset(&serv_remote_udp_addr, 0, sizeof(serv_remote_udp_addr)); 
       
     // Filling server information 
-    servaddr.sin_family = AF_INET; 
+    serv_remote_udp_addr.sin_family = AF_INET; 
 
     serv_remote_udp_addr.sin_port = htons(player_port);
     serv_remote_udp_addr.sin_addr.s_addr = INADDR_ANY; 
