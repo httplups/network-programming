@@ -169,6 +169,8 @@ void *udp_server(void *p) {
         printf("%s\n", buffer); 
 
         fgets(sendline, MAXLINE, stdin);
+        sendline[strlen(sendline)] = '\0';
+        printf("%s",sendline);
 
         Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
     }
