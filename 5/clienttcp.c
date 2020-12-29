@@ -79,10 +79,11 @@ int main(int argc, char **argv)
 
                 char *ptr = strtok(player, delim);
 
-                while(ptr != NULL) {
-                    printf("'%s'\n", ptr);
+                // while(ptr != NULL) {
+                    printf("IP:%s\n", ptr);
                     ptr = strtok(NULL, delim);
-	            }
+                    printf("Port:%s\n", ptr);
+	            // }
                 
             }
             case 0:
