@@ -25,9 +25,16 @@ void *udp_client(void *p) {
     serv_remote_udp_addr.sin_addr.s_addr = INADDR_ANY; 
 
     Connect(sockudp_remote, (const struct sockaddr *) &serv_remote_udp_addr, sizeof(serv_remote_udp_addr));
-    char * hello = "Hello, welcome!";
+    char * hello = "Hello, Let's play now?!";
     
     Write(sockudp_remote, hello, strlen(hello));
+    Read(sockudp_remote, buffer, MAXLINE);
+
+    if (strcmp(buffer, "no"))
+        printf("You'll need to choose another player...\n");
+    else {
+        printf("Started!\n");
+    }
     // while ((n = Read(sockudp_remote, buffer, MAXLINE)) > 0) {
     //     printf("%s\n", buffer);
     // }
@@ -133,7 +140,7 @@ void *tcp_client(void *p) {
 void *udp_server(void *p) {
     int sockudp, n;
     socklen_t lencli, lenserv;
-    char buffer[MAXLINE];
+    char buffer[MAXLINE], sendline[MAXLINE];
 
     /* STARTING A UDP SERVER */
     sockudp = Socket(AF_INET, SOCK_DGRAM, 0);
@@ -153,12 +160,17 @@ void *udp_server(void *p) {
     // printf("server udp: %s:%d\n", inet_ntoa(serv_local_udp_addr.sin_addr), ntohs(serv_local_udp_addr.sin_port));
     char * hello = "Hello, welcome!";
     while (1) {
+        memset(sendline, 0, strlen(sendline));
+        memset(buffer, 0, strlen(buffer));
         // Write(sockudp, hello, strlen(hello));
         lencli = sizeof(cliudpaddr);  //len is value/resuslt 
         n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
         buffer[n] = '\0'; 
-        printf("Client : %s\n", buffer); 
-        Sendto(sockudp, hello, strlen(hello),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
+        printf("%s\n", buffer); 
+
+        fgets(sendline, MAXLINE, stdin);
+
+        Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
     }
     pthread_exit(NULL);
 }
