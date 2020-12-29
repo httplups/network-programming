@@ -31,7 +31,7 @@ void show_clients() {
 }
 
 const char * show_other_players(int socket) {
-    char info_players[MAXDATASIZE];
+    char * info_players =  (char*)malloc(sizeof(char)*(MAXDATASIZE));
     char aux[MAXDATASIZE];
     
     snprintf(info_players, sizeof(info_players),"\nID\tIP\tPort\n");
