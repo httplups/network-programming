@@ -53,6 +53,17 @@ int main(int argc, char **argv)
     do {
         printf("%s\n",menu);
         scanf(" %d", &option);
+
+        switch (option) {
+            case 1: {
+                char* op = "1";
+                Write(sockfd, op, strlen(op));
+            }
+            case 0:
+                //finish conn
+                break;
+        }
+
     } while(option != 0);
     
     

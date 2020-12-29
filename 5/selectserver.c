@@ -151,46 +151,28 @@ int main(int argc, char **argv) {
             
         }
         
-        // for (i = 0; i <= maxi; i++) {       /* check all clients for data */
+        for (i = 0; i <= maxi; i++) {       /* check all clients for data */
 
-        //     if ( (sockfd = client[i]) < 0) /* check connection socket for each client */
-        //         continue;
+            if ( (sockfd = client[i]) < 0) /* check connection socket for each client */
+                continue;
 
-        //     if (FD_ISSET(sockfd, &rset)) {
-        //         if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
-        //             /* connection closed by client */
-        //             Close(sockfd);
-        //             FD_CLR(sockfd, &allset);
-        //             client[i] = -1;
+            if (FD_ISSET(sockfd, &rset)) {
+                if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
+                    /* connection closed by client */
+                    // Close(sockfd);
+                    // FD_CLR(sockfd, &allset);
+                    // client[i] = -1;
 
-        //             do {
-        //                 Write(connfd, menu, strlen(menu));
-        //                 n = Read(connfd, &option, 1);
-        //                 printf("op: %c\n", option);
-        //                 switch (option) {
-        //                     case '1': {
-        //                         // show users
-        //                         show_other_players(connfd);
-        //                         Read(connfd, otheruser, 10);
-        //                         otheruser[strlen(otheruser) -1] = 0;
-        //                         printf("O %s quer jogar com %s\n", username, otheruser);
-        //                     }
-        //                     case '2': {
-        //                         // close conn
-        //                         n = 0;
-        //                         break;
-        //             }
-        //         }
-        //     } while(n > 0);
-
-
-        //         } 
-        //         else                      
-        //             Write(sockfd, buf, n);
+                } 
+                else{
+                    printf("%s\n", buf);
+                    // Write(sockfd, buf, n);
+                }                   
+                   
                 
-        //         if (--nready <= 0)
-        //             break;         /* no more readable descriptors */
-        //     }
-        // } 
+                if (--nready <= 0)
+                    break;         /* no more readable descriptors */
+            }
+        } 
     }
 }   
