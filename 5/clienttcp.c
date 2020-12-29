@@ -69,6 +69,9 @@ int main(int argc, char **argv)
     /* USING SELECT TO LISTEN ON BOTH SOCKETS */
     fd_set rset;
     FD_ZERO(&rset);
+
+    printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
+    scanf(" %d", &option);
     
     do {
         /* Associando file descriptors ao conjunto read*/
@@ -78,9 +81,6 @@ int main(int argc, char **argv)
         maxfdp1 = max(socktcp, sockudp)  +  1;
         Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
     
-        printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
-        scanf(" %d", &option);
-
         switch (option) {
             case 1: {
 
