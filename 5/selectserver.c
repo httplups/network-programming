@@ -31,18 +31,18 @@ void show_clients() {
 }
 
 const char * show_other_players(int socket) {
-    char * info_players =  (char*)malloc(sizeof(char)*(MAXDATASIZE));
+    char * info_players[MAXDATASIZE];
     char aux[MAXDATASIZE];
     
     snprintf(info_players, sizeof(info_players),"\nID\tIP\tPort\n");
-    printf("\nID\tIP\tPort\n");
-    int i;
-    for(i=0; i< FD_SETSIZE; i++) {
-        if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket)) {
-            snprintf(aux, sizeof(aux),"%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
-            strcat(info_players, aux);
-        }
-    }
+    // printf("\nID\tIP\tPort\n");
+    // int i;
+    // for(i=0; i< FD_SETSIZE; i++) {
+    //     if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket)) {
+    //         snprintf(aux, sizeof(aux),"%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
+    //         strcat(info_players, aux);
+    //     }
+    // }
 
     return info_players;
 }
