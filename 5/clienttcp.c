@@ -108,9 +108,9 @@ int main(int argc, char **argv)
                 // printf("str: %s\n",ID_str);
                 Write(socktcp, ID_str, strlen(ID_str));
 
-                // /* getting port of player assuming it's listening on 0.0.0.0 */
-                // Read(socktcp, player_port, MAXLINE);
-                // printf("Port: %s\n", player_port);
+                /* getting port of player assuming it's listening on 0.0.0.0 */
+                Read(socktcp, player_port, MAXLINE);
+                printf("Port: %s\n", player_port);
                 
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);

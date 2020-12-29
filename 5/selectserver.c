@@ -204,9 +204,10 @@ int main(int argc, char **argv) {
                             continue;                         
 
 
-                        // memset(resp, 0, strlen(resp));
-                        // strcpy(resp, get_info_player(atoi(otherclient)));
-                        // Write(sockfd, resp, strlen(resp));
+                        /* Sending port of client */
+                        memset(resp, 0, strlen(resp));
+                        strcpy(resp, get_info_player(atoi(otherclient)));
+                        Write(sockfd, resp, strlen(resp));
                     }
                     // Write(sockfd, buf, n);
                 }                   
