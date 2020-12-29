@@ -173,7 +173,7 @@ int main(int argc, char **argv) {
 
                 } 
                 else{
-                    printf("%s\n", buf);
+                    printf("got from client: %s\n", buf);
 
                     if (strcmp(buf, "get") == 0) {
                         /* send the players available */
