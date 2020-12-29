@@ -7,7 +7,7 @@
 // Driver code 
 int main() { 
     int sockfd, n;
-    socklen_t len; 
+    socklen_t len, lenserv; 
     char buffer[MAXLINE]; 
     struct sockaddr_in servaddr, cliaddr; 
       
