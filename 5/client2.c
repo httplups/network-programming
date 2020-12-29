@@ -111,7 +111,7 @@ void *udp_server(void *p) {
     // Filling me-as-server information 
     servudpaddr.sin_family    = AF_INET; // IPv4 
     servudpaddr.sin_addr.s_addr = INADDR_ANY; 
-    servudpaddr.sin_port = clitcpaddr.sin_port; /* My server UDP port is the same as my TCP client port*/
+    servudpaddr.sin_port = 0; /* My server UDP port is the same as my TCP client port*/
     // servudpaddr.sin_port = 0;
     // Bind the socket with the my server udp address 
     Bind(sockudp, (const struct sockaddr *)&servudpaddr,sizeof(servudpaddr));
