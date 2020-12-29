@@ -3,11 +3,12 @@
 #include "mysockfunctions.h"
   
 #define PORT     8080 
+#define MAXLINE 1024 
   
 // Driver code 
-int main(int argc, char **argv) { 
-    int sockfd, n, port;
-    socklen_t len, lenserv; 
+int main() { 
+    int sockfd, n;
+    socklen_t len; 
     char buffer[MAXLINE]; 
     struct sockaddr_in servaddr, cliaddr; 
       
@@ -20,23 +21,16 @@ int main(int argc, char **argv) {
     // Filling server information 
     servaddr.sin_family    = AF_INET; // IPv4 
     servaddr.sin_addr.s_addr = INADDR_ANY; 
-    sscanf(argv[1], "%d", &port);
-    servaddr.sin_port = htons(port);
+    servaddr.sin_port = htons(PORT); 
       
     // Bind the socket with the server address 
     Bind(sockfd, (const struct sockaddr *)&servaddr,sizeof(servaddr));
-
-    lenserv = sizeof(servaddr);
-    GetSockName(sockfd, (struct sockaddr *)&servaddr, &lenserv);
-    // printf("Informacoes do Socket Local:\n");
-    printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
       
     while (1) {
         len = sizeof(cliaddr);  //len is value/resuslt 
         n = Recvfrom(sockfd, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliaddr, &len);
         buffer[n] = '\0'; 
         printf("Client : %s\n", buffer); 
-        sleep(10);
         Sendto(sockfd, buffer, strlen(buffer),MSG_CONFIRM, (const struct sockaddr *) &cliaddr, len);  
     }
       
