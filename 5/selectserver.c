@@ -107,6 +107,7 @@ int main(int argc, char **argv) {
             username[strlen(username) -1] = 0;
             GetPeerName(connfd, (struct sockaddr *)&cliaddr, &clilen);
             i = insert_client(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), connfd);
+            printf("i: %d\n", i);
             
             // for (i = 0; i < FD_SETSIZE; i++)
             //     if (client[i] < 0) {
