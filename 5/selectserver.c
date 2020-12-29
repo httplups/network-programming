@@ -35,7 +35,6 @@ char * show_other_players(int socket) {
     char * i_ptr = info_players;
     char aux[MAXDATASIZE];
     
-    snprintf(info_players, sizeof(info_players),"\nID\tIP\tPort\n");
     // printf("\nID\tIP\tPort\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
@@ -44,6 +43,8 @@ char * show_other_players(int socket) {
             strcat(info_players, aux);
         }
     }
+
+    printf("%d\n", strlen(info_players));
 
     return i_ptr;
 }
