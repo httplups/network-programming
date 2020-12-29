@@ -44,7 +44,6 @@ const char * show_other_players(int socket) {
         }
     }
 
-    free(aux);
     return info_players;
 }
 
