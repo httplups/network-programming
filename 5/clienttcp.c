@@ -64,48 +64,61 @@ int main(int argc, char **argv)
     // Bind the socket with the my server udp address 
     Bind(sockudp, (const struct sockaddr *)&servudpaddr,sizeof(servudpaddr));
 
-    /*  ================================================================================== */
-
     printf("Welcome to the game!\n");
-
+    /*  ================================================================================== */
+    /* USING SELECT TO LISTEN ON BOTH SOCKETS */
+    fd_set rset;
+    FD_ZERO(&rset);
+    
     do {
+        /* Associando file descriptors ao conjunto read*/
+        FD_SET(socktcp, &rset);
+        FD_SET(sockudp, &rset);
+
+        maxfdp1 = max(socktcp, sockudp)  +  1;
+        Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
+    
         printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
         scanf(" %d", &option);
 
         switch (option) {
             case 1: {
+
                 char * get = "get";
                 Write(socktcp, get, strlen(get));
-                Read(socktcp, players, MAXLINE);
-                
 
-                if (strcmp(players, "NULL") == 0) {
-                    printf("No players avaiable. Try again soon...");
-                    continue;
+                if (FD_ISSET(socktcp,  &rset)){ /* conseguimos ler do socket tcp*/
+
+                    Read(socktcp, players, MAXLINE);
+
+                    if (strcmp(players, "NULL") == 0) {
+                        printf("No players avaiable. Try again soon...");
+                        continue;
+                    }
+                    
+                    printf("============ List of players: ============\n");
+                    printf("\nID\tIP\tPort\n");
+                    printf("%s\n", players);
+
+                    printf("Choose one player to play with by ID:");
+                    scanf(" %d", &ID);
+                    printf("You chose %d\n", ID);
+
+                    memset(ID_str, 0, strlen(ID_str));
+                    sprintf(ID_str, "%d", ID);
+                    // printf("str: %s\n",ID_str);
+                    Write(socktcp, ID_str, strlen(ID_str));
+
+                    // /* getting port of player assuming it's listening on 0.0.0.0 */
+                    Read(socktcp, player_port, MAXLINE);
+                    printf("Port: %s\n", player_port);
+                    
+                    // char delim[] = " ";
+                    // char *ptr = strtok(player, delim);
+                    // printf("IP:%s\n", ptr);
+                    // ptr = strtok(NULL, delim);
+                    // printf("Port:%s\n", ptr);
                 }
-                
-                printf("============ List of players: ============\n");
-                printf("\nID\tIP\tPort\n");
-                printf("%s\n", players);
-
-                printf("Choose one player to play with by ID:");
-                scanf(" %d", &ID);
-                printf("You chose %d\n", ID);
-
-                memset(ID_str, 0, strlen(ID_str));
-                sprintf(ID_str, "%d", ID);
-                // printf("str: %s\n",ID_str);
-                Write(socktcp, ID_str, strlen(ID_str));
-
-                // /* getting port of player assuming it's listening on 0.0.0.0 */
-                Read(socktcp, player_port, MAXLINE);
-                printf("Port: %s\n", player_port);
-                
-                // char delim[] = " ";
-                // char *ptr = strtok(player, delim);
-                // printf("IP:%s\n", ptr);
-                // ptr = strtok(NULL, delim);
-                // printf("Port:%s\n", ptr);
                 
             }
             case 0:
