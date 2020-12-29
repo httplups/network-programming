@@ -56,8 +56,8 @@ int main(int argc, char **argv)
             case 1: {
                 char * get = "get";
                 Write(sockfd, get, strlen(get));
-                // Read(sockfd, players, MAXLINE);
-                // printf("%s\n", players);
+                Read(sockfd, players, MAXLINE);
+                printf("%s\n", players);
             }
             case 0:
                 //finish conn
