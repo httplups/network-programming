@@ -78,7 +78,14 @@ int insert_client_socket(int socket) {
     printf("New client inserted at %d\n", i);
     /*The client's info is still empty */
     return i;
-    
+}
+
+void set_as_offline(int pos) {
+    clients[pos].available = 0;
+}
+
+void set_as_online(int pos) {
+    clients[pos].available = 1;
 }
 
 int  insert_client(char * ip, int port, int socket) {
@@ -97,6 +104,8 @@ int  insert_client(char * ip, int port, int socket) {
 
     return i;
 }
+
+
 
 int main(int argc, char **argv) {
     int     i, maxi, maxfd, listenfd, connfd, sockfd, port;
@@ -203,12 +212,22 @@ int main(int argc, char **argv) {
                         if (atoi(otherclient) == -1)
                             continue;                         
 
-
                         /* Sending port of client */
                         memset(resp, 0, strlen(resp));
                         strcpy(resp, get_info_player(atoi(otherclient)));
                         printf("resp %s\n", resp);
                         Write(sockfd, resp, strlen(resp));
+
+                    }
+                    else if (strcmp(buf, "back") == 0) {
+                        /* Put the client again on the array */
+                        set_as_online(i);
+                    }
+                    else if (strcmp(buf, "playing") == 0) {
+                        set_as_offline(i);
+                    }
+                    else if (strcmp(buf, "points") == 0) {
+                        continue;
                     }
                     // Write(sockfd, buf, n);
                 }                   

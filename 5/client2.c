@@ -45,6 +45,9 @@ void *udp_client(void *p) {
 void *tcp_client(void *p) {
     int server_port_number, socktcp, option, ID, port;
     char **argv = p;
+    char * get = "get";
+    char * back = "back";
+    char * playing = "playing";
     char ID_str[100], players[MAXLINE], player_port[MAXLINE];
     socklen_t lencli;
     
@@ -83,7 +86,6 @@ void *tcp_client(void *p) {
 
         switch (option) {
             case 1: {
-                char * get = "get";
                 Write(socktcp, get, strlen(get));
                 Read(socktcp, players, MAXLINE);
                 
@@ -115,8 +117,14 @@ void *tcp_client(void *p) {
                 // sprintf(player_port, "%d", port);
                 printf("PORTA: %d\n", port);
 
+                /* Trying to play, so offline for now */
+                Write(socktcp, playing, strlen(playing));
+
                 pthread_create(&thread3, 0, udp_client, &port);
                 pthread_join(thread3, NULL);
+
+                /* Already played or could not */
+                Write(socktcp, back, strlen(back));
                 
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
