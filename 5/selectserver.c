@@ -1,5 +1,5 @@
 #include "mysockfunctions.h"
-#define FD_SETSIZE 10
+// #define FD_SETSIZE 10
 
 int main(int argc, char **argv) {
     int     i, maxi, maxfd, listenfd, connfd, sockfd, port;
