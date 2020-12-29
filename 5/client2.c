@@ -8,6 +8,11 @@
 pthread_t thread1, thread2, thread3;
 struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
 
+void *udp_client(void *p) {
+    int player_port = *((int *)p);
+    printf("Trying to connect to %d by UDP\n", player_port);
+    pthread_exit(NULL);
+}
 
 void *tcp_client(void *p) {
     int server_port_number, socktcp, option, ID;
@@ -99,11 +104,7 @@ void *tcp_client(void *p) {
 
 }
 
-void *udp_client(void *p) {
-    int player_port = *((int *)p);
-    printf("Trying to connect to %d by UDP\n", player_port);
-    pthread_exit(NULL);
-}
+
 void *udp_server(void *p) {
     int sockudp, n;
     socklen_t lencli, lenserv;
