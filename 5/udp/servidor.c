@@ -6,7 +6,7 @@
   
 // Driver code 
 int main() { 
-    int sockfd, n;
+    int sockfd, n, port;
     socklen_t len, lenserv; 
     char buffer[MAXLINE]; 
     struct sockaddr_in servaddr, cliaddr; 
@@ -20,7 +20,8 @@ int main() {
     // Filling server information 
     servaddr.sin_family    = AF_INET; // IPv4 
     servaddr.sin_addr.s_addr = INADDR_ANY; 
-    servaddr.sin_port = 0; 
+    sscanf(argv[1], "%d", &port);
+    servaddr.sin_port = htons(port);
       
     // Bind the socket with the server address 
     Bind(sockfd, (const struct sockaddr *)&servaddr,sizeof(servaddr));
