@@ -58,6 +58,14 @@ char * show_other_players(int socket) {
     return i_ptr;
 }
 
+char * get_info_player(int pos) {
+    char info[MAXDATASIZE];
+    char * i_ptr = info;
+
+    snprintf(info, sizeof(info),"%s %d",clients[pos].ip, clients[pos].port);
+    return i_ptr;
+}
+
 int insert_client_socket(int socket) {
     int i;
     for (i = 0; i < FD_SETSIZE; i++) {
@@ -72,6 +80,7 @@ int insert_client_socket(int socket) {
     return i;
     
 }
+
 int  insert_client(char * ip, int port, int socket) {
     int i;
     for (i = 0; i < FD_SETSIZE; i++) {
@@ -190,6 +199,11 @@ int main(int argc, char **argv) {
 
                         Read(sockfd, otherclient, 100);
                         printf("Id of other: %s\n", otherclient);
+                         
+
+                        memset(resp, 0, strlen(resp));
+                        strcpy(resp, get_info_player(otherclient));
+                        Write(sockfd, resp, strlen(resp));
                     }
                     // Write(sockfd, buf, n);
                 }                   

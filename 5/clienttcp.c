@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1], ID_str[100], players[MAXLINE];
+    char error[MAXLINE + 1], ID_str[100], players[MAXLINE], player[MAXLINE];
     int sockfd, server_port_number, option, ID;
 	struct sockaddr_in servaddr, cliaddr;
 	socklen_t lencli;
@@ -74,6 +74,15 @@ int main(int argc, char **argv)
                 sprintf(ID_str, "%d", ID);
                 printf("str: %s\n",ID_str);
                 Write(sockfd, ID_str, strlen(ID_str));
+                Read(sockfd, player, MAXLINE);
+                char delim[] = " ";
+
+                char *ptr = strtok(player, delim);
+
+                while(ptr != NULL) {
+                    printf("'%s'\n", ptr);
+                    ptr = strtok(NULL, delim);
+	            }
                 
             }
             case 0:
