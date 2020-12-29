@@ -78,7 +78,7 @@ int  insert_client(char *username, char * ip, int port, int socket) {
 
 int main(int argc, char **argv) {
     int     i, maxi, maxfd, listenfd, connfd, sockfd, port;
-    int     nready, client[FD_SETSIZE];
+    int     nready;
     ssize_t n;
     fd_set  rset, allset;
     char    buf[MAXLINE], option;
@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
         
         for (i = 0; i <= maxi; i++) {       /* check all clients for data */
 
-            if ( (sockfd = client[i].socket_conn) < 0) /* check connection socket for each client */
+            if ( (sockfd = clients[i].socket_conn) < 0) /* check connection socket for each client */
                 continue;
 
             if (FD_ISSET(sockfd, &rset)) {
@@ -161,7 +161,7 @@ int main(int argc, char **argv) {
                     /* connection closed by client */
                     // Close(sockfd);
                     // FD_CLR(sockfd, &allset);
-                    // client[i] = -1;
+                    // clients[i] = -1;
 
                 } 
                 else{
