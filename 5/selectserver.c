@@ -126,8 +126,9 @@ int main(int argc, char **argv) {
 
             if (--nready <= 0)
                 continue;          /* no more readable descriptors */
-
+            printf("entrou1\n");
             show_clients();
+            print("entrou2\n")
         }
         
         // for (i = 0; i <= maxi; i++) {       /* check all clients for data */
