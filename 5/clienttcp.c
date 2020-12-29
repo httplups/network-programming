@@ -68,7 +68,8 @@ int main(int argc, char **argv)
                 printf("Choose one player to play with by ID:");
                 scanf(" %d", &ID);
                 printf("You chose %d\n", ID);
-                // sprintf(ID_str, "%d", ID);
+                sprintf(ID_str, "%d", ID);
+                printf("str: %s\n",ID_str);
                 // Write(sockfd, ID_str, strlen(ID_str));
                 
             }
