@@ -11,6 +11,7 @@ struct sockaddr_in servtcpaddr, serv_local_udp_addr, serv_remote_udp_addr, clitc
 void *udp_client(void *p) {
     int player_port = *((int *)p);
     int sockudp_remote;
+    char buffer[MAXLINE];
     printf("Trying to connect to %d by UDP\n", player_port);
 
     sockudp_remote = Socket(AF_INET, SOCK_DGRAM, 0);
@@ -24,6 +25,10 @@ void *udp_client(void *p) {
     serv_remote_udp_addr.sin_addr.s_addr = INADDR_ANY; 
 
     Connect(sockudp_remote, (const struct sockaddr *) &serv_remote_udp_addr, sizeof(serv_remote_udp_addr));
+
+    while ((n = Read(sockudp_remote, buffer, MAXLINE)) > 0) {
+        printf("%s\n", buffer);
+    }
 
     pthread_exit(NULL);
 }
@@ -144,13 +149,14 @@ void *udp_server(void *p) {
     lenserv = sizeof(serv_local_udp_addr);
     GetSockName(sockudp, (struct sockaddr *)&serv_local_udp_addr, &lenserv);
     // printf("server udp: %s:%d\n", inet_ntoa(serv_local_udp_addr.sin_addr), ntohs(serv_local_udp_addr.sin_port));
-
+    char * hello = "Hello, welcome!";
     while (1) {
-        lencli = sizeof(cliudpaddr);  //len is value/resuslt 
-        n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
-        buffer[n] = '\0'; 
-        printf("Client : %s\n", buffer); 
-        Sendto(sockudp, buffer, strlen(buffer),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
+        Write(sockudp, hello, strlen(hello));
+        // lencli = sizeof(cliudpaddr);  //len is value/resuslt 
+        // n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
+        // buffer[n] = '\0'; 
+        // printf("Client : %s\n", buffer); 
+        // Sendto(sockudp, buffer, strlen(buffer),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
     }
     pthread_exit(NULL);
 }
