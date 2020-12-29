@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
     int     nready, client[FD_SETSIZE];
     ssize_t n;
     fd_set  rset, allset;
-    char    buf[MAXLINE];
+    char    buf[MAXLINE], option;
     char *welcome = "Welcome! If you want to join the game, enter your username:\n"; 
     char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n3 - Quit\n";
     socklen_t  clilen;
@@ -107,7 +107,6 @@ int main(int argc, char **argv) {
             username[strlen(username) -1] = 0;
             GetPeerName(connfd, (struct sockaddr *)&cliaddr, &clilen);
             i = insert_client(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), connfd);
-            printf("i: %d\n", i);
             
             // for (i = 0; i < FD_SETSIZE; i++)
             //     if (client[i] < 0) {
@@ -119,12 +118,32 @@ int main(int argc, char **argv) {
 
             FD_SET(connfd, &allset);       /* add new descriptor to set */
 
-            show_clients();
             
             if (connfd > maxfd)
                 maxfd = connfd; /* for select */
             if (i > maxi)
                 maxi = i;          /* max index in client[] array */
+
+
+            do {
+                Write(connfd, menu, strlen(menu));
+                n = Read(connfd, &option, 1);
+                printf("op: %c\n", option);
+                switch (option) {
+                    case '1': {
+                        // show users
+                        show_clients();
+                        Read(connfd, otheruser, 10);
+                        otheruser[strlen(otheruser) -1] = 0;
+                        printf("O %s quer jogar com %s\n", username, otheruser);
+                    }
+                    case '2': {
+                        // close conn
+                        n = 0;
+                        break;
+                    }
+                }
+            } while(n > 0);
 
             if (--nready <= 0)
                 continue;          /* no more readable descriptors */
