@@ -15,7 +15,7 @@ void *udp_client(void *p) {
 }
 
 void *tcp_client(void *p) {
-    int server_port_number, socktcp, option, ID;
+    int server_port_number, socktcp, option, ID, port;
     char **argv = p;
     char ID_str[100], players[MAXLINE], player_port[MAXLINE];
     socklen_t lencli;
@@ -83,8 +83,10 @@ void *tcp_client(void *p) {
                 /* getting port of player assuming it's listening on 0.0.0.0 */
                 Read(socktcp, player_port, MAXLINE);
                 printf("Port: %s\n", player_port);
+                sprintf(player_port, "%d", port);
 
-                pthread_create(&thread3, 0, udp_client, &player_port);
+                pthread_create(&thread3, 0, udp_client, &port);
+                pthread_join(thread3, NULL);
                 
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
