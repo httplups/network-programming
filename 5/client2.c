@@ -10,12 +10,20 @@ struct sockaddr_in servtcpaddr, serv_local_udp_addr, serv_remote_udp_addr, clitc
 
 void *udp_client(void *p) {
     int player_port = *((int *)p);
+    int sockudp_remote;
     printf("Trying to connect to %d by UDP\n", player_port);
+
+    sockudp_remote = Socket(AF_INET, SOCK_DGRAM, 0);
+  
+    memset(&serv_remote_udp_addr, 0, sizeof(serv_remote_udp_addr)); 
+      
+    // Filling server information 
+    servaddr.sin_family = AF_INET; 
 
     serv_remote_udp_addr.sin_port = htons(player_port);
     serv_remote_udp_addr.sin_addr.s_addr = INADDR_ANY; 
 
-    Connect(sockudp, (const struct sockaddr *) &serv_remote_udp_addr, sizeof(serv_remote_udp_addr));
+    Connect(sockudp_remote, (const struct sockaddr *) &serv_remote_udp_addr, sizeof(serv_remote_udp_addr));
 
     pthread_exit(NULL);
 }
