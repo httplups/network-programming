@@ -3,11 +3,10 @@
 #include "mysockfunctions.h"
   
 #define PORT     8080 
-#define MAXLINE 1024 
   
 // Driver code 
-int main() { 
-    int sockfd, n;
+int main(int argc, char **argv) { 
+    int sockfd, n, port;
     socklen_t len; 
     char buffer[MAXLINE]; 
     struct sockaddr_in servaddr, cliaddr; 
@@ -21,7 +20,10 @@ int main() {
     // Filling server information 
     servaddr.sin_family    = AF_INET; // IPv4 
     servaddr.sin_addr.s_addr = INADDR_ANY; 
-    servaddr.sin_port = htons(PORT); 
+
+    sscanf(argv[1], "%d", &port);
+    servaddr.sin_port = htons(port);
+    // servaddr.sin_port = htons(PORT); 
       
     // Bind the socket with the server address 
     Bind(sockfd, (const struct sockaddr *)&servaddr,sizeof(servaddr));
