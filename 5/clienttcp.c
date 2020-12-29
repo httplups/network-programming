@@ -66,9 +66,9 @@ int main(int argc, char **argv)
                 printf("\nID\tIP\tPort\n");
                 printf("%s\n", players);
                 printf("Choose one player to play with by ID:");
-                scanf(" %d", &ID);
-                sprintf(ID_str, "%d", ID);
-                Write(sockfd, ID_str, strlen(ID_str));
+                // scanf(" %d", &ID);
+                // sprintf(ID_str, "%d", ID);
+                // Write(sockfd, ID_str, strlen(ID_str));
                 
             }
             case 0:

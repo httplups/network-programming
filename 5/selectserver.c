@@ -183,8 +183,8 @@ int main(int argc, char **argv) {
                         memset(resp, 0, strlen(resp));
                         strcpy(resp, show_other_players(sockfd));
                         Write(sockfd, resp, strlen(resp));
-                        Read(sockfd, otherclient, 100);
-                        printf("Id other: %s\n", otherclient);
+                        // Read(sockfd, otherclient, 100);
+                        // printf("Id other: %s\n", otherclient);
                     }
                     // Write(sockfd, buf, n);
                 }                   
