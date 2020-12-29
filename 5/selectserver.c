@@ -33,7 +33,7 @@ void show_clients() {
 }
 
 int get_index_by_port(int port) {
-    for i;
+    int i;
     for (i = 0; i < FD_SETSIZE; i++) {
         if(clients[i].port == port)
             break;
