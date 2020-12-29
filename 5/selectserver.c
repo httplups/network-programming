@@ -1,12 +1,68 @@
 #include "mysockfunctions.h"
 // #define FD_SETSIZE 10
 
+int n_users = 0;
+
+typedef struct {
+    char username[15];
+    char ip[15];
+    int port;
+    int socket_conn;
+} Client;
+
+Client clients[FD_SETSIZE];
+
+void initialize_clients() {
+    int i;
+    for(i=0; i< FD_SETSIZE; i++) {
+        strcpy(clients[i].username, "NULL");
+        strcpy(clients[i].ip, "NULL");
+        clients[i].port = -1;
+        clients[i].socket_conn = -1; /* -1 indicates available entry */
+    }
+}
+
+void show_clients() {
+    int i;
+    for(i=0; i< FD_SETSIZE; i++) {
+        if (strcmp(clients[i].username, "NULL"))
+            // printf("%d -\t%s\n",i,clients[i].username);
+            printf("%d - %s\t%s\t%d\n", clients[i].username, clients[i].ip, clients[i].port);
+    }
+}
+
+int  insert_client(char *username, char * ip, int port, int socket) {
+    int i;
+    for (i = 0; i < FD_SETSIZE; i++) {
+
+        /* Add client at the first avaiable position */
+        if (clients[i].socket_conn < 0) {
+            strcpy(clients[i].username,  username);
+            strcpy(clients[i].ip, ip);
+            clients[i].port = port;
+            clients[i].socket_conn = socket;
+            break;
+        }
+    }
+
+    if (i == FD_SETSIZE) {
+        printf("too many clients");
+        exit(1);
+    }
+
+    printf("New user: %s\n%s\t%d\t%d\n", username, ip, port, socket);
+
+    return i;
+}
+
 int main(int argc, char **argv) {
     int     i, maxi, maxfd, listenfd, connfd, sockfd, port;
     int     nready, client[FD_SETSIZE];
     ssize_t n;
     fd_set  rset, allset;
     char    buf[MAXLINE];
+    char *welcome = "Welcome! If you want to join the game, enter your username:\n"; 
+    char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n3 - Quit\n";
     socklen_t  clilen;
     struct sockaddr_in cliaddr, servaddr;
 
@@ -26,8 +82,9 @@ int main(int argc, char **argv) {
 
     maxfd = listenfd;            /* initialize */
     maxi = -1;                   /* index into client[] array */
-    for (i = 0; i < FD_SETSIZE;  i++)
-        client[i] = -1;          /* -1 indicates available entry */
+    // for (i = 0; i < FD_SETSIZE;  i++)
+    //     client[i] = -1;          /* -1 indicates available entry */
+    initialize_clients()
     FD_ZERO(&allset);
     FD_SET(listenfd, &allset);
 
@@ -39,17 +96,23 @@ int main(int argc, char **argv) {
             clilen = sizeof(cliaddr);
             // connfd = Accept(listenfd, (SA *) &cliaddr, &clilen);
             connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &clilen);
-            
-            for (i = 0; i < FD_SETSIZE; i++)
-                if (client[i] < 0) {
-                    client[i] = connfd; /* save descriptor */
-                    break;
-                }
 
-            if (i == FD_SETSIZE) {
-                printf("too many clients");
-                exit(1);
-            }
+            memset(username, 0, strlen(username));
+            memset(otheruser, 0, strlen(otheruser));
+
+            Write(connfd, welcome, strlen(welcome));
+            Read(connfd, username, 15);
+            username[strlen(username) -1] = 0;
+            GetPeerName(connfd, (struct sockaddr *)&cliaddr, &clilen);
+            i = insert_user(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), connfd);
+            
+            // for (i = 0; i < FD_SETSIZE; i++)
+            //     if (client[i] < 0) {
+            //         client[i] = connfd; /* save descriptor */
+            //         break;
+            //     }
+
+            
 
             FD_SET(connfd, &allset);       /* add new descriptor to set */
             
@@ -60,26 +123,28 @@ int main(int argc, char **argv) {
 
             if (--nready <= 0)
                 continue;          /* no more readable descriptors */
+
+            show_clients()
         }
         
-        for (i = 0; i <= maxi; i++) {       /* check all clients for data */
+        // for (i = 0; i <= maxi; i++) {       /* check all clients for data */
 
-            if ( (sockfd = client[i]) < 0) /* check connection socket for each client */
-                continue;
+        //     if ( (sockfd = client[i]) < 0) /* check connection socket for each client */
+        //         continue;
 
-            if (FD_ISSET(sockfd, &rset)) {
-                if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
-                    /* connection closed by client */
-                    Close(sockfd);
-                    FD_CLR(sockfd, &allset);
-                    client[i] = -1;
-                } 
-                else                      
-                    Write(sockfd, buf, n);
+        //     if (FD_ISSET(sockfd, &rset)) {
+        //         if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
+        //             /* connection closed by client */
+        //             Close(sockfd);
+        //             FD_CLR(sockfd, &allset);
+        //             client[i] = -1;
+        //         } 
+        //         else                      
+        //             Write(sockfd, buf, n);
                 
-                if (--nready <= 0)
-                    break;         /* no more readable descriptors */
-            }
-        } 
+        //         if (--nready <= 0)
+        //             break;         /* no more readable descriptors */
+        //     }
+        // } 
     }
 }   
