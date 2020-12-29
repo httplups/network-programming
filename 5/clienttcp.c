@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 {
     char error[MAXLINE + 1], ID_str[100], players[MAXLINE], player_port[MAXLINE];
     int socktcp, sockudp, server_port_number, option, ID, maxfdp1;
-	struct sockaddr_in servaddr, cliaddr;
+	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
 	socklen_t lencli;
 
     if (argc != 3)
@@ -18,23 +18,24 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
+    /* CONNECTING TO A TCP SERVER FIRST */
     /* Creating socket */
     socktcp = Socket(AF_INET, SOCK_STREAM, 0);
 
     // Initializing
-    bzero(&servaddr, sizeof(servaddr));
+    bzero(&servtcpaddr, sizeof(servtcpaddr));
 
-    servaddr.sin_family = AF_INET;
+    servtcpaddr.sin_family = AF_INET;
 
     // obtendo o numero de porta para se conectar ao servidor
     sscanf(argv[2], "%d", &server_port_number);
-    servaddr.sin_port = htons(server_port_number);
+    servtcpaddr.sin_port = htons(server_port_number);
 
     //obtendo o IP para se conectar ao servidor
-    Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
+    Inet_pton(AF_INET, argv[1], &servtcpaddr.sin_addr);
 
     /* Connecting to the server */
-    Connect(socktcp, (struct sockaddr *)&servaddr, sizeof(servaddr));
+    Connect(socktcp, (struct sockaddr *)&servtcpaddr, sizeof(servtcpaddr));
 
     lencli = sizeof(cliaddr);
 
@@ -44,15 +45,12 @@ int main(int argc, char **argv)
     printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
+
+    /* STARTING A UDP SERVER */
+
+
+
     printf("Welcome to the game!\n");
-
-    fd_set rset;
-
-    FD_ZERO(&rset);
-    FD_SET(socktcp, &rset);
-    FD_SET(sockudp, &rset);
-    maxfdp1 = max(socktcp, sockudp)  +  1;
-    Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
 
     do {
         printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
@@ -83,9 +81,9 @@ int main(int argc, char **argv)
                 printf("str: %s\n",ID_str);
                 Write(socktcp, ID_str, strlen(ID_str));
 
-                /* getting port of player assuming it's listening on 0.0.0.0 */
-                Read(socktcp, player_port, MAXLINE);
-                printf("Port: %s\n", player_port);
+                // /* getting port of player assuming it's listening on 0.0.0.0 */
+                // Read(socktcp, player_port, MAXLINE);
+                // printf("Port: %s\n", player_port);
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
                 // printf("IP:%s\n", ptr);
