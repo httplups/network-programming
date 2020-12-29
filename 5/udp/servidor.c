@@ -27,6 +27,11 @@ int main(int argc, char **argv) {
       
     // Bind the socket with the server address 
     Bind(sockfd, (const struct sockaddr *)&servaddr,sizeof(servaddr));
+
+    len = sizeof(servaddr);
+
+    GetSockName(sockfd, (struct sockaddr *)&servaddr, &len);
+    printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
       
     while (1) {
         len = sizeof(cliaddr);  //len is value/resuslt 
