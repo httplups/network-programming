@@ -47,12 +47,12 @@ char * show_other_players(int socket) {
         }
     }
 
-    printf("1 - %s\n", info_players);
+    // printf("1 - %s\n", info_players);
     if ( strlen(info_players) == 0) 
         snprintf(info_players, sizeof(info_players),"No players avaiable. Try again soon...");
 
     info_players[strlen(info_players)] = 0;
-    printf("2 - %s\n", info_players);
+    // printf("2 - %s\n", info_players);
     return i_ptr;
 }
 
