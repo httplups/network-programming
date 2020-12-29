@@ -6,7 +6,7 @@
   
 // Driver code 
 int main() { 
-    int sockfd; 
+    int sockfd, port; 
     char sendline[MAXLINE], recvline[MAXLINE + 1]; 
     struct sockaddr_in     servaddr; 
   
@@ -19,8 +19,8 @@ int main() {
     // Filling server information 
     servaddr.sin_family = AF_INET; 
 
-    sscanf(argv[1], "%d", &server_port_number);
-    servaddr.sin_port = htons(server_port_number);
+    sscanf(argv[1], "%d", &port);
+    servaddr.sin_port = htons(port);
     servaddr.sin_addr.s_addr = INADDR_ANY; 
       
     int n;
