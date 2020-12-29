@@ -52,7 +52,7 @@ int insert_client_socket(int socket) {
             break;
         }
     }
-
+    printf("New client inserted at %d\n", i);
     /*The client's info is still empty */
     return i;
     
@@ -72,7 +72,7 @@ int  insert_client(char *username, char * ip, int port, int socket) {
     }
 
     // printf("New user: %s\t%s\t%d\t%d\n", username, ip, port, socket);
-    printf("New client inserted at %d\n", i);
+
     return i;
 }
 
@@ -82,8 +82,6 @@ int main(int argc, char **argv) {
     ssize_t n;
     fd_set  rset, allset;
     char    buf[MAXLINE], option;
-    char *welcome = "Welcome! If you want to join the game, enter your username:\n"; 
-    char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n3 - Quit\n";
     socklen_t  clilen;
     struct sockaddr_in cliaddr, servaddr;
 
@@ -118,9 +116,9 @@ int main(int argc, char **argv) {
             // connfd = Accept(listenfd, (SA *) &cliaddr, &clilen);
             connfd = Accept(listenfd, (struct sockaddr *)&cliaddr, &clilen);
 
-            char username[15], otheruser[15];
-            memset(username, 0, strlen(username));
-            memset(otheruser, 0, strlen(otheruser));
+            // char username[15], otheruser[15];
+            // memset(username, 0, strlen(username));
+            // memset(otheruser, 0, strlen(otheruser));
 
             // Write(connfd, welcome, strlen(welcome));
             // Read(connfd, username, 15);
