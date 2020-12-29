@@ -200,14 +200,11 @@ int main(int argc, char **argv) {
                         Read(sockfd, otherclient, 100);
                         printf("Id of other: %s\n", otherclient);
                          
-                        /* check if the otherclient wants to play with this one*/
-                        // memset(resp, 0, strlen(resp));
-                        // snprintf(resp, sizeof(resp),"Do you wanna play with %d?\n", clients[i].port);
-                        // Write(clients[otherclient].socket_conn, resp, strlen(resp));
 
-                        // memset(resp, 0, strlen(resp));
-                        // strcpy(resp, get_info_player(atoi(otherclient)));
-                        // Write(sockfd, resp, strlen(resp));
+
+                        memset(resp, 0, strlen(resp));
+                        strcpy(resp, get_info_player(atoi(otherclient)));
+                        Write(sockfd, resp, strlen(resp));
                     }
                     // Write(sockfd, buf, n);
                 }                   
