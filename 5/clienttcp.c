@@ -18,12 +18,15 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
+    /*  ================================================================================== */
+
     /* CONNECTING TO A TCP SERVER FIRST */
     /* Creating socket */
     socktcp = Socket(AF_INET, SOCK_STREAM, 0);
 
     // Initializing
     bzero(&servtcpaddr, sizeof(servtcpaddr));
+    bzero(&clitcpaddr, sizeof(clitcpaddr));
 
     servtcpaddr.sin_family = AF_INET;
 
@@ -46,9 +49,22 @@ int main(int argc, char **argv)
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
 
+    /*  ================================================================================== */
+
     /* STARTING A UDP SERVER */
+    sockudp = Socket(AF_INET, SOCK_DGRAM, 0);
+    bzero(&servudpaddr, sizeof(servudpaddr));
+    bzero(&cliudpaddr, sizeof(cliudpaddr));
 
+    // Filling me-as-server information 
+    servudpaddr.sin_family    = AF_INET; // IPv4 
+    servudpaddr.sin_addr.s_addr = INADDR_ANY; 
+    servudpaddr.sin_port = clitcpaddr.sin_port; /* My server UDP port is the same as my TCP client port*/
 
+    // Bind the socket with the my server udp address 
+    Bind(sockfd, (const struct sockaddr *)&servudpaddr,sizeof(servudpaddr));
+
+    /*  ================================================================================== */
 
     printf("Welcome to the game!\n");
 
@@ -82,8 +98,9 @@ int main(int argc, char **argv)
                 Write(socktcp, ID_str, strlen(ID_str));
 
                 // /* getting port of player assuming it's listening on 0.0.0.0 */
-                // Read(socktcp, player_port, MAXLINE);
-                // printf("Port: %s\n", player_port);
+                Read(socktcp, player_port, MAXLINE);
+                printf("Port: %s\n", player_port);
+                
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
                 // printf("IP:%s\n", ptr);
