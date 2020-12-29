@@ -5,7 +5,7 @@
 #define PORT     8080 
   
 // Driver code 
-int main() { 
+int main(int argc, char **argv) { 
     int sockfd, port; 
     char sendline[MAXLINE], recvline[MAXLINE + 1]; 
     struct sockaddr_in     servaddr; 
