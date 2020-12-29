@@ -173,12 +173,12 @@ int main(int argc, char **argv) {
                 else{
                     printf("%s\n", buf);
 
-                    if (atoi(buf) == 1) {
-                        /* send the players available */
-                        printf("%s\n",show_other_players(sockfd));
-                        char *resp = show_other_players(sockfd);
-                        Write(sockfd, resp, strlen(resp));
-                    }
+                    // if (atoi(buf) == 1) {
+                    //     /* send the players available */
+                    //     printf("%s\n",show_other_players(sockfd));
+                    //     char *resp = show_other_players(sockfd);
+                    //     Write(sockfd, resp, strlen(resp));
+                    // }
                     // Write(sockfd, buf, n);
                 }                   
                    
