@@ -30,7 +30,7 @@ void show_clients() {
     }
 }
 
-const char * show_other_players(int socket) {
+char * show_other_players(int socket) {
     char info_players[MAXDATASIZE];
     char aux[MAXDATASIZE];
     
