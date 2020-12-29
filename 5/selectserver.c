@@ -197,7 +197,7 @@ int main(int argc, char **argv) {
                         strcpy(resp, show_other_players(sockfd));
                         Write(sockfd, resp, strlen(resp));
 
-                        n = Read(sockfd, otherclient, 100);
+                        // n = Read(sockfd, otherclient, 100);
                         // printf("Id of other: %s\n", otherclient);
                          
 
