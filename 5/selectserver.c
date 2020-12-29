@@ -243,6 +243,7 @@ int main(int argc, char **argv) {
                         show_clients();
                     }
                     else if (strcmp(buf, "playing") == 0) {
+                        printf("entrou\n");
 
                         memset(player, 0, strlen(player));
 
