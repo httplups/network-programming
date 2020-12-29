@@ -59,10 +59,10 @@ char * show_other_players(int socket) {
 }
 
 char * get_info_player(int pos) {
-    char info[MAXDATASIZE];
+    char info[10];
     char * i_ptr = info;
 
-    snprintf(info, sizeof(info),"%s %d",clients[pos].ip, clients[pos].port);
+    snprintf(info, sizeof(info),"%d",clients[pos].port);
     return i_ptr;
 }
 
