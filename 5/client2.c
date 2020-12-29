@@ -57,6 +57,8 @@ void *tcp_client(void *p) {
 
                 if (strcmp(players, "NULL") == 0) {
                     printf("No players avaiable. Try again soon...");
+                    sprintf(ID_str, "%d", -1);
+                    Write(socktcp, ID_str, strlen(ID_str));
                     continue;
                 }
                 
