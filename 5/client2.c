@@ -44,7 +44,6 @@ void *tcp_client(void *p) {
     printf("Welcome to the game!\n");
 
     do {
-        break;
 
         printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
         scanf(" %d", &option);
