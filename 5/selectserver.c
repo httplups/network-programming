@@ -239,7 +239,7 @@ int main(int argc, char **argv) {
                         /* Getting the port number of the player playing with client i */
                         Read(sockfd, player, 100);
                         set_as_online(i);
-                        set_as_online(get_index_by_port(player));
+                        set_as_online(get_index_by_port(atoi(player)));
                     }
                     else if (strcmp(buf, "playing") == 0) {
 
@@ -248,7 +248,7 @@ int main(int argc, char **argv) {
                         /* Getting the port number of the player playing with client i */
                         Read(sockfd, player, 100);
                         set_as_offline(i);
-                        set_as_offline(get_index_by_port(player));
+                        set_as_offline((get_index_by_port(atoi(player)));
                     }
                     else if (strcmp(buf, "points") == 0) {
                         continue;
