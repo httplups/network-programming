@@ -22,8 +22,8 @@ int main(int argc, char **argv) {
     servaddr.sin_addr.s_addr = INADDR_ANY; 
 
     sscanf(argv[1], "%d", &port);
-    // servaddr.sin_port = htons(port);
-    servaddr.sin_port = htons(PORT); 
+    servaddr.sin_port = htons(port);
+    // servaddr.sin_port = htons(PORT); 
       
     // Bind the socket with the server address 
     Bind(sockfd, (const struct sockaddr *)&servaddr,sizeof(servaddr));
