@@ -32,6 +32,7 @@ void show_clients() {
 
 char * show_other_players(int socket) {
     char info_players[MAXDATASIZE];
+    char * i_ptr = info_players;
     char aux[MAXDATASIZE];
     
     snprintf(info_players, sizeof(info_players),"\nID\tIP\tPort\n");
@@ -44,7 +45,7 @@ char * show_other_players(int socket) {
     //     }
     // }
 
-    return info_players;
+    return i_ptr;
 }
 
 int insert_client_socket(int socket) {
