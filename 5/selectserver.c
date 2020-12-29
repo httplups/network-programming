@@ -34,6 +34,9 @@ char * show_other_players(int socket) {
     char info_players[MAXDATASIZE];
     char * i_ptr = info_players;
     char aux[MAXDATASIZE];
+
+    memset(info_players, 0, strlen(info_players));
+    memset(aux, 0, strlen(aux));
     
     // printf("\nID\tIP\tPort\n");
     int i;
@@ -50,7 +53,6 @@ char * show_other_players(int socket) {
 
     info_players[strlen(info_players)] = 0;
     printf("2 - %s\n", info_players);
-    free(info_players);
     return i_ptr;
 }
 
