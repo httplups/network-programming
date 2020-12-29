@@ -23,6 +23,7 @@ void initialize_clients() {
 }
 
 void show_clients() {
+    printf("entrou aqui\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
         if (clients[i].socket_conn > 0)
@@ -50,7 +51,7 @@ int  insert_client(char *username, char * ip, int port, int socket) {
         exit(1);
     }
 
-    printf("New user: %s\n%s\t%d\t%d\n", username, ip, port, socket);
+    printf("New user: %s\ts\t%d\t%d\n", username, ip, port, socket);
 
     return i;
 }
