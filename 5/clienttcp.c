@@ -7,8 +7,8 @@
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1], recvline[MAXLINE], username[10];
-    char *welcome = "Welcome! If you want to join the game, enter your username:\n"; 
+    char error[MAXLINE + 1], recvline[MAXLINE];
+    char *welcome = "Welcome to the game!\n"; 
     char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n";
     int sockfd, server_port_number, option;
 	struct sockaddr_in servaddr, cliaddr;
@@ -47,8 +47,6 @@ int main(int argc, char **argv)
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
     printf("%s\n", welcome);
-    memset(username, 0, strlen(username));
-    fgets(username, 10, stdin);
 
     do {
         printf("%s\n",menu);

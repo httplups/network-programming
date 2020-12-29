@@ -4,7 +4,6 @@
 int n_users = 0;
 
 typedef struct {
-    char username[15];
     char ip[15];
     int port;
     int socket_conn;
@@ -15,7 +14,6 @@ Client clients[FD_SETSIZE];
 void initialize_clients() {
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
-        strcpy(clients[i].username, "NULL");
         strcpy(clients[i].ip, "NULL");
         clients[i].port = -1;
         clients[i].socket_conn = -1; /* -1 indicates available entry */
@@ -23,29 +21,27 @@ void initialize_clients() {
 }
 
 void show_clients() {
-    printf("\nID\tUsername\tIP\tPort\n");
+    printf("\nID\tIP\tPort\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
         if (clients[i].socket_conn > 0)
             // printf("%d -\t%s\n",i,clients[i].username);
-            printf("%d\t%s\t%s\t%d\n", i, clients[i].username, clients[i].ip, clients[i].port);
+            printf("%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
     }
 }
 
 void show_other_players(int socket) {
-    printf("\nID\tUsername\tIP\tPort\n");
+    printf("\nID\tIP\tPort\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
         if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket))
-            // printf("%d -\t%s\n",i,clients[i].username);
-            printf("%d\t%s\t%s\t%d\n", i, clients[i].username, clients[i].ip, clients[i].port);
+            printf("%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
     }
 }
 
 int insert_client_socket(int socket) {
     int i;
     for (i = 0; i < FD_SETSIZE; i++) {
-
         /* Add client at the first avaiable position */
         if (clients[i].socket_conn < 0) {
             clients[i].socket_conn = socket;
@@ -57,13 +53,11 @@ int insert_client_socket(int socket) {
     return i;
     
 }
-int  insert_client(char *username, char * ip, int port, int socket) {
+int  insert_client(char * ip, int port, int socket) {
     int i;
     for (i = 0; i < FD_SETSIZE; i++) {
-
         /* Add client at the first avaiable position */
         if (clients[i].socket_conn < 0) {
-            strcpy(clients[i].username,  username);
             strcpy(clients[i].ip, ip);
             clients[i].port = port;
             clients[i].socket_conn = socket;
@@ -71,7 +65,7 @@ int  insert_client(char *username, char * ip, int port, int socket) {
         }
     }
 
-    // printf("New user: %s\t%s\t%d\t%d\n", username, ip, port, socket);
+    printf("(%s:%d) inserted at %d\n", ip, port, i);
 
     return i;
 }
@@ -123,8 +117,8 @@ int main(int argc, char **argv) {
             // Write(connfd, welcome, strlen(welcome));
             // Read(connfd, username, 15);
             // username[strlen(username) -1] = 0;
-            // GetPeerName(connfd, (struct sockaddr *)&cliaddr, &clilen);
-            // i = insert_client(username, inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), connfd);
+            GetPeerName(connfd, (struct sockaddr *)&cliaddr, &clilen);
+            i = insert_client(inet_ntoa(cliaddr.sin_addr),ntohs(cliaddr.sin_port), connfd);
             
             // for (i = 0; i < FD_SETSIZE; i++)
             //     if (client[i] < 0) {
@@ -133,7 +127,7 @@ int main(int argc, char **argv) {
             //     }
 
             
-            i = insert_client_socket(connfd);
+            // i = insert_client_socket(connfd);
             if (i == FD_SETSIZE) {
                 printf("too many clients");
                 exit(1);
@@ -159,9 +153,9 @@ int main(int argc, char **argv) {
             if (FD_ISSET(sockfd, &rset)) {
                 if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
                     /* connection closed by client */
-                    // Close(sockfd);
-                    // FD_CLR(sockfd, &allset);
-                    // clients[i] = -1;
+                    Close(sockfd);
+                    FD_CLR(sockfd, &allset);
+                    clients[i].socket_conn = -1;
 
                 } 
                 else{
