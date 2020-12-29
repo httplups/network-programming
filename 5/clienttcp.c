@@ -8,7 +8,7 @@
 int main(int argc, char **argv)
 {
     char error[MAXLINE + 1], ID_str[100], players[MAXLINE], player_port[MAXLINE];
-    int sockfd, server_port_number, option, ID;
+    int socktcp, sockudp, server_port_number, option, ID;
 	struct sockaddr_in servaddr, cliaddr;
 	socklen_t lencli;
 
@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	}
 
     /* Creating socket */
-    sockfd = Socket(AF_INET, SOCK_STREAM, 0);
+    socktcp = Socket(AF_INET, SOCK_STREAM, 0);
 
     // Initializing
     bzero(&servaddr, sizeof(servaddr));
@@ -34,17 +34,25 @@ int main(int argc, char **argv)
     Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
 
     /* Connecting to the server */
-    Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
+    Connect(socktcp, (struct sockaddr *)&servaddr, sizeof(servaddr));
 
     lencli = sizeof(cliaddr);
 
     // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
-    GetSockName(sockfd, (struct sockaddr *)&cliaddr, &lencli);
+    GetSockName(socktcp, (struct sockaddr *)&cliaddr, &lencli);
     // printf("Informacoes do Socket Local:\n");
     printf("connected: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
 
     printf("Welcome to the game!\n");
+
+    fd_set rset;
+
+    FD_ZERO(&rset);
+    FD_SET(socktcp, &rset);
+    FD_SET(sockudp, &rset);
+    maxfdp1 = max(socktcp, sockudp)  +  1;
+    Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
 
     do {
         printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
@@ -53,8 +61,8 @@ int main(int argc, char **argv)
         switch (option) {
             case 1: {
                 char * get = "get";
-                Write(sockfd, get, strlen(get));
-                Read(sockfd, players, MAXLINE);
+                Write(socktcp, get, strlen(get));
+                Read(socktcp, players, MAXLINE);
                 
 
                 if (strcmp(players, "NULL") == 0) {
@@ -73,10 +81,10 @@ int main(int argc, char **argv)
                 memset(ID_str, 0, strlen(ID_str));
                 sprintf(ID_str, "%d", ID);
                 printf("str: %s\n",ID_str);
-                Write(sockfd, ID_str, strlen(ID_str));
+                Write(socktcp, ID_str, strlen(ID_str));
 
                 /* getting port of player assuming it's listening on 0.0.0.0 */
-                Read(sockfd, player_port, MAXLINE);
+                Read(socktcp, player_port, MAXLINE);
                 printf("Port: %s\n", player_port);
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
