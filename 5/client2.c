@@ -27,7 +27,7 @@ void *udp_client(void *p) {
     Connect(sockudp_remote, (const struct sockaddr *) &serv_remote_udp_addr, sizeof(serv_remote_udp_addr));
     char * hello = "Hello, welcome!";
     
-    Write(sockudp, hello, strlen(hello));
+    Write(sockudp_remote, hello, strlen(hello));
     // while ((n = Read(sockudp_remote, buffer, MAXLINE)) > 0) {
     //     printf("%s\n", buffer);
     // }
