@@ -37,13 +37,13 @@ char * show_other_players(int socket) {
     
     snprintf(info_players, sizeof(info_players),"\nID\tIP\tPort\n");
     // printf("\nID\tIP\tPort\n");
-    // int i;
-    // for(i=0; i< FD_SETSIZE; i++) {
-    //     if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket)) {
-    //         snprintf(aux, sizeof(aux),"%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
-    //         strcat(info_players, aux);
-    //     }
-    // }
+    int i;
+    for(i=0; i< FD_SETSIZE; i++) {
+        if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket)) {
+            snprintf(aux, sizeof(aux),"%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
+            strcat(info_players, aux);
+        }
+    }
 
     return i_ptr;
 }
