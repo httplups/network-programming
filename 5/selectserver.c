@@ -172,7 +172,7 @@ int main(int argc, char **argv) {
 
                     if (atoi(buf) == 1) {
                         /* send the players available */
-
+                        printf("%s\n",show_other_players(sockfd));
                     }
                     // Write(sockfd, buf, n);
                 }                   
