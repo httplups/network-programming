@@ -54,9 +54,8 @@ int main(int argc, char **argv)
 
         switch (option) {
             case 1: {
-                int op = htonl(1);
-                printf("ue %d\n", op);
-                Write(sockfd, &op, sizeof(op));
+                char * get = "get";
+                Write(sockfd, get, strlen(get));
                 // Read(sockfd, players, MAXLINE);
                 // printf("%s\n", players);
             }
