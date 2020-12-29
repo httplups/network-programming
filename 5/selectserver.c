@@ -183,10 +183,13 @@ int main(int argc, char **argv) {
                     if (strcmp(buf, "get") == 0) {
                         /* send the players available */
                         memset(resp, 0, strlen(resp));
+                        memset(otherclient, 0, strlen(otherclient));
+
                         strcpy(resp, show_other_players(sockfd));
                         Write(sockfd, resp, strlen(resp));
-                        // Read(sockfd, otherclient, 100);
-                        // printf("Id other: %s\n", otherclient);
+
+                        Read(sockfd, otherclient, 100);
+                        printf("Id of other: %s\n", otherclient);
                     }
                     // Write(sockfd, buf, n);
                 }                   

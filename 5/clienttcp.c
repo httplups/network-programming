@@ -65,12 +65,15 @@ int main(int argc, char **argv)
                 printf("============ List of players: ============\n");
                 printf("\nID\tIP\tPort\n");
                 printf("%s\n", players);
+
                 printf("Choose one player to play with by ID:");
                 scanf(" %d", &ID);
                 printf("You chose %d\n", ID);
+
+                memset(ID_str, 0, strlen(ID_str));
                 sprintf(ID_str, "%d", ID);
                 printf("str: %s\n",ID_str);
-                // Write(sockfd, ID_str, strlen(ID_str));
+                Write(sockfd, ID_str, strlen(ID_str));
                 
             }
             case 0:
