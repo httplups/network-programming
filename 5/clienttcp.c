@@ -72,14 +72,14 @@ int main(int argc, char **argv)
                 printf("\nID\tIP\tPort\n");
                 printf("%s\n", players);
 
-                printf("Choose one player to play with by ID:");
-                scanf(" %d", &ID);
-                printf("You chose %d\n", ID);
+                // printf("Choose one player to play with by ID:");
+                // scanf(" %d", &ID);
+                // printf("You chose %d\n", ID);
 
-                memset(ID_str, 0, strlen(ID_str));
-                sprintf(ID_str, "%d", ID);
-                printf("str: %s\n",ID_str);
-                Write(socktcp, ID_str, strlen(ID_str));
+                // memset(ID_str, 0, strlen(ID_str));
+                // sprintf(ID_str, "%d", ID);
+                // printf("str: %s\n",ID_str);
+                // Write(socktcp, ID_str, strlen(ID_str));
 
                 // /* getting port of player assuming it's listening on 0.0.0.0 */
                 // Read(socktcp, player_port, MAXLINE);

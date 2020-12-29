@@ -197,14 +197,14 @@ int main(int argc, char **argv) {
                         strcpy(resp, show_other_players(sockfd));
                         Write(sockfd, resp, strlen(resp));
 
-                        Read(sockfd, otherclient, 100);
-                        printf("Id of other: %s\n", otherclient);
+                        // Read(sockfd, otherclient, 100);
+                        // printf("Id of other: %s\n", otherclient);
                          
 
 
-                        memset(resp, 0, strlen(resp));
-                        strcpy(resp, get_info_player(atoi(otherclient)));
-                        Write(sockfd, resp, strlen(resp));
+                        // memset(resp, 0, strlen(resp));
+                        // strcpy(resp, get_info_player(atoi(otherclient)));
+                        // Write(sockfd, resp, strlen(resp));
                     }
                     // Write(sockfd, buf, n);
                 }                   
