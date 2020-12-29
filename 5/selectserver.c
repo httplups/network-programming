@@ -188,6 +188,7 @@ int main(int argc, char **argv) {
                 continue;
 
             if (FD_ISSET(sockfd, &rset)) {
+                memset(buf, 0, strlen(buf));
                 if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
                     /* connection closed by client */
                     Close(sockfd);
