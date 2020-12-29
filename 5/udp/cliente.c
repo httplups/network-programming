@@ -27,6 +27,8 @@ int main(int argc, char **argv) {
     int n;
     socklen_t len; 
 
+     printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
+
     Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
     while(fgets(sendline, MAXLINE, stdin) != NULL) {
