@@ -16,6 +16,7 @@
 #define LISTENQ 10
 #define MAXDATASIZE 4096
 #define MAXLINE 4096
+#define max(a,b) (((a)>(b))?(a):(b))
 
 int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout){
 
