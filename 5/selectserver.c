@@ -32,6 +32,15 @@ void show_clients() {
     }
 }
 
+int get_index_by_port(int port) {
+    for i;
+    for (i = 0; i < FD_SETSIZE; i++) {
+        if(clients[i].port == port)
+            break;
+    }
+    return i;
+}
+
 char * show_other_players(int socket) {
     char info_players[MAXDATASIZE];
     char * i_ptr = info_players;
@@ -112,7 +121,7 @@ int main(int argc, char **argv) {
     int     nready;
     ssize_t n;
     fd_set  rset, allset;
-    char    buf[MAXLINE], resp[MAXLINE], otherclient[100];
+    char    buf[MAXLINE], resp[MAXLINE], otherclient[100], player[100];
     socklen_t  clilen;
     struct sockaddr_in cliaddr, servaddr;
 
@@ -219,13 +228,27 @@ int main(int argc, char **argv) {
                         printf("resp %s\n", resp);
                         Write(sockfd, resp, strlen(resp));
 
+                        // set_as_offline(i);
+                        // set_as_offline(otherclient);
+
                     }
                     else if (strcmp(buf, "back") == 0) {
                         /* Put the client again on the array */
+                        memset(player, 0, strlen(player));
+
+                        /* Getting the port number of the player playing with client i */
+                        Read(sockfd, player, 100);
                         set_as_online(i);
+                        set_as_online(get_index_by_port(player));
                     }
                     else if (strcmp(buf, "playing") == 0) {
+
+                        memset(player, 0, strlen(player));
+
+                        /* Getting the port number of the player playing with client i */
+                        Read(sockfd, player, 100);
                         set_as_offline(i);
+                        set_as_offline(get_index_by_port(player));
                     }
                     else if (strcmp(buf, "points") == 0) {
                         continue;

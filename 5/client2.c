@@ -119,12 +119,14 @@ void *tcp_client(void *p) {
 
                 /* Trying to play, so offline for now */
                 Write(socktcp, playing, strlen(playing));
+                Write(socktcp, player_port, strlen(player_port));
 
                 pthread_create(&thread3, 0, udp_client, &port);
                 pthread_join(thread3, NULL);
 
                 /* Already played or could not */
                 Write(socktcp, back, strlen(back));
+                Write(socktcp, player_port, strlen(player_port));
                 
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
@@ -166,7 +168,6 @@ void *udp_server(void *p) {
     lenserv = sizeof(serv_local_udp_addr);
     GetSockName(sockudp, (struct sockaddr *)&serv_local_udp_addr, &lenserv);
     // printf("server udp: %s:%d\n", inet_ntoa(serv_local_udp_addr.sin_addr), ntohs(serv_local_udp_addr.sin_port));
-    char * hello = "Hello, welcome!";
     while (1) {
         memset(sendline, 0, strlen(sendline));
         memset(buffer, 0, strlen(buffer));
