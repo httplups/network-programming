@@ -159,7 +159,7 @@ int main(int argc, char **argv) {
 
                 } 
                 else{
-                    printf("%s\n", buf);
+                    printf("%d\n", buf);
                     // Write(sockfd, buf, n);
                 }                   
                    

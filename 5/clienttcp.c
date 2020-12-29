@@ -54,8 +54,8 @@ int main(int argc, char **argv)
 
         switch (option) {
             case 1: {
-                char* op = "1";
-                Write(sockfd, op, strlen(op));
+                int op = htonl(1);
+                Write(sockfd, &op, sizeof(op));
             }
             case 0:
                 //finish conn
@@ -81,7 +81,6 @@ int main(int argc, char **argv)
     //     Write(sockfd, &option, 1);
     // }
 
-    sleep(3);
     exit(0);
 
     // terminates connection
