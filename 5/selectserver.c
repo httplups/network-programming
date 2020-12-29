@@ -25,7 +25,7 @@ void initialize_clients() {
 void show_clients() {
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
-        if (strcmp(clients[i].username, "NULL"))
+        if (clients[i].socket_conn > 0)
             // printf("%d -\t%s\n",i,clients[i].username);
             printf("%d - %s\t%s\t%d\n", i, clients[i].username, clients[i].ip, clients[i].port);
     }
