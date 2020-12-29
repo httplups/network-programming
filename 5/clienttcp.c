@@ -81,6 +81,7 @@ int main(int argc, char **argv)
         maxfdp1 = max(socktcp, sockudp)  +  1;
         Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
     
+        printf("Entrou depois do select\n");
         switch (option) {
             case 1: {
 
