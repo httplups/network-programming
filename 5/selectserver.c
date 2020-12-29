@@ -51,7 +51,7 @@ int  insert_client(char *username, char * ip, int port, int socket) {
         exit(1);
     }
 
-    printf("New user: %s\ts\t%d\t%d\n", username, ip, port, socket);
+    printf("New user: %s\t%s\t%d\t%d\n", username, ip, port, socket);
 
     return i;
 }
