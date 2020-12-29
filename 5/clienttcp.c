@@ -67,17 +67,17 @@ int main(int argc, char **argv)
     printf("Welcome to the game!\n");
     /*  ================================================================================== */
     /* USING SELECT TO LISTEN ON BOTH SOCKETS */
-    fd_set rset;
+    // fd_set rset;
 
-    FD_ZERO(&rset);
+    // FD_ZERO(&rset);
 
     do {
 
         /* Associando file descriptors ao conjunto read*/
-        FD_SET(socktcp, &rset);
-        FD_SET(sockudp, &rset);
+        // FD_SET(socktcp, &rset);
+        // FD_SET(sockudp, &rset);
         
-        maxfdp1 = max(socktcp, sockudp)  +  1;
+        // maxfdp1 = max(socktcp, sockudp)  +  1;
         // Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
 
         printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
