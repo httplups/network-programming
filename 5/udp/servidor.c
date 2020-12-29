@@ -5,7 +5,7 @@
 #define PORT     8080 
   
 // Driver code 
-int main() { 
+int main(int argc, char **argv) { 
     int sockfd, n, port;
     socklen_t len, lenserv; 
     char buffer[MAXLINE]; 
