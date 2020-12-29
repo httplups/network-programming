@@ -3,10 +3,11 @@
 #include "mysockfunctions.h"
   
 #define PORT     8080 
+#define MAXLINE 1024 
   
 // Driver code 
-int main(int argc, char **argv) { 
-    int sockfd, port; 
+int main() { 
+    int sockfd; 
     char sendline[MAXLINE], recvline[MAXLINE + 1]; 
     struct sockaddr_in     servaddr; 
   
@@ -17,17 +18,13 @@ int main(int argc, char **argv) {
       
     // Filling server information 
     servaddr.sin_family = AF_INET; 
-
-    sscanf(argv[1], "%d", &port);
-    servaddr.sin_port = htons(port);
+    servaddr.sin_port = htons(PORT); 
     servaddr.sin_addr.s_addr = INADDR_ANY; 
       
     int n;
     socklen_t len; 
 
     Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-
-    printf("whats ur mssg?\n");
 
     while(fgets(sendline, MAXLINE, stdin) != NULL) {
 
