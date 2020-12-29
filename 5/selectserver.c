@@ -193,11 +193,13 @@ int main(int argc, char **argv) {
         
         for (i = 0; i <= maxi; i++) {       /* check all clients for data */
 
+
             if ( (sockfd = clients[i].socket_conn) < 0) /* check connection socket for each client */
                 continue;
 
             if (FD_ISSET(sockfd, &rset)) {
                 memset(buf, 0, strlen(buf));
+                memset(player, 0, strlen(player));
                 if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
                     /* connection closed by client */
                     Close(sockfd);
@@ -234,7 +236,7 @@ int main(int argc, char **argv) {
                     }
                     else if (strcmp(buf, "back") == 0) {
                         /* Put the client again on the array */
-                        memset(player, 0, strlen(player));
+                        // memset(player, 0, strlen(player));
 
                         /* Getting the port number of the player playing with client i */
                         Read(sockfd, player, 100);
@@ -245,11 +247,11 @@ int main(int argc, char **argv) {
                     else if (strcmp(buf, "playing") == 0) {
                         printf("entrou\n");
 
-                        memset(player, 0, strlen(player));
+                        
 
                         /* Getting the port number of the player playing with client i */
                         Read(sockfd, player, 100);
-                        printf("porta player: ¨%s\n", player);
+                        printf("porta player:%s\n", player);
                         set_as_offline(i);
                         set_as_offline(get_index_by_port(atoi(player)));
                         show_clients();
