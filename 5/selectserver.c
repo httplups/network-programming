@@ -49,7 +49,7 @@ char * show_other_players(int socket) {
 
     // printf("1 - %s\n", info_players);
     if ( strlen(info_players) == 0) 
-        snprintf(info_players, sizeof(info_players),"No players avaiable. Try again soon...");
+        snprintf(info_players, sizeof(info_players),"NULL");
 
     info_players[strlen(info_players)] = 0;
     // printf("2 - %s\n", info_players);

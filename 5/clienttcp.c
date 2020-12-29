@@ -57,7 +57,16 @@ int main(int argc, char **argv)
                 char * get = "get";
                 Write(sockfd, get, strlen(get));
                 Read(sockfd, players, MAXLINE);
+                
+
+                if (strcmp(players, "NULL") == 0) {
+                    printf("No players avaiable. Try again soon...");
+                    continue;
+                }
+                
+                printf("============ List of players: ============\n");
                 printf("%s\n", players);
+                
             }
             case 0:
                 //finish conn
