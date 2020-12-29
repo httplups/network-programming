@@ -7,10 +7,10 @@
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1], recvline[MAXLINE], username[10], option;
+    char error[MAXLINE + 1], recvline[MAXLINE], username[10];
     char *welcome = "Welcome! If you want to join the game, enter your username:\n"; 
     char *menu = "Choose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n";
-    int sockfd, server_port_number;
+    int sockfd, server_port_number, option;
 	struct sockaddr_in servaddr, cliaddr;
 	socklen_t lencli;
 
@@ -52,8 +52,8 @@ int main(int argc, char **argv)
 
     do {
         printf("%s\n",menu);
-        option = getchar();
-    } while(option != "0");
+        scanf(" %d", &option);
+    } while(option != 0);
     
     
     // Read(sockfd, recvline, MAXLINE);
