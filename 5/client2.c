@@ -125,8 +125,8 @@ void *tcp_client(void *p) {
                 pthread_join(thread3, NULL);
 
                 /* Already played or could not */
-                // Write(socktcp, back, strlen(back));
-                // Write(socktcp, player_port, strlen(player_port));
+                Write(socktcp, back, strlen(back));
+                Write(socktcp, player_port, strlen(player_port));
                 
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
