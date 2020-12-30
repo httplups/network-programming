@@ -37,6 +37,7 @@ void *udp_client(void *p) {
         sleep(10);
     }
 
+    Write(sockudp_remote, NULL, 0);
     Close(sockudp_remote);
     // while ((n = Read(sockudp_remote, buffer, MAXLINE)) > 0) {
     //     printf("%s\n", buffer);
