@@ -8,6 +8,49 @@
 pthread_t thread1, thread2, thread3;
 struct sockaddr_in servtcpaddr, serv_local_udp_addr, serv_remote_udp_addr, clitcpaddr, cliudpaddr;
 
+void *udp_server(void *p) {
+    int sockudp, n;
+    socklen_t lencli, lenserv;
+    char buffer[MAXLINE], sendline[MAXLINE];
+
+    /* STARTING A UDP SERVER */
+    sockudp = Socket(AF_INET, SOCK_DGRAM, 0);
+    bzero(&serv_local_udp_addr, sizeof(serv_local_udp_addr));
+    bzero(&cliudpaddr, sizeof(cliudpaddr));
+
+    // Filling me-as-server information 
+    serv_local_udp_addr.sin_family    = AF_INET; // IPv4 
+    serv_local_udp_addr.sin_addr.s_addr = INADDR_ANY; 
+    serv_local_udp_addr.sin_port = clitcpaddr.sin_port; /* My server UDP port is the same as my TCP client port*/
+    // serv_local_udp_addr.sin_port = 0;
+    // Bind the socket with the my server udp address 
+    Bind(sockudp, (const struct sockaddr *)&serv_local_udp_addr,sizeof(serv_local_udp_addr));
+
+    lenserv = sizeof(serv_local_udp_addr);
+    GetSockName(sockudp, (struct sockaddr *)&serv_local_udp_addr, &lenserv);
+    // printf("server udp: %s:%d\n", inet_ntoa(serv_local_udp_addr.sin_addr), ntohs(serv_local_udp_addr.sin_port));
+    while (1) {
+        memset(sendline, 0, strlen(sendline));
+        memset(buffer, 0, strlen(buffer));
+        // Write(sockudp, hello, strlen(hello));
+        lencli = sizeof(cliudpaddr);  //len is value/resuslt 
+        n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
+        printf("n: %d\n", n);
+        if (n == 0)
+            break;
+
+        buffer[n] = '\0'; 
+        printf("%s\n", buffer); 
+
+        fgets(sendline, MAXLINE, stdin);
+        sendline[strlen(sendline) -1] = '\0';
+        printf("%s",sendline);
+
+        Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
+    }
+    pthread_exit(NULL);
+}
+
 void *udp_client(void *p) {
     int player_port = *((int *)p);
     int sockudp_remote, n;
@@ -154,48 +197,7 @@ void *tcp_client(void *p) {
 }
 
 
-void *udp_server(void *p) {
-    int sockudp, n;
-    socklen_t lencli, lenserv;
-    char buffer[MAXLINE], sendline[MAXLINE];
 
-    /* STARTING A UDP SERVER */
-    sockudp = Socket(AF_INET, SOCK_DGRAM, 0);
-    bzero(&serv_local_udp_addr, sizeof(serv_local_udp_addr));
-    bzero(&cliudpaddr, sizeof(cliudpaddr));
-
-    // Filling me-as-server information 
-    serv_local_udp_addr.sin_family    = AF_INET; // IPv4 
-    serv_local_udp_addr.sin_addr.s_addr = INADDR_ANY; 
-    serv_local_udp_addr.sin_port = clitcpaddr.sin_port; /* My server UDP port is the same as my TCP client port*/
-    // serv_local_udp_addr.sin_port = 0;
-    // Bind the socket with the my server udp address 
-    Bind(sockudp, (const struct sockaddr *)&serv_local_udp_addr,sizeof(serv_local_udp_addr));
-
-    lenserv = sizeof(serv_local_udp_addr);
-    GetSockName(sockudp, (struct sockaddr *)&serv_local_udp_addr, &lenserv);
-    // printf("server udp: %s:%d\n", inet_ntoa(serv_local_udp_addr.sin_addr), ntohs(serv_local_udp_addr.sin_port));
-    while (1) {
-        memset(sendline, 0, strlen(sendline));
-        memset(buffer, 0, strlen(buffer));
-        // Write(sockudp, hello, strlen(hello));
-        lencli = sizeof(cliudpaddr);  //len is value/resuslt 
-        n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
-        printf("n: %d\n", n);
-        if (n == 0)
-            break;
-
-        buffer[n] = '\0'; 
-        printf("%s\n", buffer); 
-
-        fgets(sendline, MAXLINE, stdin);
-        sendline[strlen(sendline) -1] = '\0';
-        printf("%s",sendline);
-
-        Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
-    }
-    pthread_exit(NULL);
-}
 
 int main(int argc, char **argv)
 {
