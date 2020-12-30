@@ -240,6 +240,7 @@ int main(int argc, char **argv) {
 
                         /* Getting the port number of the player playing with client i */
                         Read(sockfd, player, 100);
+                        printf("porta player:%s\n", player);
                         set_as_online(i);
                         set_as_online(get_index_by_port(atoi(player)));
                         show_clients();
