@@ -48,7 +48,8 @@ void *udp_server(void *p) {
 
         Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
     }
-    // pthread_exit(NULL);
+    printf("vou sair\n");
+    pthread_exit(NULL);
 }
 
 void *udp_client(void *p) {
