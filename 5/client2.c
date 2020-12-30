@@ -178,7 +178,7 @@ void *udp_server(void *p) {
         // Write(sockudp, hello, strlen(hello));
         lencli = sizeof(cliudpaddr);  //len is value/resuslt 
         n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencli);
-
+        printf("n: %d\n", n);
         if (n == 0)
             break;
 
