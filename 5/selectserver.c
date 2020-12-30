@@ -219,7 +219,7 @@ int main(int argc, char **argv) {
                         Write(sockfd, resp, strlen(resp));
 
                         Read(sockfd, otherclient, 100); /*this call is blocking*/
-                        printf("Id of other: %s\n", otherclient);
+                        // printf("Id of other: %s\n", otherclient);
 
                         if (atoi(otherclient) == -1)
                             continue;                         
@@ -240,19 +240,16 @@ int main(int argc, char **argv) {
 
                         /* Getting the port number of the player playing with client i */
                         Read(sockfd, player, 100);
-                        printf("porta player:%s\n", player);
+                        // printf("porta player:%s\n", player);
                         set_as_online(i);
                         set_as_online(get_index_by_port(atoi(player)));
                         show_clients();
                     }
                     else if (strcmp(buf, "playing") == 0) {
-                        printf("entrou\n");
-
-                        
 
                         /* Getting the port number of the player playing with client i */
                         Read(sockfd, player, 100);
-                        printf("porta player:%s\n", player);
+                        // printf("porta player:%s\n", player);
                         set_as_offline(i);
                         set_as_offline(get_index_by_port(atoi(player)));
                         show_clients();

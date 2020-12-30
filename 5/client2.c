@@ -33,7 +33,8 @@ void *udp_client(void *p) {
     if (strcmp(buffer, "no") == 0)
         printf("You'll need to choose another player...\n");
     else {
-        printf("Started!\n");
+        printf("Started! ...\n");
+        sleep(10);
     }
     // while ((n = Read(sockudp_remote, buffer, MAXLINE)) > 0) {
     //     printf("%s\n", buffer);
