@@ -126,7 +126,8 @@ void *tcp_client(void *p) {
 
                 /* Already played or could not */
                 Write(socktcp, back, strlen(back));
-                // Write(socktcp, player_port, strlen(player_port));
+                sleep(1);
+                Write(socktcp, player_port, strlen(player_port));
                 
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
