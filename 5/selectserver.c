@@ -23,7 +23,7 @@ void initialize_clients() {
 }
 
 void show_clients() {
-    printf("\nID\tIP\tPort\tFree\n");
+    printf("\nID\tIP\t\tPort\tFree\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
         if (clients[i].socket_conn > 0)
