@@ -81,6 +81,8 @@ void *tcp_client(void *p) {
     GetSockName(socktcp, (struct sockaddr *)&clitcpaddr, &lencli);
     printf("cliente tcp: %s:%d\n", inet_ntoa(clitcpaddr.sin_addr), ntohs(clitcpaddr.sin_port));
 
+    pthread_create(&thread2, 0, udp_server, NULL);
+
     printf("Welcome to the game!\n");
 
     do {
@@ -207,10 +209,10 @@ int main(int argc, char **argv)
 	}
 
     pthread_create(&thread1, 0, tcp_client, argv);
-    sleep(2); /* Fiz isso pro tcp ja ter definido a porta antes de o udp utilizar */
-	pthread_create(&thread2, 0, udp_server, NULL);
+    // sleep(2); /* Fiz isso pro tcp ja ter definido a porta antes de o udp utilizar */
+	// pthread_create(&thread2, 0, udp_server, NULL);
     
-	pthread_join(thread2, NULL);
+	// pthread_join(thread2, NULL);
 	pthread_join(thread1, NULL);
     
 	return 0;
