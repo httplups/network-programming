@@ -49,7 +49,7 @@ void *udp_server(void *p) {
         Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);  
     }
     printf("vou sair\n");
-    pthread_cancel(NULL);
+    pthread_exit(NULL);
 }
 
 void *udp_client(void *p) {
@@ -126,6 +126,7 @@ void *tcp_client(void *p) {
     printf("cliente tcp: %s:%d\n", inet_ntoa(clitcpaddr.sin_addr), ntohs(clitcpaddr.sin_port));
 
     pthread_create(&thread2, 0, udp_server, NULL);
+    pthread_detach(thread2);
 
     printf("Welcome to the game!\n");
 
