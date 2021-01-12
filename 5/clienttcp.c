@@ -137,6 +137,8 @@ int main(int argc, char **argv)
                     r = rand() % 2;
                     char* result = integer_to_string(r);
 
+                    printf("Result: %s\n", result);
+
 
                     
                     
