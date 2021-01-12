@@ -5,18 +5,14 @@
 
 #define MAXLINE 4096
 
-char* itoa(int val, int base){
-	
-	static char buf[32] = {0};
-	
-	int i = 30;
-	
-	for(; val && i ; --i, val /= base)
-	
-		buf[i] = "0123456789abcdef"[val % base];
-	
-	return &buf[i+1];
-	
+char* integer_to_string(int x)
+{
+    char* buffer = malloc(sizeof(char) * sizeof(int) * 4 + 1);
+    if (buffer)
+    {
+         sprintf(buffer, "%d", x);
+    }
+    return buffer; // caller is expected to invoke free() on this buffer to release memory
 }
 
 int main(int argc, char **argv)
@@ -133,13 +129,7 @@ int main(int argc, char **argv)
                 scanf(" %d", &player_port);
                 printf("You chose %d\n", player_port);
 
-                char player_port_str[5];
-
-                // convert 123 to string [buf]
-                itoa(player_port, player_port_str, 10);
-
-                // print our string
-                printf("%s\n", player_port_str);
+                char* player_port_str = integer_to_string(player_port);
 
                 Write(socktcp, player_port_str, strlen(player_port_str));
 
