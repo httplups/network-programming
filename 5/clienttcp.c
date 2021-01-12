@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 
     for (;;) {
 
-        r = rand() % 20;
+        r = rand() % 1;
         printf("%d\n", r);
 
         memset(players, 0, strlen(players));
