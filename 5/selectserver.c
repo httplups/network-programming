@@ -198,24 +198,26 @@ int main(int argc, char **argv) {
             }
 
         
-            // for (i = 0; i <= maxi; i++) {       /* check all clients for data */
+            for (i = 0; i <= maxi; i++) {       /* check all clients for data */
 
 
-            //     if ( (sockfd = clients[i].socket_conn) < 0) /* check connection socket for each client */
-            //         continue;
+                if ( (sockfd = clients[i].socket_conn) < 0) /* check connection socket for each client */
+                    continue;
 
-            //     if (FD_ISSET(sockfd, &rset)) {
-            //         memset(buf, 0, strlen(buf));
-            //         memset(player, 0, strlen(player));
-            //         if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
-            //             /* connection closed by client */
-            //             Close(sockfd);
-            //             FD_CLR(sockfd, &allset);
-            //             clients[i].socket_conn = -1;
+                if (FD_ISSET(sockfd, &rset)) {
 
-            //         } 
-            //         else{
-            //             printf("got from client: %s\n", buf);
+                    printf("I got something at %d\n", sockfd);
+                    memset(buf, 0, strlen(buf));
+                    memset(player, 0, strlen(player));
+                    if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
+                        /* connection closed by client */
+                        Close(sockfd);
+                        FD_CLR(sockfd, &allset);
+                        clients[i].socket_conn = -1;
+
+                    } 
+                    else{
+                        printf("got from client: %s\n", buf);
 
             //             if (strcmp(buf, "get") == 0) {
             //                 /* send the players available */
@@ -265,13 +267,13 @@ int main(int argc, char **argv) {
             //                 continue;
             //             }
             //             // Write(sockfd, buf, n);
-            //         }                   
+                    }                   
                     
                     
-            //         if (--nready <= 0)
-            //             break;         /* no more readable descriptors */
-            //     }
-            // } 
+                    if (--nready <= 0)
+                        break;         /* no more readable descriptors */
+                }
+            } 
         }
     }
 }   
