@@ -12,6 +12,7 @@ int main(int argc, char **argv)
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
 	socklen_t lencli;
     struct timeval selTimeout;       /* Timeout for select() */
+    long timeout = 10;
 
     if (argc != 3)
 	{
@@ -86,7 +87,7 @@ int main(int argc, char **argv)
         FD_SET(sockudp, &rset);
         FD_SET(STDIN_FILENO, &rset);
 
-        selTimeout.tv_sec = 10;       /* timeout (secs.) */
+        selTimeout.tv_sec = timeout;       /* timeout (secs.) */
         selTimeout.tv_usec = 0;            /* 0 microseconds */
         
         maxfdp1 = max(socktcp, sockudp)  +  1;
