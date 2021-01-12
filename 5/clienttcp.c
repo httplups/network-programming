@@ -159,7 +159,7 @@ int main(int argc, char **argv)
                 }
 
             }
-            else if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
+            if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
                 printf("got something in udp...\n");
 
                 memset(buffer, 0, strlen(buffer));
