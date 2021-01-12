@@ -108,7 +108,6 @@ int main(int argc, char **argv)
 
                 if (strcmp(players, "NULL") == 0) {
                     printf("No players avaiable. Trying again...\n\n");
-                    sleep(10);
                 }
                 else if(strcmp(players, "NULL") != 0){
                     
@@ -155,7 +154,7 @@ int main(int argc, char **argv)
                     FD_CLR(socktcp, &rset);
                     playing_now = 1;
 
-
+                    printf("Playing...\n");
                     Write(sockfd, hello, strlen(hello));
                     sleep(10); /*  PRETEDING PLAYING */
                 }
@@ -185,8 +184,6 @@ int main(int argc, char **argv)
                     FD_CLR(socktcp, &rset);
 
 
-                    sleep(10);
-
                     if (n == 0) {
                         /* get out*/
                         continue;
@@ -194,7 +191,10 @@ int main(int argc, char **argv)
 
 
                     buffer[n] = '\0'; 
-                    printf("%s\n", buffer); 
+                    printf("recv UDP mssg: %s\n", buffer); 
+                    printf("Playing...\n");
+                    sleep(10);
+                    printf("%d won!\n",another_player_port);
 
                     // fgets(sendline, MAXLINE, stdin);
                     // sendline[strlen(sendline) -1] = '\0';
