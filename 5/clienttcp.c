@@ -79,22 +79,18 @@ int main(int argc, char **argv)
 
     for (;;) {
 
-        
-
         memset(players, 0, strlen(players));
         sleep(3);
         char * get = "get";
         Write(socktcp, get, strlen(get));
 
-        // printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n");
-
+        
         FD_ZERO(&rset);
 
         /* Associando file descriptors ao conjunto read*/
         if (playing_now == 0)
             FD_SET(socktcp, &rset);
         FD_SET(sockudp, &rset);
-        // FD_SET(STDIN_FILENO, &rset);
 
         selTimeout.tv_sec = timeout;       /* timeout (secs.) */
         selTimeout.tv_usec = 0;            /* 0 microseconds */
@@ -109,9 +105,6 @@ int main(int argc, char **argv)
                 memset(sendline, 0, strlen(sendline));
 
                 n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
-                // printf("n: %d\n", n);
-
-                // printf("%s\n", buffer);
                 lencliudp = sizeof(cliudpaddr);
 
                 if (ntohs(cliudpaddr.sin_port) == another_player_port) {
@@ -131,29 +124,14 @@ int main(int argc, char **argv)
 
 
                     buffer[n] = '\0'; 
-                    printf("O jogador %d aceitou jogar e enviou: %s\n", ntohs(cliudpaddr.sin_port), buffer); 
+                    printf("O jogador aceitou jogar e enviou: %s\n", buffer); 
                     printf("Estamos jogando...\n");
-
-                    /* get random number: 0 --> current process wins
-                                          1 --> the other process wins
-                    */
-                    
-
-                    // FD_SET(socktcp, &rset);
-
-
-
-                    
-                    
-
-                    // fgets(sendline, MAXLINE, stdin);
-                    // sendline[strlen(sendline) -1] = '\0';
-                    // printf("%s",sendline);
 
                     // Sendto(sockudp, result, strlen(result),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencliudp);
                     sleep(10);
                     char* result = "lose";
                     Write(socktcp, result, strlen(result));
+                    printf("Voce perdeu\n");
                     playing_now = 0;
 
                 }
@@ -163,7 +141,6 @@ int main(int argc, char **argv)
             
 
             if (FD_ISSET(socktcp, &rset)) { /* TCP */
-                // printf("got something in tcp...\n");
                 
                 Read(socktcp, players, MAXLINE);
                 // printf("%s\n", players);
@@ -192,7 +169,10 @@ int main(int argc, char **argv)
 
                     char* player_port_str = integer_to_string(player_port);
 
+                    /* envia a porta do jogador que quer jogar */
                     Write(socktcp, player_port_str, strlen(player_port_str));
+
+                    /* =============================================================== */
 
                     /* START UDP CLIENT - GAME*/
                     // Creating socket file descriptor 
@@ -227,6 +207,7 @@ int main(int argc, char **argv)
                     
                     char* result = "won";
                     Write(socktcp, result, strlen(result));
+                    printf("Voce venceu\n");
 
                     playing_now = 0;
                 }
@@ -237,14 +218,6 @@ int main(int argc, char **argv)
                 }
 
             }
-            
-                    // char delim[] = " ";
-                    // char *ptr = strtok(player, delim);
-                    // printf("IP:%s\n", ptr);
-                    // ptr = strtok(NULL, delim);
-                    // printf("Port:%s\n", ptr);
-                    
-               
         }
         else {
             printf("Nada nesse timeout\n");
@@ -252,22 +225,6 @@ int main(int argc, char **argv)
 
     }
     
-    
-    // Read(sockfd, recvline, MAXLINE);
-
-    // printf("%s\n", recvline);
-    
-
-    // Write(sockfd, username, strlen(username));
-    // memset(recvline, 0, strlen(recvline));
-
-    // /*  READING MENU */
-    // while((Read(sockfd, recvline, MAXLINE) > 0)) {
-    //     printf("%s\n", recvline);
-    //     // scanf(" %c", &option);
-    //     option = getchar();
-    //     Write(sockfd, &option, 1);
-    // }
 
     exit(0);
 
