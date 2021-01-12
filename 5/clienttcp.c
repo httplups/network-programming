@@ -14,7 +14,7 @@ int main(int argc, char **argv)
     struct timeval selTimeout;       /* Timeout for select() */
     long timeout = 3;
     int another_player_port = 0;
-    char * get = "playing";
+    char * playing = "playing";
 
     if (argc != 3)
 	{
