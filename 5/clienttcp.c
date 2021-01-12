@@ -100,7 +100,8 @@ int main(int argc, char **argv)
                     
 
                 if (strcmp(players, "NULL") == 0) {
-                    printf("No players avaiable. Try again soon...");
+                    printf("No players avaiable. Trying again in 10s...");
+                    sleep(10);
                     continue;
                 }
                     
