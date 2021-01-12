@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
         
         rset = allset;          /* structure assignment */
 
-        show_clients();
+        // show_clients();
 
 
         if((nready = Select(maxfd + 1, &rset, NULL, NULL, &selTimeout)) == 0) 
