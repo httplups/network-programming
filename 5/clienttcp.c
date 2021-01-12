@@ -217,7 +217,7 @@ int main(int argc, char **argv)
 
                     printf("Playing...\n");
                     // Write(sockfd, hello, strlen(hello));
-                    Sendto(sockfd, hello, strlen(hello), 0, servaddr, sizeof(servaddr));
+                    Sendto(sockfd, hello, strlen(hello), 0, (struct sockaddr *) &servaddr, sizeof(servaddr));
                     sleep(10); /*  PRETEDING PLAYING */
 
                     memset(buffer, 0, strlen(buffer));
