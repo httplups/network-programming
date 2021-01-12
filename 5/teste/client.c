@@ -1,11 +1,11 @@
 /*Client.c */
 
-#include  stdio.h      /* for printf() and fprintf() */
-#include  sys/socket.h /* for socket(), connect(), send(), and recv() */
-#include  arpa/inet.h  /* for sockaddr_in and inet_addr() */
-#include  stdlib.h     /* for atoi() and exit() */
-#include  string.h     /* for memset() */
-#include  unistd.h     /* for close() */
+#include <stdio.h>      /* for printf() and fprintf()*/
+#include <stdlib.h>   //for atoi()
+#include <sys/socket.h> /* for accept() ,socket(), bind(), and connect(),recv() and send() */
+#include <arpa/inet.h>  /* for sockaddr_in and inet_ntoa() */
+#include <string.h>     /* for memset() */
+#include <unistd.h>     /* for close() */
 
 #define RCVBUFSIZE 32   /* Size of receive buffer */
 

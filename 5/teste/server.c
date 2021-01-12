@@ -6,6 +6,7 @@
 #include <arpa/inet.h>  /* for sockaddr_in and inet_ntoa() */
 #include <string.h>     /* for memset() */
 #include <unistd.h>     /* for close() */
+#include <ctype.h>
 
 #define RCVBUFSIZE 32   /* Size of receive buffer */
 #define MAXPENDING 5    /* Maximum outstanding connection requests */
