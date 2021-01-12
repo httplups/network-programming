@@ -139,13 +139,14 @@ int main(int argc, char **argv)
                     */
                     r = rand() % 2;
                     // char* result = integer_to_string(r);
-                    if (r == 0)
+                    if (r == 0) {
                         char* result = "won";
-                    else
+                        Write(socktcp, result, strlen(result));
+                    } 
+                    else {
                         char* result = "lose";
-
-                    printf("Result: %s\n", result);
-                    Write(socktcp, result, strlen(result));
+                        Write(socktcp, result, strlen(result));
+                    }
 
                     // FD_SET(socktcp, &rset);
 
