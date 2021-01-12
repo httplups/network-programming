@@ -217,7 +217,7 @@ int main(int argc, char **argv) {
                         strcpy(clients[i].ip, "NULL");
                         clients[i].port = -1;
                         clients[i].socket_conn = -1; /* -1 indicates available entry */
-                        clients[i].available = 1;
+                        clients[i].available = 0;
 
                     } 
                     else{
