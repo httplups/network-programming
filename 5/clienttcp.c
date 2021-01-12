@@ -166,6 +166,7 @@ int main(int argc, char **argv)
                 printf("got something in tcp...\n");
                 
                 Read(socktcp, players, MAXLINE);
+                printf("%s\n", players);
 
                 if (strcmp(players, "NULL") == 0) {
                     printf("No players avaiable. Trying again...\n\n");
