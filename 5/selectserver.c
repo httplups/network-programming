@@ -222,7 +222,7 @@ int main(int argc, char **argv) {
 
                     } 
                     else{
-                        printf("got from client: %s\n", buf);
+                        printf("got %s from client: %d\n", buf, clients[i].port);
 
                         if (strcmp(buf, "get") == 0) {
                             /* send the players available */
