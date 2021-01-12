@@ -112,6 +112,7 @@ int main(int argc, char **argv)
                 // printf("n: %d\n", n);
 
                 printf("%s\n", buffer);
+                lencliudp = sizeof(cliudpaddr);
 
                 if (ntohs(cliudpaddr.sin_port) == another_player_port) {
 
