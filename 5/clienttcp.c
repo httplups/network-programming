@@ -153,6 +153,7 @@ int main(int argc, char **argv)
 
                     /* tcp stop sending */
                     FD_CLR(socktcp, &rset);
+                    playing_now = 1;
 
 
                     Write(sockfd, hello, strlen(hello));
@@ -178,11 +179,12 @@ int main(int argc, char **argv)
 
                      /* tell tcp server i am not avaiable */
                     Write(socktcp, playing, strlen(playing));
+                    playing_now = 1;
 
                     /* tcp stop sending */
                     FD_CLR(socktcp, &rset);
 
-                    
+
                     sleep(10);
 
                     if (n == 0) {
