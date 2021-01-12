@@ -114,9 +114,12 @@ int main(int argc, char **argv)
                     printf("\nID\tIP\t\tPort\n");
                     printf("%s\n", players);
 
-                    printf("Choose the port number of player that you wanna play:");
+                    printf("Choose the port number of player that you wanna play or 0 to try again:\n");
                     scanf(" %d", &player_port);
                     printf("You chose %d\n", player_port);
+
+                    if (player_port == 0)
+                        continue;
 
                     char* player_port_str = integer_to_string(player_port);
 
