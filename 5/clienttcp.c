@@ -221,7 +221,7 @@ int main(int argc, char **argv)
                     memset(buffer, 0, strlen(buffer));
                     /* tcp stop sending */
                     
-                    n = Read(sockfd, buffer, strlen(buffer));
+                    n = Read(sockfd, buffer, MAXLINE);
                     printf("n: %d\n", n);
                     printf("Result: %s\n", buffer);
                 }
