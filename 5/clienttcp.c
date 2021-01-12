@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     servudpaddr.sin_port = clitcpaddr.sin_port; /* My server UDP port is the same as my TCP client port*/
 
     // Bind the socket with the my server udp address 
-    Bind(sockfd, (const struct sockaddr *)&servudpaddr,sizeof(servudpaddr));
+    Bind(sockudp, (const struct sockaddr *)&servudpaddr,sizeof(servudpaddr));
 
     /*  ================================================================================== */
 
