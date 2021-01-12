@@ -8,7 +8,7 @@
 int main(int argc, char **argv)
 {
     char error[MAXLINE + 1], ID_str[100], players[MAXLINE];
-    int socktcp, sockudp, server_port_number, option, player_port, maxfdp1;
+    int socktcp, sockudp, server_port_number, option, player_port, maxfdp1, nready;
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
 	socklen_t lencli;
     struct timeval selTimeout;       /* Timeout for select() */
