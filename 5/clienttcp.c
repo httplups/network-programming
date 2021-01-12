@@ -5,16 +5,6 @@
 
 #define MAXLINE 4096
 
-char* integer_to_string(int x)
-{
-    char* buffer = malloc(sizeof(char) * sizeof(int) * 4 + 1);
-    if (buffer)
-    {
-         sprintf(buffer, "%d", x);
-    }
-    return buffer; // caller is expected to invoke free() on this buffer to release memory
-}
-
 int main(int argc, char **argv)
 {
     char error[MAXLINE + 1], ID_str[100], players[MAXLINE], buffer[MAXLINE], sendline[MAXLINE];
@@ -23,6 +13,7 @@ int main(int argc, char **argv)
 	socklen_t lencli, lencliudp;
     struct timeval selTimeout;       /* Timeout for select() */
     long timeout = 3;
+    int another_player_port = 0;
 
     if (argc != 3)
 	{
@@ -109,50 +100,52 @@ int main(int argc, char **argv)
 
             if (FD_ISSET(socktcp, &rset)) {
                 
-
                 Read(socktcp, players, MAXLINE);
 
-                    
-
-                if (strcmp(players, "NULL") == 0) {
+                if (atoi(players)) {
+                    /* its the port number of another player that wants to play with me */
+                    another_player_port = players;
+                }
+                else if (strcmp(players, "NULL") == 0) {
                     printf("No players avaiable. Trying again in 10s...\n\n");
                     sleep(10);
-                    continue;
                 }
+                else {
                     
-                /*STDIN blocks*/
-                printf("============ List of players: ============\n");
-                printf("\nID\tIP\t\tPort\n");
-                printf("%s\n", players);
+                    /*STDIN blocks*/
+                    printf("============ List of players: ============\n");
+                    printf("\nID\tIP\t\tPort\n");
+                    printf("%s\n", players);
 
-                printf("Choose the port number of player that you wanna play:");
-                scanf(" %d", &player_port);
-                printf("You chose %d\n", player_port);
+                    printf("Choose the port number of player that you wanna play:");
+                    scanf(" %d", &player_port);
+                    printf("You chose %d\n", player_port);
 
-                char* player_port_str = integer_to_string(player_port);
+                    char* player_port_str = integer_to_string(player_port);
 
-                Write(socktcp, player_port_str, strlen(player_port_str));
+                    Write(socktcp, player_port_str, strlen(player_port_str));
 
-                /* START UDP CLIENT - GAME*/
-                // Creating socket file descriptor 
-                int sockfd;
-                sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
-            
-                memset(&servaddr, 0, sizeof(servaddr)); 
+                    /* START UDP CLIENT - GAME*/
+                    // Creating socket file descriptor 
+                    int sockfd;
+                    sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
                 
-                // Filling server information 
-                servaddr.sin_family = AF_INET; 
-                servaddr.sin_port = clitcpaddr.sin_port; /*Connect UDP server port = tcp client port*/
-                servaddr.sin_addr.s_addr = INADDR_ANY; 
-                
-                socklen_t len; 
-                char * hello = "Hello\n";
+                    memset(&servaddr, 0, sizeof(servaddr)); 
+                    
+                    // Filling server information 
+                    servaddr.sin_family = AF_INET; 
+                    servaddr.sin_port = clitcpaddr.sin_port; /*Connect UDP server port = tcp client port*/
+                    servaddr.sin_addr.s_addr = INADDR_ANY; 
+                    
+                    socklen_t len; 
+                    char * hello = "Hello\n";
 
-                printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
+                    printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
 
-                Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-                Write(sockfd, hello, strlen(hello));
-                sleep(10); /*  PRETEDING PLAYING */
+                    Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+                    Write(sockfd, hello, strlen(hello));
+                    sleep(10); /*  PRETEDING PLAYING */
+                }
 
             }
             else if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
@@ -165,14 +158,19 @@ int main(int argc, char **argv)
                 if (n == 0)
                     break;
 
-                buffer[n] = '\0'; 
-                printf("%s\n", buffer); 
+                if (ntohs(cliudpaddr.sin_port) == another_player_port) {
 
-                fgets(sendline, MAXLINE, stdin);
-                sendline[strlen(sendline) -1] = '\0';
-                printf("%s",sendline);
+                    buffer[n] = '\0'; 
+                    printf("%s\n", buffer); 
 
-                Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);
+                    fgets(sendline, MAXLINE, stdin);
+                    sendline[strlen(sendline) -1] = '\0';
+                    printf("%s",sendline);
+
+                    Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);
+                }
+
+                /* Otherwise, DISCARD */
             }
                     // char delim[] = " ";
                     // char *ptr = strtok(player, delim);

@@ -258,16 +258,23 @@ int main(int argc, char **argv) {
                         }
                         else {
 
-                            /* BUF must be one of the IDS that was chosen to play */
+                            /* BUF must be the port number that was chosen to play */
 
                             if (atoi(buf) == -1)
-                                continue;                         
+                                continue;  
 
-                            /* Sending port of client */
-                            memset(resp, 0, strlen(resp));
-                            strcpy(resp, get_info_player(atoi(buf)));
-                            printf("resp %s\n", resp);
-                            Write(sockfd, resp, strlen(resp));
+                            /* Tell the player of port number BUF that the clients[i] wants to play with it 
+                                and only read messages from its port number
+                            */
+
+                            char* player_port_str = integer_to_string(clients[i].port);
+                            Write(clients[get_index_by_port(atoi(buf))].socket_conn, player_port_str, strlen(player_port_str));                       
+
+                            // /* Sending port of client */
+                            // memset(resp, 0, strlen(resp));
+                            // strcpy(resp, get_info_player(atoi(buf)));
+                            // printf("resp %s\n", resp);
+                            // Write(sockfd, resp, strlen(resp));
 
             //                 // set_as_offline(i);
             //                 // set_as_offline(otherclient);

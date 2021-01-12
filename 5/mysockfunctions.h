@@ -18,6 +18,16 @@
 #define MAXLINE 4096
 #define max(a,b) (((a)>(b))?(a):(b))
 
+char* integer_to_string(int x)
+{
+    char* buffer = malloc(sizeof(char) * sizeof(int) * 4 + 1);
+    if (buffer)
+    {
+         sprintf(buffer, "%d", x);
+    }
+    return buffer; // caller is expected to invoke free() on this buffer to release memory
+}
+
 int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout){
 
     return select(nfds, readfds, writefds, exceptfds, timeout);
