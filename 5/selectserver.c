@@ -229,6 +229,7 @@ int main(int argc, char **argv) {
                             memset(otherclient, 0, strlen(otherclient));
 
                             strcpy(resp, show_other_players(sockfd));
+                            printf("resp: %s\n\n", resp);
                             Write(sockfd, resp, strlen(resp));
                         }
                         else if (strcmp(buf, "back") == 0) {
