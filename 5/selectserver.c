@@ -9,6 +9,7 @@ typedef struct {
     int port;
     int socket_conn;
     int available;
+    int points;
 } Client;
 
 Client clients[FD_SETSIZE];
@@ -20,16 +21,17 @@ void initialize_clients() {
         clients[i].port = -1;
         clients[i].socket_conn = -1; /* -1 indicates available entry */
         clients[i].available = 1;
+        clients[i].points = 0;
     }
 }
 
 void show_clients() {
-    printf("\nID\tIP\t\tPort\tFree\tSocket\n");
+    printf("\nID\tIP\t\tPort\tFree\tSocket\tPoints\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
         if (clients[i].socket_conn > 0)
             // printf("%d -\t%s\n",i,clients[i].username);
-            printf("%d\t%s\t%d\t%d\t%d\n", i, clients[i].ip, clients[i].port, clients[i].available, clients[i].socket_conn);
+            printf("%d\t%s\t%d\t%d\t%d\t%d\n", i, clients[i].ip, clients[i].port, clients[i].available, clients[i].socket_conn, clients[i].points);
     }
 }
 
@@ -107,7 +109,6 @@ int  insert_client(char * ip, int port, int socket) {
             strcpy(clients[i].ip, ip);
             clients[i].port = port;
             clients[i].socket_conn = socket;
-            clients[i].available = 1;
             break;
         }
     }
@@ -173,7 +174,8 @@ int main(int argc, char **argv) {
 
 
         if((nready = Select(maxfd + 1, &rset, NULL, NULL, &selTimeout)) == 0) 
-            printf("No echo requests for %ld secs...Server still alive\n", timeout);
+            // printf("No echo requests for %ld secs...Server still alive\n", timeout);
+            continue;
         else {
 
         
@@ -208,7 +210,7 @@ int main(int argc, char **argv) {
 
                 if (FD_ISSET(sockfd, &rset)) {
 
-                    printf("I got something at %d\n", sockfd);
+                    // printf("I got something at %d\n", sockfd);
                     memset(buf, 0, strlen(buf));
                     memset(player, 0, strlen(player));
                     if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
@@ -219,6 +221,7 @@ int main(int argc, char **argv) {
                         clients[i].port = -1;
                         clients[i].socket_conn = -1; /* -1 indicates available entry */
                         clients[i].available = 0;
+                        clients[i].points = 0;
 
                     } 
                     else{
@@ -230,18 +233,21 @@ int main(int argc, char **argv) {
                             memset(otherclient, 0, strlen(otherclient));
 
                             strcpy(resp, show_other_players(sockfd));
-                            printf("resp: %s\n\n", resp);
+                            // printf("resp: %s\n\n", resp);
                             Write(sockfd, resp, strlen(resp));
                         }
-                        else if (strcmp(buf, "back") == 0) {
-                            /* Put the client again on the array */
-                            // memset(player, 0, strlen(player));
+                        else if (strcmp(buf, "won") == 0) {
 
-                            /* Getting the port number of the player playing with client i */
-                            Read(sockfd, player, 100);
-                            // printf("porta player:%s\n", player);
+                            clients[i].points++;
+                            /* Put the client again on the array */
                             set_as_online(i);
-                            set_as_online(get_index_by_port(atoi(player)));
+                            show_clients();
+                        }
+                        else if (strcmp(buf, "lose") == 0) {
+
+                            clients[i].points++;
+                            /* Put the client again on the array */
+                            set_as_online(i);
                             show_clients();
                         }
                         else if (strcmp(buf, "playing") == 0) {
@@ -251,7 +257,7 @@ int main(int argc, char **argv) {
                             // printf("porta player:%s\n", player);
                             set_as_offline(i);
                             // set_as_offline(get_index_by_port(atoi(player)));
-                            show_clients();
+                            // show_clients();
                         }
                         else if (strcmp(buf, "points") == 0) {
                             continue;
