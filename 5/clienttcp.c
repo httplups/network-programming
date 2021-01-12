@@ -139,9 +139,16 @@ int main(int argc, char **argv)
                     */
                     r = rand() % 2;
                     // char* result = integer_to_string(r);
-                    char* result = "Venci";
+                    if (r == 0)
+                        char* result = "won";
+                    else
+                        char* result = "lose";
 
                     printf("Result: %s\n", result);
+                    Write(socktcp, result, strlen(result));
+
+                    // FD_SET(socktcp, &rset);
+
 
 
                     
@@ -151,7 +158,7 @@ int main(int argc, char **argv)
                     // sendline[strlen(sendline) -1] = '\0';
                     // printf("%s",sendline);
 
-                    Sendto(sockudp, result, strlen(result),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencliudp);
+                    // Sendto(sockudp, result, strlen(result),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencliudp);
                     sleep(10);
 
                 }
