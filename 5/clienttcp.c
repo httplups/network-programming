@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 
                 if (atoi(players)) {
                     /* its the port number of another player that wants to play with me */
-                    another_player_port = players;
+                    another_player_port = atoi(players);
                 }
                 else if (strcmp(players, "NULL") == 0) {
                     printf("No players avaiable. Trying again in 10s...\n\n");
