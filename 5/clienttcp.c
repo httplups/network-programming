@@ -214,8 +214,8 @@ int main(int argc, char **argv)
                     sleep(10); /*  PRETEDING PLAYING */
 
                     memset(buffer, 0, strlen(buffer));
-                    Read(sockfd, buffer, strlen(buffer));
-                    printf("Result: %s\n", buffer);
+                    while(Read(sockfd, buffer, strlen(buffer)) > 0)
+                        printf("Result: %s\n", buffer);
                 }
                 else {
                     /* its the port number of another player that wants to play with me */
