@@ -69,53 +69,64 @@ int main(int argc, char **argv)
     printf("Welcome to the game!\n");
     /*  ================================================================================== */
     /* USING SELECT TO LISTEN ON BOTH SOCKETS */
-    // fd_set rset;
+    fd_set rset;
 
-    // FD_ZERO(&rset);
 
     do {
 
+         FD_ZERO(&rset);
+
         /* Associando file descriptors ao conjunto read*/
-        // FD_SET(socktcp, &rset);
-        // FD_SET(sockudp, &rset);
+        FD_SET(socktcp, &rset);
+        FD_SET(sockudp, &rset);
+
+        selTimeout.tv_sec = timeout;       /* timeout (secs.) */
+        selTimeout.tv_usec = 0;            /* 0 microseconds */
         
-        // maxfdp1 = max(socktcp, sockudp)  +  1;
-        // Select(maxfdp1,  &rset,  NULL,  NULL,  NULL);
+        maxfdp1 = max(socktcp, sockudp)  +  1;
+        if((nready = Select(maxfdp1, &rset, NULL, NULL, &selTimeout)) != 0) {
 
-        printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
-        scanf(" %d", &option);
+            printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
+            scanf(" %d", &option);
 
-        switch (option) {
-            case 1: {
-                char * get = "get";
-                Write(socktcp, get, strlen(get));
-                Read(socktcp, players, MAXLINE);
-                
+            switch (option) {
+                case 1: {
+                    char * get = "get";
+                    Write(socktcp, get, strlen(get));
 
-                if (strcmp(players, "NULL") == 0) {
-                    printf("No players avaiable. Try again soon...");
-                    continue;
+                    if (FD_ISSET(socktcp, &rset)) {
+                        Read(socktcp, players, MAXLINE);
+                    
+
+                        if (strcmp(players, "NULL") == 0) {
+                            printf("No players avaiable. Try again soon...");
+                            continue;
+                        }
+                    
+                        /*STDIN blocks*/
+                        printf("============ List of players: ============\n");
+                        printf("\nID\tIP\t\tPort\n");
+                        printf("%s\n", players);
+
+                        printf("Choose the port number of player that you wanna play:");
+                        scanf(" %d", &player_port);
+                        printf("You chose %d\n", player_port);
+
+                    }
+                    // char delim[] = " ";
+                    // char *ptr = strtok(player, delim);
+                    // printf("IP:%s\n", ptr);
+                    // ptr = strtok(NULL, delim);
+                    // printf("Port:%s\n", ptr);
+                    
                 }
-                
-                printf("============ List of players: ============\n");
-                printf("\nID\tIP\t\tPort\n");
-                printf("%s\n", players);
-
-                printf("Choose the port number of player that you wanna play:");
-                scanf(" %d", &player_port);
-                printf("You chose %d\n", player_port);
-
-                
-                // char delim[] = " ";
-                // char *ptr = strtok(player, delim);
-                // printf("IP:%s\n", ptr);
-                // ptr = strtok(NULL, delim);
-                // printf("Port:%s\n", ptr);
-                
+                case 0:
+                    //finish conn
+                    break;
             }
-            case 0:
-                //finish conn
-                break;
+        }
+        else {
+            printf("Nothing this time...\n");
         }
 
     } while(option != 0);
