@@ -109,6 +109,7 @@ int  insert_client(char * ip, int port, int socket) {
             strcpy(clients[i].ip, ip);
             clients[i].port = port;
             clients[i].socket_conn = socket;
+            clients[i].available = 1;
             break;
         }
     }
