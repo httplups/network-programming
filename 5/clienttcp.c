@@ -215,6 +215,8 @@ int main(int argc, char **argv)
                     sleep(10); /*  PRETEDING PLAYING */
 
                     memset(buffer, 0, strlen(buffer));
+                    /* tcp stop sending */
+                    FD_SET(socktcp, &rset);
                     n = Read(sockfd, buffer, strlen(buffer));
                     printf("n: %d\n", n);
                     printf("Result: %s\n", buffer);
