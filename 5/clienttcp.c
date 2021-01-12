@@ -115,6 +115,8 @@ int main(int argc, char **argv)
 
                 printf("%s\n", buffer);
 
+                printf("%d %d\n",ntohs(cliudpaddr.sin_port), another_player_port);
+
                 if (ntohs(cliudpaddr.sin_port) == another_player_port) {
 
                      /* tell tcp server i am not avaiable */
