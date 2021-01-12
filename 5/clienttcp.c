@@ -135,7 +135,7 @@ int main(int argc, char **argv)
                     
                     // Filling server information 
                     servaddr.sin_family = AF_INET; 
-                    servaddr.sin_port = clitcpaddr.sin_port; /*Connect UDP server port = tcp client port*/
+                    servaddr.sin_port = htons(player_port); /*Connect UDP server port*/
                     servaddr.sin_addr.s_addr = INADDR_ANY; 
                     
                     socklen_t len; 
