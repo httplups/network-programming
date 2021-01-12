@@ -14,6 +14,7 @@ int main(int argc, char **argv)
     struct timeval selTimeout;       /* Timeout for select() */
     long timeout = 3;
     int another_player_port = 0;
+    char * get = "playing";
 
     if (argc != 3)
 	{
@@ -146,7 +147,7 @@ int main(int argc, char **argv)
                     /* tell tcp server i am not avaiable */
                     Write(socktcp, playing, strlen(playing));
 
-                    
+
                     Write(sockfd, hello, strlen(hello));
                     sleep(10); /*  PRETEDING PLAYING */
                 }
@@ -155,7 +156,6 @@ int main(int argc, char **argv)
                     another_player_port = atoi(players);
 
                     /* tell tcp server i am not avaiable */
-                    char * get = "playing";
                     Write(socktcp, playing, strlen(playing));
 
                 }
