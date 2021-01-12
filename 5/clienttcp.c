@@ -104,6 +104,8 @@ int main(int argc, char **argv)
                 Read(socktcp, players, MAXLINE);
 
                 if (atoi(players)) {
+                    print("is here\n");
+                    sleep(20);
                     /* its the port number of another player that wants to play with me */
                     another_player_port = atoi(players);
                 }
