@@ -214,7 +214,10 @@ int main(int argc, char **argv) {
                         /* connection closed by client */
                         Close(sockfd);
                         FD_CLR(sockfd, &allset);
-                        clients[i].socket_conn = -1;
+                        strcpy(clients[i].ip, "NULL");
+                        clients[i].port = -1;
+                        clients[i].socket_conn = -1; /* -1 indicates available entry */
+                        clients[i].available = 1;
 
                     } 
                     else{
