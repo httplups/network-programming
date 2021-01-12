@@ -7,10 +7,10 @@
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1], ID_str[100], players[MAXLINE];
-    int socktcp, sockudp, server_port_number, option, player_port, maxfdp1, nready;
+    char error[MAXLINE + 1], ID_str[100], players[MAXLINE], buffer[MAXLINE], sendline[MAXLINE];
+    int socktcp, sockudp, server_port_number, option, player_port, maxfdp1, nready, n;
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
-	socklen_t lencli;
+	socklen_t lencli, lencliudp;
     struct timeval selTimeout;       /* Timeout for select() */
     long timeout = 3;
 
@@ -77,6 +77,7 @@ int main(int argc, char **argv)
     for (;;) {
 
         memset(players, 0, strlen(players));
+        
         char * get = "get";
         Write(socktcp, get, strlen(get));
 
@@ -118,6 +119,25 @@ int main(int argc, char **argv)
                 scanf(" %d", &player_port);
                 printf("You chose %d\n", player_port);
 
+            }
+            else if(FD_ISSET(sockudp, &rset)) {
+
+                memset(buffer, 0, strlen(buffer));
+                memset(sendline, 0, strlen(sendline));
+
+                n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
+                printf("n: %d\n", n);
+                if (n == 0)
+                    break;
+
+                buffer[n] = '\0'; 
+                printf("%s\n", buffer); 
+
+                fgets(sendline, MAXLINE, stdin);
+                sendline[strlen(sendline) -1] = '\0';
+                printf("%s",sendline);
+
+                Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);
             }
                     // char delim[] = " ";
                     // char *ptr = strtok(player, delim);
