@@ -110,7 +110,7 @@ int main(int argc, char **argv)
                 n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
                 // printf("n: %d\n", n);
 
-                printf("%s\n", buffer);
+                // printf("%s\n", buffer);
                 lencliudp = sizeof(cliudpaddr);
 
                 if (ntohs(cliudpaddr.sin_port) == another_player_port) {
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 
 
                     buffer[n] = '\0'; 
-                    printf("O jogador %d aceitou jogar e enviou: %s\n", another_player_port, buffer); 
+                    printf("O jogador %d aceitou jogar e enviou: %s\n", ntohs(cliudpaddr.sin_port), buffer); 
                     printf("Estamos jogando...\n");
 
                     /* get random number: 0 --> current process wins
@@ -165,7 +165,7 @@ int main(int argc, char **argv)
                 // printf("got something in tcp...\n");
                 
                 Read(socktcp, players, MAXLINE);
-                printf("%s\n", players);
+                // printf("%s\n", players);
 
                 if (strcmp(players, "NULL") == 0) {
                     printf("Nao tem jogadores disponiveis, tentando dnv...\n\n");
