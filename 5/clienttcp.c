@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     // Agora que a conexão foi feita, o connect implicitamente chamou o método bind e associou ao socket um numero de porta e ip local
     GetSockName(socktcp, (struct sockaddr *)&clitcpaddr, &lencli);
     // printf("Informacoes do Socket Local:\n");
-    printf("connected: %s:%d\n", inet_ntoa(clitcpaddr.sin_addr), ntohs(clitcpaddr.sin_port));
+    printf("Ip e porta local: %s:%d\n", inet_ntoa(clitcpaddr.sin_addr), ntohs(clitcpaddr.sin_port));
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
     
      /*  ================================================================================== */
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     /*  ================================================================================== */
 
     
-    printf("Welcome to the game!\n");
+    printf("Bem vindo ao jogo!\n");
     /*  ================================================================================== */
     /* USING SELECT TO LISTEN ON BOTH SOCKETS */
     fd_set rset;
@@ -103,7 +103,6 @@ int main(int argc, char **argv)
         if((nready = Select(maxfdp1, &rset, NULL, NULL, &selTimeout)) != 0) {
 
             if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
-                printf("got something in udp...\n");
 
                 memset(buffer, 0, strlen(buffer));
                 memset(sendline, 0, strlen(sendline));
@@ -131,8 +130,8 @@ int main(int argc, char **argv)
 
 
                     buffer[n] = '\0'; 
-                    printf("recv UDP mssg: %s\n", buffer); 
-                    printf("Playing...\n");
+                    printf("O jogador %d aceitou jogar e enviou: %s\n", another_player_port, buffer); 
+                    printf("Estamos jogando...\n");
 
                     /* get random number: 0 --> current process wins
                                           1 --> the other process wins
@@ -163,28 +162,32 @@ int main(int argc, char **argv)
             
 
             if (FD_ISSET(socktcp, &rset)) { /* TCP */
-                printf("got something in tcp...\n");
+                // printf("got something in tcp...\n");
                 
                 Read(socktcp, players, MAXLINE);
                 printf("%s\n", players);
 
                 if (strcmp(players, "NULL") == 0) {
-                    printf("No players avaiable. Trying again...\n\n");
+                    printf("Nao tem jogadores disponiveis, tentando dnv...\n\n");
                     sleep(3);
                 }
                 else if(strcmp(players, "NULL") != 0){
                     
                     /*STDIN blocks*/
-                    printf("============ List of players: ============\n");
-                    printf("\nID\tIP\t\tPort\n");
+                    printf("============ Lista de Jogadores: ============\n");
+                    printf("\nID\tIP\t\tPorta\n");
                     printf("%s\n", players);
 
-                    printf("Choose the port number of player that you wanna play or 0 to try again:\n");
+                    printf("Digite uma das opcoes:\nNumero de porta de quem deseja jogar\n0 - Sair\n1 - Atualizar lista\n");
                     scanf(" %d", &player_port);
-                    printf("You chose %d\n", player_port);
 
-                    if (player_port == 0)
+                    if (player_port == 1)
                         continue;
+                    
+                    if (player_port == 0) {
+                        Close(socktcp);
+                        break;
+                    }
 
                     char* player_port_str = integer_to_string(player_port);
 
@@ -205,7 +208,7 @@ int main(int argc, char **argv)
                     socklen_t len; 
                     char * hello = "Hello\n";
 
-                    printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
+                    printf("Pedindo para jogar com: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
 
                     Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
@@ -217,7 +220,7 @@ int main(int argc, char **argv)
                     FD_CLR(socktcp, &rset);
                     playing_now = 1;
 
-                    printf("Playing...\n");
+                    printf("Estamos jogando...\n");
                     Write(sockfd, hello, strlen(hello));
                     sleep(10); /*  PRETEDING PLAYING */
                     
@@ -243,7 +246,7 @@ int main(int argc, char **argv)
                
         }
         else {
-            printf("Nothing this time...\n");
+            printf("Nada nesse timeout\n");
         }
 
     }

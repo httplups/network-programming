@@ -88,7 +88,7 @@ int insert_client_socket(int socket) {
             break;
         }
     }
-    printf("New client inserted at %d\n", i);
+    // printf("New client inserted at %d\n", i);
     /*The client's info is still empty */
     return i;
 }
@@ -113,7 +113,7 @@ int  insert_client(char * ip, int port, int socket) {
         }
     }
 
-    printf("(%s:%d) inserted at %d\n", ip, port, i);
+    // printf("(%s:%d) inserted at %d\n", ip, port, i);
 
     return i;
 }
