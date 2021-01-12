@@ -73,8 +73,9 @@ int main(int argc, char **argv)
     fd_set rset;
 
 
-    do {
+    for (;;) {
 
+        printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n");
 
         FD_ZERO(&rset);
 
@@ -89,7 +90,7 @@ int main(int argc, char **argv)
         maxfdp1 = max(socktcp, sockudp)  +  1;
         if((nready = Select(maxfdp1, &rset, NULL, NULL, &selTimeout)) != 0) {
 
-            printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n0 - Quit\n");
+            
             scanf(" %d", &option);
             switch (option) {
                 case 1: {
@@ -131,7 +132,7 @@ int main(int argc, char **argv)
             printf("Nothing this time...\n");
         }
 
-    } while(option != 0);
+    }
     
     
     // Read(sockfd, recvline, MAXLINE);
