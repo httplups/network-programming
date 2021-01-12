@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     /* STARTING A UDP SERVER */
     sockudp = Socket(AF_INET, SOCK_DGRAM, 0);
     bzero(&servudpaddr, sizeof(servudpaddr));
-    bzero(&cliudpaddr, sizeof(cliudpaddr));
+    
 
     // Filling me-as-server information 
     servudpaddr.sin_family    = AF_INET; // IPv4 
@@ -104,6 +104,7 @@ int main(int argc, char **argv)
 
             if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
 
+                bzero(&cliudpaddr, sizeof(cliudpaddr));
                 memset(buffer, 0, strlen(buffer));
                 memset(sendline, 0, strlen(sendline));
 
