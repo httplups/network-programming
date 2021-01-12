@@ -198,7 +198,7 @@ int main(int argc, char **argv)
                     servaddr.sin_port = htons(player_port); /*Connect UDP server port*/
                     servaddr.sin_addr.s_addr = INADDR_ANY; 
                     
-                    socklen_t len; 
+                    socklen_t len = sizeof(servaddr); 
                     char * hello = "Hello\n";
 
                     printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
@@ -218,12 +218,12 @@ int main(int argc, char **argv)
                     printf("Playing...\n");
                     // Write(sockfd, hello, strlen(hello));
                     Sendto(sockfd, hello, strlen(hello), 0, (struct sockaddr *) &servaddr, sizeof(servaddr));
-                    sleep(10); /*  PRETEDING PLAYING */
+                    sleep(20); /*  PRETEDING PLAYING */
 
                     memset(buffer, 0, strlen(buffer));
                     /* tcp stop sending */
                     
-                    n = Read(sockfd, buffer, strlen(buffer));
+                    n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len);
                     printf("n: %d\n", n);
                     printf("Result: %s\n", buffer);
                 }
