@@ -53,7 +53,7 @@ char * show_other_players(int socket) {
     // printf("\nID\tIP\tPort\n");
     int i;
     for(i=0; i< FD_SETSIZE; i++) {
-        printf("%d %d\n", clients[i].socket_conn, socket);
+        // printf("%d %d\n", clients[i].socket_conn, socket);
         if ((clients[i].socket_conn > 0) && (clients[i].socket_conn != socket) && (clients[i].available == 1)) {
             snprintf(aux, sizeof(aux),"%d\t%s\t%d\n", i, clients[i].ip, clients[i].port);
             strcat(info_players, aux);
