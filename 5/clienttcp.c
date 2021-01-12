@@ -155,9 +155,6 @@ int main(int argc, char **argv)
                     /* its the port number of another player that wants to play with me */
                     another_player_port = atoi(players);
 
-                    /* tell tcp server i am not avaiable */
-                    Write(socktcp, playing, strlen(playing));
-
                 }
 
             }
@@ -171,6 +168,9 @@ int main(int argc, char **argv)
                 // printf("n: %d\n", n);
 
                 if (ntohs(cliudpaddr.sin_port) == another_player_port) {
+
+                     /* tell tcp server i am not avaiable */
+                    Write(socktcp, playing, strlen(playing));
 
                     if (n == 0) {
                         /* get out*/
