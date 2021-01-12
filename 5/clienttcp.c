@@ -103,17 +103,11 @@ int main(int argc, char **argv)
                 
                 Read(socktcp, players, MAXLINE);
 
-                if (atoi(players)) {
-                    printf("is here\n");
-                    sleep(20);
-                    /* its the port number of another player that wants to play with me */
-                    another_player_port = atoi(players);
-                }
-                else if (strcmp(players, "NULL") == 0) {
+                if (strcmp(players, "NULL") == 0) {
                     printf("No players avaiable. Trying again in 10s...\n\n");
                     sleep(10);
                 }
-                else {
+                else if(strcmp(players, "NULL") != 0){
                     
                     /*STDIN blocks*/
                     printf("============ List of players: ============\n");
@@ -148,6 +142,12 @@ int main(int argc, char **argv)
                     Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
                     Write(sockfd, hello, strlen(hello));
                     sleep(10); /*  PRETEDING PLAYING */
+                }
+                else {
+                    printf("is here\n");
+                    sleep(20);
+                    /* its the port number of another player that wants to play with me */
+                    another_player_port = atoi(players);
                 }
 
             }
