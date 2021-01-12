@@ -111,6 +111,8 @@ int main(int argc, char **argv)
                 n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
                 // printf("n: %d\n", n);
 
+                printf("%s\n", buffer);
+
                 if (ntohs(cliudpaddr.sin_port) == another_player_port) {
 
                      /* tell tcp server i am not avaiable */
@@ -201,7 +203,9 @@ int main(int argc, char **argv)
 
                     printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
 
-                    Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+                    // Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+
+                    
 
 
                     /* tell tcp server we are not avaiable */
@@ -212,7 +216,8 @@ int main(int argc, char **argv)
                     playing_now = 1;
 
                     printf("Playing...\n");
-                    Write(sockfd, hello, strlen(hello));
+                    // Write(sockfd, hello, strlen(hello));
+                    Sendto(sockfd, hello, strlen(hello), 0, servaddr, sizeof(servaddr));
                     sleep(10); /*  PRETEDING PLAYING */
 
                     memset(buffer, 0, strlen(buffer));
