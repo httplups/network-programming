@@ -154,6 +154,7 @@ int main(int argc, char **argv)
                     sleep(10);
                     char* result = "lose";
                     Write(socktcp, result, strlen(result));
+                    playing_now == 0;
 
                 }
 
@@ -221,6 +222,8 @@ int main(int argc, char **argv)
                     
                     char* result = "won";
                     Write(socktcp, result, strlen(result));
+
+                    playing_now == 0;
                 }
                 else {
                     /* its the port number of another player that wants to play with me */
