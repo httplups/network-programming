@@ -162,7 +162,6 @@ int main(int argc, char **argv) {
         }
 
 
-        printf("Listening...\n");
 
         selTimeout.tv_sec = timeout;       /* timeout (secs.) */
         selTimeout.tv_usec = 0;            /* 0 microseconds */
@@ -170,6 +169,8 @@ int main(int argc, char **argv) {
         rset = allset;          /* structure assignment */
 
         show_clients();
+
+
         if((nready = Select(maxfd + 1, &rset, NULL, NULL, &selTimeout)) == 0) 
             printf("No echo requests for %ld secs...Server still alive\n", timeout);
         else {
@@ -219,13 +220,13 @@ int main(int argc, char **argv) {
                     else{
                         printf("got from client: %s\n", buf);
 
-            //             if (strcmp(buf, "get") == 0) {
-            //                 /* send the players available */
-            //                 memset(resp, 0, strlen(resp));
-            //                 memset(otherclient, 0, strlen(otherclient));
+                        if (strcmp(buf, "get") == 0) {
+                            /* send the players available */
+                            memset(resp, 0, strlen(resp));
+                            memset(otherclient, 0, strlen(otherclient));
 
-            //                 strcpy(resp, show_other_players(sockfd));
-            //                 Write(sockfd, resp, strlen(resp));
+                            strcpy(resp, show_other_players(sockfd));
+                            Write(sockfd, resp, strlen(resp));
 
             //                 Read(sockfd, otherclient, 100); /*this call is blocking*/
             //                 // printf("Id of other: %s\n", otherclient);
