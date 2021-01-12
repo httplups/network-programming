@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 {
     char error[MAXLINE + 1], ID_str[100], players[MAXLINE], buffer[MAXLINE], sendline[MAXLINE];
     int socktcp, sockudp, server_port_number, option, player_port, maxfdp1, nready, n;
-	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
+	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr, servaddr;
 	socklen_t lencli, lencliudp;
     struct timeval selTimeout;       /* Timeout for select() */
     long timeout = 3;
@@ -119,8 +119,28 @@ int main(int argc, char **argv)
                 scanf(" %d", &player_port);
                 printf("You chose %d\n", player_port);
 
+                /* START UDP CLIENT - GAME*/
+                // Creating socket file descriptor 
+                int sockfd;
+                sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
+            
+                memset(&servaddr, 0, sizeof(servaddr)); 
+                
+                // Filling server information 
+                servaddr.sin_family = AF_INET; 
+                servaddr.sin_port = clitcpaddr.sin_port; /*Connect UDP server port = tcp client port*/
+                servaddr.sin_addr.s_addr = INADDR_ANY; 
+                
+                socklen_t len; 
+                char * hello = "Hello\n";
+
+                printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
+
+                Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+                Write(sockfd, hello, strlen(hello));
+
             }
-            else if(FD_ISSET(sockudp, &rset)) {
+            else if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
 
                 memset(buffer, 0, strlen(buffer));
                 memset(sendline, 0, strlen(sendline));
