@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
 	socklen_t lencli;
     struct timeval selTimeout;       /* Timeout for select() */
-    long timeout = 10;
+    long timeout = 1;
 
     if (argc != 3)
 	{
