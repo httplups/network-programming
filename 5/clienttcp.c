@@ -7,8 +7,8 @@
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1], ID_str[100], players[MAXLINE], buffer[MAXLINE], sendline[MAXLINE];
-    int socktcp, sockudp, server_port_number, option, player_port, maxfdp1, nready, n;
+    char players[MAXLINE], buffer[MAXLINE], sendline[MAXLINE];
+    int socktcp, sockudp, server_port_number, player_port, maxfdp1, nready, n;
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr, servaddr;
 	socklen_t lencli, lencliudp;
     struct timeval selTimeout;       /* Timeout for select() */
@@ -75,7 +75,6 @@ int main(int argc, char **argv)
     /*  ================================================================================== */
     /* USING SELECT TO LISTEN ON BOTH SOCKETS */
     fd_set rset;
-    int r;
 
     for (;;) {
 
@@ -186,7 +185,6 @@ int main(int argc, char **argv)
                     servaddr.sin_port = htons(player_port); /*Connect UDP server port*/
                     servaddr.sin_addr.s_addr = INADDR_ANY; 
                     
-                    socklen_t len; 
                     char * hello = "Hello\n";
 
                     printf("Pedindo para jogar com: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
