@@ -79,8 +79,7 @@ int main(int argc, char **argv)
 
     for (;;) {
 
-        r = rand() % 2;
-        printf("%d\n", r);
+        
 
         memset(players, 0, strlen(players));
         sleep(3);
@@ -132,13 +131,24 @@ int main(int argc, char **argv)
                     printf("recv UDP mssg: %s\n", buffer); 
                     printf("Playing...\n");
                     sleep(10);
-                    printf("%d won!\n",another_player_port);
+
+                    /* get random number: 0 --> current process wins
+                                          1 --> the other process wins
+                    */
+                    r = rand() % 2;
+                    char* result = integer_to_string(r);
+
+
+                    
+                    
 
                     // fgets(sendline, MAXLINE, stdin);
                     // sendline[strlen(sendline) -1] = '\0';
                     // printf("%s",sendline);
 
-                    // Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);
+                    Sendto(sockudp, result, strlen(result),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencliudp);
+
+
                 }
 
                 /* Otherwise, DISCARD */
@@ -202,6 +212,10 @@ int main(int argc, char **argv)
                     printf("Playing...\n");
                     Write(sockfd, hello, strlen(hello));
                     sleep(10); /*  PRETEDING PLAYING */
+
+                    memset(buffer, 0, strlen(buffer));
+                    Read(sockfd, buffer, strlen(buffer));
+                    printf("Result: %s\n", buffer);
                 }
                 else {
                     /* its the port number of another player that wants to play with me */
