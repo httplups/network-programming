@@ -145,9 +145,10 @@ int main(int argc, char **argv) {
     //     client[i] = -1;          /* -1 indicates available entry */
     initialize_clients();
     
-
+    FD_ZERO(&allset);
     for ( ; ; ) {
-        FD_ZERO(&allset);
+        printf("Listening...\n");
+        
         FD_SET(listenfd, &allset);
         rset = allset;          /* structure assignment */
         nready = Select(maxfd + 1, &rset, NULL, NULL, NULL);
