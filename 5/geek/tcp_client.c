@@ -31,9 +31,7 @@ int main()
   
     if (connect(sockfd, (struct sockaddr*)&servaddr,  
                              sizeof(servaddr)) < 0) { 
-        printf("
-Error : Connect Failed
-"); 
+        printf("Error : Connect Failed"); 
     } 
   
     memset(buffer, 0, sizeof(buffer)); 

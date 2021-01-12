@@ -83,8 +83,7 @@ int main()
         if (FD_ISSET(udpfd, &rset)) { 
             len = sizeof(cliaddr); 
             bzero(buffer, sizeof(buffer)); 
-            printf("
-Message from UDP client: "); 
+            printf("Message from UDP client: "); 
             n = recvfrom(udpfd, buffer, sizeof(buffer), 0, 
                          (struct sockaddr*)&cliaddr, &len); 
             puts(buffer); 
