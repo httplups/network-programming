@@ -53,7 +53,7 @@ int main(int argc, char **argv)
     sprintf(command, _cmd, ntohs(clitcpaddr.sin_port));
     printf("%s\n", command);
 
-    // int status = system("./udp_client 127.0.0.1 ");
+    int status = system(command);
     
     printf("Welcome to the game!\n");
     /*  ================================================================================== */
