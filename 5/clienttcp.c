@@ -144,7 +144,8 @@ int main(int argc, char **argv)
                     printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
 
                     Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-                    /* tell tcp server i am not avaiable */
+
+                    /* tell tcp server we are not avaiable */
                     Write(socktcp, playing, strlen(playing));
 
 
