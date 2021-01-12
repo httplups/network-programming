@@ -19,7 +19,8 @@ int main()
     char* message = "Hello Server"; 
     struct sockaddr_in servaddr; 
   
-    int n, len; 
+    int n;
+    socklen_t len; 
     // Creating socket file descriptor 
     if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) { 
         printf("socket creation failed"); 
