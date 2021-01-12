@@ -135,7 +135,8 @@ int main(int argc, char **argv)
                                           1 --> the other process wins
                     */
                     r = rand() % 2;
-                    char* result = integer_to_string(r);
+                    // char* result = integer_to_string(r);
+                    char* result = "Venci";
 
                     printf("Result: %s\n", result);
 
@@ -216,7 +217,7 @@ int main(int argc, char **argv)
 
                     memset(buffer, 0, strlen(buffer));
                     /* tcp stop sending */
-                    FD_SET(socktcp, &rset);
+                    
                     n = Read(sockfd, buffer, strlen(buffer));
                     printf("n: %d\n", n);
                     printf("Result: %s\n", buffer);
