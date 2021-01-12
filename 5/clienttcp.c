@@ -143,14 +143,21 @@ int main(int argc, char **argv)
                     printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
 
                     Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+                    /* tell tcp server i am not avaiable */
+                    Write(socktcp, playing, strlen(playing));
+
+                    
                     Write(sockfd, hello, strlen(hello));
                     sleep(10); /*  PRETEDING PLAYING */
                 }
                 else {
-                    printf("is here\n");
-                    sleep(20);
                     /* its the port number of another player that wants to play with me */
                     another_player_port = atoi(players);
+
+                    /* tell tcp server i am not avaiable */
+                    char * get = "playing";
+                    Write(socktcp, playing, strlen(playing));
+
                 }
 
             }
@@ -162,10 +169,14 @@ int main(int argc, char **argv)
 
                 n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
                 // printf("n: %d\n", n);
-                if (n == 0)
-                    break;
 
                 if (ntohs(cliudpaddr.sin_port) == another_player_port) {
+
+                    if (n == 0) {
+                        /* get out*/
+                        continue;
+                    }
+
 
                     buffer[n] = '\0'; 
                     printf("%s\n", buffer); 
