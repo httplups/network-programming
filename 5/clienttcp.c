@@ -108,6 +108,8 @@ int main(int argc, char **argv)
                 memset(buffer, 0, strlen(buffer));
                 memset(sendline, 0, strlen(sendline));
 
+                lencliudp = sizeof(cliudpaddr);
+
                 n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
                 // printf("n: %d\n", n);
 
@@ -221,7 +223,7 @@ int main(int argc, char **argv)
                     sleep(20); /*  PRETEDING PLAYING */
 
                     memset(buffer, 0, strlen(buffer));
-                    /* tcp stop sending */
+                    
                     
                     n = Recvfrom(sockfd, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len);
                     printf("n: %d\n", n);
