@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     long timeout = 1;
     int another_player_port = 0;
     char * playing = "playing";
-    int playing_now = 0;
+    int playing_now = 0, n;
 
     if (argc != 3)
 	{
@@ -215,7 +215,8 @@ int main(int argc, char **argv)
                     sleep(10); /*  PRETEDING PLAYING */
 
                     memset(buffer, 0, strlen(buffer));
-                    Read(sockfd, buffer, strlen(buffer));
+                    n = Read(sockfd, buffer, strlen(buffer));
+                    printf("n: %d\n", n);
                     printf("Result: %s\n", buffer);
                 }
                 else {
