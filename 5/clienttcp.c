@@ -83,6 +83,7 @@ int main(int argc, char **argv)
         /* Associando file descriptors ao conjunto read*/
         FD_SET(socktcp, &rset);
         FD_SET(sockudp, &rset);
+        FD_SET(STDIN_FILENO, &rset);
 
         selTimeout.tv_sec = 10;       /* timeout (secs.) */
         selTimeout.tv_usec = 0;            /* 0 microseconds */
