@@ -223,7 +223,7 @@ int main(int argc, char **argv)
                     memset(buffer, 0, strlen(buffer));
                     /* tcp stop sending */
                     
-                    n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len);
+                    n = Recvfrom(sockfd, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len);
                     printf("n: %d\n", n);
                     printf("Result: %s\n", buffer);
                 }
