@@ -119,8 +119,7 @@ int  insert_client(char * ip, int port, int socket) {
 
 
 int main(int argc, char **argv) {
-    int     i, maxi, maxfd, listenfd, connfd, sockfd, port;
-    int     nready;
+    int     i, maxi, maxfd, listenfd, connfd, sockfd, port, timeout = 3;
     ssize_t n;
     fd_set  rset, allset;
     char    buf[MAXLINE], resp[MAXLINE], otherclient[100], player[100];
@@ -154,7 +153,7 @@ int main(int argc, char **argv) {
         FD_SET(listenfd, &allset);
         printf("Listening...\n");
 
-        selTimeout.tv_sec = 3;       /* timeout (secs.) */
+        selTimeout.tv_sec = timeout;       /* timeout (secs.) */
         selTimeout.tv_usec = 0;            /* 0 microseconds */
         
         
