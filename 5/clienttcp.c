@@ -7,8 +7,8 @@
 
 int main(int argc, char **argv)
 {
-    char error[MAXLINE + 1], ID_str[100], players[MAXLINE], player_port[MAXLINE];
-    int socktcp, sockudp, server_port_number, option, ID, maxfdp1;
+    char error[MAXLINE + 1], ID_str[100], players[MAXLINE];
+    int socktcp, sockudp, server_port_number, option, player_port, maxfdp1;
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
 	socklen_t lencli;
 
@@ -87,21 +87,13 @@ int main(int argc, char **argv)
                 }
                 
                 printf("============ List of players: ============\n");
-                printf("\nID\tIP\tPort\n");
+                printf("\nID\tIP\t\tPort\n");
                 printf("%s\n", players);
 
-                printf("Choose one player to play with by ID:");
-                scanf(" %d", &ID);
-                printf("You chose %d\n", ID);
+                printf("Choose the port number of player that you wanna play:");
+                scanf(" %d", &player_port);
+                printf("You chose %d\n", player_port);
 
-                memset(ID_str, 0, strlen(ID_str));
-                sprintf(ID_str, "%d", ID);
-                // printf("str: %s\n",ID_str);
-                Write(socktcp, ID_str, strlen(ID_str));
-
-                /* getting port of player assuming it's listening on 0.0.0.0 */
-                Read(socktcp, player_port, MAXLINE);
-                printf("Port: %s\n", player_port);
                 
                 // char delim[] = " ";
                 // char *ptr = strtok(player, delim);
