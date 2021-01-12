@@ -121,7 +121,7 @@ int  insert_client(char * ip, int port, int socket) {
 
 int main(int argc, char **argv) {
     int     i, maxi, maxfd, listenfd, connfd, sockfd, port;
-    long timeout = 20;
+    long timeout = 1;
     int     nready;
     ssize_t n;
     fd_set  rset, allset;
