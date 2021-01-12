@@ -75,9 +75,12 @@ int main(int argc, char **argv)
     /*  ================================================================================== */
     /* USING SELECT TO LISTEN ON BOTH SOCKETS */
     fd_set rset;
-
+    int r;
 
     for (;;) {
+
+        r = rand() % 20;
+        printf("%d\n", r);
 
         memset(players, 0, strlen(players));
         sleep(3);
