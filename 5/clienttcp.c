@@ -137,16 +137,7 @@ int main(int argc, char **argv)
                     /* get random number: 0 --> current process wins
                                           1 --> the other process wins
                     */
-                    r = rand() % 2;
-                    // char* result = integer_to_string(r);
-                    if (r == 0) {
-                        char* result = "won";
-                        Write(socktcp, result, strlen(result));
-                    } 
-                    else {
-                        char* result = "lose";
-                        Write(socktcp, result, strlen(result));
-                    }
+                    
 
                     // FD_SET(socktcp, &rset);
 
@@ -225,13 +216,17 @@ int main(int argc, char **argv)
                     printf("Playing...\n");
                     Write(sockfd, hello, strlen(hello));
                     sleep(10); /*  PRETEDING PLAYING */
-
-                    memset(buffer, 0, strlen(buffer));
-                    /* tcp stop sending */
                     
-                    n = Read(sockfd, buffer, MAXLINE);
-                    printf("n: %d\n", n);
-                    printf("Result: %s\n", buffer);
+                    r = rand() % 2;
+                    // char* result = integer_to_string(r);
+                    if (r == 0) {
+                        char* result = "won";
+                        Write(socktcp, result, strlen(result));
+                    } 
+                    else {
+                        char* result = "lose";
+                        Write(socktcp, result, strlen(result));
+                    }
                 }
                 else {
                     /* its the port number of another player that wants to play with me */
