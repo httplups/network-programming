@@ -1,11 +1,11 @@
-#include "stdio.h"      /* for printf() and fprintf()*/
-#include "stdlib.h"    //for atoi()
-#include "sys/time.h"       /* for struct timeval {} */
-#include "fcntl.h"          /* for fcntl() */
-#include "sys/socket.h" /* for accept() ,socket(), bind(), and connect(),recv() and send() */
-#include "arpa/inet.h"  /* for sockaddr_in and inet_ntoa() */
-#include "string.h"     /* for memset() */
-#include "unistd.h"     /* for close() */
+#include <stdio.h>      /* for printf() and fprintf()*/
+#include <stdlib.h>   //for atoi()
+#include <sys/time.h>       /* for struct timeval {} */
+#include <fcntl.h>       /* for fcntl() */
+#include <sys/socket.h> /* for accept() ,socket(), bind(), and connect(),recv() and send() */
+#include <arpa/inet.h>  /* for sockaddr_in and inet_ntoa() */
+#include <string.h>     /* for memset() */
+#include <unistd.h>     /* for close() */
 
 #define RCVBUFSIZE 32   /* Size of receive buffer */
 #define MAXPENDING 5    /* Maximum outstanding connection requests */
@@ -153,7 +153,7 @@ int CreateTCPServerSocket(unsigned short port)
 void HandleTCPClient(int clntSocket)
 {
     char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
-    int recvMsgSize;                    /* Size of received message */
+    int recvMsgSize, i;                    /* Size of received message */
 
     /* Receive message from client */
     if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
