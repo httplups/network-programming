@@ -47,23 +47,14 @@ int main(int argc, char **argv)
     // printf("Informacoes do Socket Local:\n");
     printf("connected: %s:%d\n", inet_ntoa(clitcpaddr.sin_addr), ntohs(clitcpaddr.sin_port));
     // printf("done: %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
+    char *_cmd = "./udp_client 127.0.0.1 %d";
+    char command[150];
 
+    sprintf(command, _cmd, ntohs(clitcpaddr.sin_port));
+    printf("%s\n", command);
 
-    /*  ================================================================================== */
-
-    /* STARTING A UDP SERVER */
-    sockudp = Socket(AF_INET, SOCK_DGRAM, 0);
-    bzero(&servudpaddr, sizeof(servudpaddr));
-    bzero(&cliudpaddr, sizeof(cliudpaddr));
-
-    // Filling me-as-server information 
-    servudpaddr.sin_family    = AF_INET; // IPv4 
-    servudpaddr.sin_addr.s_addr = INADDR_ANY; 
-    servudpaddr.sin_port = clitcpaddr.sin_port; /* My server UDP port is the same as my TCP client port*/
-
-    // Bind the socket with the my server udp address 
-    Bind(sockudp, (const struct sockaddr *)&servudpaddr,sizeof(servudpaddr));
-
+    // int status = system("./udp_client 127.0.0.1 ");
+    
     printf("Welcome to the game!\n");
     /*  ================================================================================== */
     /* USING SELECT TO LISTEN ON BOTH SOCKETS */
