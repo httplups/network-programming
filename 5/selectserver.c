@@ -245,6 +245,7 @@ int main(int argc, char **argv) {
                         }
                         else if (strcmp(buf, "lose") == 0) {
 
+                           
                             /* Put the client again on the array */
                             set_as_online(i);
                             show_clients();
@@ -256,7 +257,7 @@ int main(int argc, char **argv) {
                             // printf("porta player:%s\n", player);
                             set_as_offline(i);
                             // set_as_offline(get_index_by_port(atoi(player)));
-                            show_clients();
+                            // show_clients();
                         }
                         else if (strcmp(buf, "points") == 0) {
                             continue;
