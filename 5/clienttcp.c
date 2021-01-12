@@ -74,8 +74,10 @@ int main(int argc, char **argv)
 
 
     for (;;) {
+        char * get = "get";
+        Write(socktcp, get, strlen(get));
 
-        printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n");
+        // printf("\n\nChoose one option below:\n\n1 - Invite someone to play with\n");
 
         FD_ZERO(&rset);
 
@@ -90,43 +92,34 @@ int main(int argc, char **argv)
         maxfdp1 = max(socktcp, sockudp)  +  1;
         if((nready = Select(maxfdp1, &rset, NULL, NULL, &selTimeout)) != 0) {
 
-            
-            scanf(" %d", &option);
-            switch (option) {
-                case 1: {
-                    char * get = "get";
-                    Write(socktcp, get, strlen(get));
 
-                    if (FD_ISSET(socktcp, &rset)) {
-                        Read(socktcp, players, MAXLINE);
+            if (FD_ISSET(socktcp, &rset)) {
+
+                Read(socktcp, players, MAXLINE);
                     
 
-                        if (strcmp(players, "NULL") == 0) {
-                            printf("No players avaiable. Try again soon...");
-                            continue;
-                        }
+                if (strcmp(players, "NULL") == 0) {
+                    printf("No players avaiable. Try again soon...");
+                    continue;
+                }
                     
-                        /*STDIN blocks*/
-                        printf("============ List of players: ============\n");
-                        printf("\nID\tIP\t\tPort\n");
-                        printf("%s\n", players);
+                /*STDIN blocks*/
+                printf("============ List of players: ============\n");
+                printf("\nID\tIP\t\tPort\n");
+                printf("%s\n", players);
 
-                        printf("Choose the port number of player that you wanna play:");
-                        scanf(" %d", &player_port);
-                        printf("You chose %d\n", player_port);
+                printf("Choose the port number of player that you wanna play:");
+                scanf(" %d", &player_port);
+                printf("You chose %d\n", player_port);
 
-                    }
+            }
                     // char delim[] = " ";
                     // char *ptr = strtok(player, delim);
                     // printf("IP:%s\n", ptr);
                     // ptr = strtok(NULL, delim);
                     // printf("Port:%s\n", ptr);
                     
-                }
-                case 0:
-                    //finish conn
-                    break;
-            }
+               
         }
         else {
             printf("Nothing this time...\n");
