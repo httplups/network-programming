@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         
         maxfdp1 = max(socktcp, sockudp)  +  1;
         if((nready = Select(maxfdp1, &rset, NULL, NULL, &selTimeout)) != 0) {
-        
+            printf("got something...\n");
 
             if (FD_ISSET(socktcp, &rset)) {
                 
@@ -102,7 +102,7 @@ int main(int argc, char **argv)
                     
 
                 if (strcmp(players, "NULL") == 0) {
-                    printf("No players avaiable. Trying again in 10s...");
+                    printf("No players avaiable. Trying again in 10s...\n\n");
                     sleep(10);
                     continue;
                 }
