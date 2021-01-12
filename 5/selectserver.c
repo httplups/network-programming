@@ -227,46 +227,46 @@ int main(int argc, char **argv) {
 
                             strcpy(resp, show_other_players(sockfd));
                             Write(sockfd, resp, strlen(resp));
+                        }
+                        else if (strcmp(buf, "back") == 0) {
+                            /* Put the client again on the array */
+                            // memset(player, 0, strlen(player));
 
-            //                 Read(sockfd, otherclient, 100); /*this call is blocking*/
-            //                 // printf("Id of other: %s\n", otherclient);
+                            /* Getting the port number of the player playing with client i */
+                            Read(sockfd, player, 100);
+                            // printf("porta player:%s\n", player);
+                            set_as_online(i);
+                            set_as_online(get_index_by_port(atoi(player)));
+                            show_clients();
+                        }
+                        else if (strcmp(buf, "playing") == 0) {
 
-            //                 if (atoi(otherclient) == -1)
-            //                     continue;                         
+                            /* Getting the port number of the player playing with client i */
+                            Read(sockfd, player, 100);
+                            // printf("porta player:%s\n", player);
+                            set_as_offline(i);
+                            set_as_offline(get_index_by_port(atoi(player)));
+                            show_clients();
+                        }
+                        else if (strcmp(buf, "points") == 0) {
+                            continue;
+                        }
+                        else {
 
-            //                 /* Sending port of client */
-            //                 memset(resp, 0, strlen(resp));
-            //                 strcpy(resp, get_info_player(atoi(otherclient)));
-            //                 printf("resp %s\n", resp);
-            //                 Write(sockfd, resp, strlen(resp));
+                            /* BUF must be one of the IDS that was chosen to play */
+
+                            if (atoi(buf) == -1)
+                                continue;                         
+
+                            /* Sending port of client */
+                            memset(resp, 0, strlen(resp));
+                            strcpy(resp, get_info_player(atoi(buf)));
+                            printf("resp %s\n", resp);
+                            Write(sockfd, resp, strlen(resp));
 
             //                 // set_as_offline(i);
             //                 // set_as_offline(otherclient);
-
                         }
-            //             else if (strcmp(buf, "back") == 0) {
-            //                 /* Put the client again on the array */
-            //                 // memset(player, 0, strlen(player));
-
-            //                 /* Getting the port number of the player playing with client i */
-            //                 Read(sockfd, player, 100);
-            //                 // printf("porta player:%s\n", player);
-            //                 set_as_online(i);
-            //                 set_as_online(get_index_by_port(atoi(player)));
-            //                 show_clients();
-            //             }
-            //             else if (strcmp(buf, "playing") == 0) {
-
-            //                 /* Getting the port number of the player playing with client i */
-            //                 Read(sockfd, player, 100);
-            //                 // printf("porta player:%s\n", player);
-            //                 set_as_offline(i);
-            //                 set_as_offline(get_index_by_port(atoi(player)));
-            //                 show_clients();
-            //             }
-            //             else if (strcmp(buf, "points") == 0) {
-            //                 continue;
-            //             }
             //             // Write(sockfd, buf, n);
                     }                   
                     
