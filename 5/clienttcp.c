@@ -120,7 +120,7 @@ int main(int argc, char **argv)
                     playing_now = 1;
 
                     /* tcp stop sending */
-                    FD_CLR(socktcp, &rset);
+                    
 
 
                     if (n == 0) {
@@ -154,6 +154,7 @@ int main(int argc, char **argv)
                     char* result = "lose";
                     Write(socktcp, result, strlen(result));
                     playing_now = 0;
+                    FD_CLR(socktcp, &rset);
 
                 }
 
@@ -224,6 +225,7 @@ int main(int argc, char **argv)
                     Write(socktcp, result, strlen(result));
 
                     playing_now = 0;
+                    FD_CLR(socktcp, &rset);
                 }
                 else {
                     /* its the port number of another player that wants to play with me */
@@ -244,6 +246,7 @@ int main(int argc, char **argv)
         else {
             printf("Nothing this time...\n");
         }
+
 
     }
     
