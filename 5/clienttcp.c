@@ -130,7 +130,6 @@ int main(int argc, char **argv)
                     buffer[n] = '\0'; 
                     printf("recv UDP mssg: %s\n", buffer); 
                     printf("Playing...\n");
-                    sleep(10);
 
                     /* get random number: 0 --> current process wins
                                           1 --> the other process wins
@@ -147,7 +146,7 @@ int main(int argc, char **argv)
                     // printf("%s",sendline);
 
                     Sendto(sockudp, result, strlen(result),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencliudp);
-
+                    sleep(10);
 
                 }
 
@@ -214,8 +213,8 @@ int main(int argc, char **argv)
                     sleep(10); /*  PRETEDING PLAYING */
 
                     memset(buffer, 0, strlen(buffer));
-                    while(Read(sockfd, buffer, strlen(buffer)) > 0)
-                        printf("Result: %s\n", buffer);
+                    Read(sockfd, buffer, strlen(buffer));
+                    printf("Result: %s\n", buffer);
                 }
                 else {
                     /* its the port number of another player that wants to play with me */
