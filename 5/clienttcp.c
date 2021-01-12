@@ -75,6 +75,8 @@ int main(int argc, char **argv)
 
 
     for (;;) {
+
+        memset(players, 0, strlen(players));
         char * get = "get";
         Write(socktcp, get, strlen(get));
 
