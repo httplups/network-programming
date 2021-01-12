@@ -15,6 +15,7 @@ int main(int argc, char **argv)
     long timeout = 10;
     int another_player_port = 0;
     char * playing = "playing";
+    int playing_now = 0;
 
     if (argc != 3)
 	{
@@ -88,9 +89,10 @@ int main(int argc, char **argv)
         FD_ZERO(&rset);
 
         /* Associando file descriptors ao conjunto read*/
-        FD_SET(socktcp, &rset);
+        if (playing_now == 0)
+            FD_SET(socktcp, &rset);
         FD_SET(sockudp, &rset);
-        FD_SET(STDIN_FILENO, &rset);
+        // FD_SET(STDIN_FILENO, &rset);
 
         selTimeout.tv_sec = timeout;       /* timeout (secs.) */
         selTimeout.tv_usec = 0;            /* 0 microseconds */
@@ -145,8 +147,12 @@ int main(int argc, char **argv)
 
                     Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
+
                     /* tell tcp server we are not avaiable */
                     Write(socktcp, playing, strlen(playing));
+
+                    /* tcp stop sending */
+                    FD_CLR(socktcp, &rset);
 
 
                     Write(sockfd, hello, strlen(hello));
@@ -172,6 +178,11 @@ int main(int argc, char **argv)
 
                      /* tell tcp server i am not avaiable */
                     Write(socktcp, playing, strlen(playing));
+
+                    /* tcp stop sending */
+                    FD_CLR(socktcp, &rset);
+
+                    
                     sleep(10);
 
                     if (n == 0) {
