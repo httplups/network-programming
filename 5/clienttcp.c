@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr, servaddr;
 	socklen_t lencli, lencliudp;
     struct timeval selTimeout;       /* Timeout for select() */
-    long timeout = 10;
+    long timeout = 1;
     int another_player_port = 0;
     char * playing = "playing";
     int playing_now = 0;
@@ -108,6 +108,7 @@ int main(int argc, char **argv)
 
                 if (strcmp(players, "NULL") == 0) {
                     printf("No players avaiable. Trying again...\n\n");
+                    sleep(3);
                 }
                 else if(strcmp(players, "NULL") != 0){
                     
