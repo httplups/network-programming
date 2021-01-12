@@ -120,6 +120,7 @@ int  insert_client(char * ip, int port, int socket) {
 
 int main(int argc, char **argv) {
     int     i, maxi, maxfd, listenfd, connfd, sockfd, port, timeout = 3;
+    int     nready;
     ssize_t n;
     fd_set  rset, allset;
     char    buf[MAXLINE], resp[MAXLINE], otherclient[100], player[100];
@@ -158,7 +159,7 @@ int main(int argc, char **argv) {
         
         
         rset = allset;          /* structure assignment */
-        if(Select(maxfd + 1, &rset, NULL, NULL, &selTimeout) == 0) 
+        if((nready = Select(maxfd + 1, &rset, NULL, NULL, &selTimeout)) == 0) 
             printf("No echo requests for %ld secs...Server still alive\n", timeout);
         else {
 
