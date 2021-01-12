@@ -133,28 +133,11 @@ int main(int argc, char **argv)
                     printf("recv UDP mssg: %s\n", buffer); 
                     printf("Playing...\n");
 
-                    /* get random number: 0 --> current process wins
-                                          1 --> the other process wins
-                    */
-                    
-
-                    // FD_SET(socktcp, &rset);
-
-
-
-                    
-                    
-
-                    // fgets(sendline, MAXLINE, stdin);
-                    // sendline[strlen(sendline) -1] = '\0';
-                    // printf("%s",sendline);
-
-                    // Sendto(sockudp, result, strlen(result),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencliudp);
                     sleep(10);
                     char* result = "lose";
                     Write(socktcp, result, strlen(result));
                     playing_now = 0;
-                    FD_CLR(socktcp, &rset);
+                    
 
                 }
 
@@ -246,6 +229,7 @@ int main(int argc, char **argv)
         else {
             printf("Nothing this time...\n");
         }
+        FD_CLR(socktcp, &rset);
 
 
     }
