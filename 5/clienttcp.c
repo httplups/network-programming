@@ -152,6 +152,8 @@ int main(int argc, char **argv)
 
                     // Sendto(sockudp, result, strlen(result),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencliudp);
                     sleep(10);
+                    char* result = "lose";
+                    Write(socktcp, result, strlen(result));
 
                 }
 
@@ -217,16 +219,8 @@ int main(int argc, char **argv)
                     Write(sockfd, hello, strlen(hello));
                     sleep(10); /*  PRETEDING PLAYING */
                     
-                    r = rand() % 2;
-                    // char* result = integer_to_string(r);
-                    if (r == 0) {
-                        char* result = "won";
-                        Write(socktcp, result, strlen(result));
-                    } 
-                    else {
-                        char* result = "lose";
-                        Write(socktcp, result, strlen(result));
-                    }
+                    char* result = "won";
+                    Write(socktcp, result, strlen(result));
                 }
                 else {
                     /* its the port number of another player that wants to play with me */
