@@ -165,8 +165,8 @@ int main(int argc, char **argv) {
 
 
 
-        selTimeout.tv_sec = 0;       /* timeout (secs.) */
-        selTimeout.tv_usec = 500;            /* 0 microseconds */
+        selTimeout.tv_sec = timeout;       /* timeout (secs.) */
+        selTimeout.tv_usec = 0;            /* 0 microseconds */
         
         rset = allset;          /* structure assignment */
 
