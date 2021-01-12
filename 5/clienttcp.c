@@ -119,6 +119,16 @@ int main(int argc, char **argv)
                 scanf(" %d", &player_port);
                 printf("You chose %d\n", player_port);
 
+                char player_port_str[5];
+
+                // convert 123 to string [buf]
+                itoa(player_port, player_port_str, 10);
+
+                // print our string
+                printf("%s\n", player_port_str);
+
+                Write(socktcp, player_port_str, strlen(player_port_str));
+
                 /* START UDP CLIENT - GAME*/
                 // Creating socket file descriptor 
                 int sockfd;
@@ -138,6 +148,7 @@ int main(int argc, char **argv)
 
                 Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
                 Write(sockfd, hello, strlen(hello));
+                sleep(10); /*  PRETEDING PLAYING */
 
             }
             else if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
@@ -146,7 +157,7 @@ int main(int argc, char **argv)
                 memset(sendline, 0, strlen(sendline));
 
                 n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
-                printf("n: %d\n", n);
+                // printf("n: %d\n", n);
                 if (n == 0)
                     break;
 
