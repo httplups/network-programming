@@ -96,9 +96,10 @@ int main(int argc, char **argv)
         
         maxfdp1 = max(socktcp, sockudp)  +  1;
         if((nready = Select(maxfdp1, &rset, NULL, NULL, &selTimeout)) != 0) {
-            printf("got something...\n");
+            
 
             if (FD_ISSET(socktcp, &rset)) {
+                printf("got something in tcp...\n");
                 
                 Read(socktcp, players, MAXLINE);
 
@@ -149,6 +150,7 @@ int main(int argc, char **argv)
 
             }
             else if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
+                printf("got something in udp...\n");
 
                 memset(buffer, 0, strlen(buffer));
                 memset(sendline, 0, strlen(sendline));
