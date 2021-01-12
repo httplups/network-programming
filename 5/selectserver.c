@@ -120,7 +120,7 @@ int  insert_client(char * ip, int port, int socket) {
 
 int main(int argc, char **argv) {
     int     i, maxi, maxfd, listenfd, connfd, sockfd, port;
-    long timeout = 3;
+    long timeout = 10;
     int     nready;
     ssize_t n;
     fd_set  rset, allset;
@@ -153,6 +153,15 @@ int main(int argc, char **argv) {
     for ( ; ; ) {
         FD_ZERO(&allset);
         FD_SET(listenfd, &allset);
+
+        /* SETA NOVAMENTE OS DESCRITORES QUE TEM CONEXAO ATIVA*/
+        for (i = 0; i < FD_SETSIZE; i++) {
+            if (clients[i].socket_conn !=  -1) {
+                FD_SET(clients[i].socket_conn, &allset);
+            }
+        }
+
+
         printf("Listening...\n");
 
         selTimeout.tv_sec = timeout;       /* timeout (secs.) */
@@ -186,6 +195,8 @@ int main(int argc, char **argv) {
                     continue;          /* no more readable descriptors */
                 
             }
+
+            show_clients();
         
             // for (i = 0; i <= maxi; i++) {       /* check all clients for data */
 

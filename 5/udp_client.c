@@ -10,6 +10,8 @@ int main(int argc, char **argv) {
     socklen_t len; 
     char buffer[MAXLINE]; 
     struct sockaddr_in servaddr, cliaddr; 
+
+    // SERVER SIDE
       
     // Creating socket file descriptor 
     sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
