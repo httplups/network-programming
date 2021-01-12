@@ -82,7 +82,6 @@ int main(int argc, char **argv)
         
 
         memset(players, 0, strlen(players));
-        sleep(3);
         char * get = "get";
         Write(socktcp, get, strlen(get));
 
