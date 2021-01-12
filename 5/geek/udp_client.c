@@ -7,6 +7,9 @@
 #include <strings.h> 
 #include <sys/socket.h> 
 #include <sys/types.h> 
+#include <string.h> /* memset */
+#include <unistd.h> /* close */
+
 #define PORT 5000 
 #define MAXLINE 1024 
 int main() 
