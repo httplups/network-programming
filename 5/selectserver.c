@@ -147,10 +147,11 @@ int main(int argc, char **argv) {
     initialize_clients();
     
     FD_ZERO(&allset);
+    FD_SET(listenfd, &allset);
     for ( ; ; ) {
         printf("Listening...\n");
         
-        FD_SET(listenfd, &allset);
+        
         rset = allset;          /* structure assignment */
         nready = Select(maxfd + 1, &rset, NULL, NULL, NULL);
         
