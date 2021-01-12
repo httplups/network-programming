@@ -122,6 +122,7 @@ int AcceptTCPConnection(int servSock)
     /* clntSock is connected to a client! */
    
     printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
+    sleep(5);
 
     return clntSock;
 }
