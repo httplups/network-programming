@@ -225,7 +225,7 @@ int main(int argc, char **argv) {
 
                     } 
                     else{
-                        printf("got %s from client: %d\n", buf, clients[i].port);
+                        // printf("got %s from client: %d\n", buf, clients[i].port);
 
                         if (strcmp(buf, "get") == 0) {
                             /* send the players available */
@@ -235,6 +235,7 @@ int main(int argc, char **argv) {
                             strcpy(resp, show_other_players(sockfd));
                             // printf("resp: %s\n\n", resp);
                             Write(sockfd, resp, strlen(resp));
+                            show_clients();
                         }
                         else if (strcmp(buf, "won") == 0) {
 
@@ -252,12 +253,8 @@ int main(int argc, char **argv) {
                         }
                         else if (strcmp(buf, "playing") == 0) {
 
-                            /* Getting the port number of the player playing with client i */
-                            // Read(sockfd, player, 100);
-                            // printf("porta player:%s\n", player);
                             set_as_offline(i);
-                            // set_as_offline(get_index_by_port(atoi(player)));
-                            // show_clients();
+                           
                         }
                         else if (strcmp(buf, "points") == 0) {
                             continue;
@@ -276,11 +273,6 @@ int main(int argc, char **argv) {
                             char* player_port_str = integer_to_string(clients[i].port);
                             Write(clients[get_index_by_port(atoi(buf))].socket_conn, player_port_str, strlen(player_port_str));                       
 
-                            // /* Sending port of client */
-                            // memset(resp, 0, strlen(resp));
-                            // strcpy(resp, get_info_player(atoi(buf)));
-                            // printf("resp %s\n", resp);
-                            // Write(sockfd, resp, strlen(resp));
 
             //                 // set_as_offline(i);
             //                 // set_as_offline(otherclient);
