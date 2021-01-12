@@ -243,7 +243,7 @@ int main(int argc, char **argv) {
             //                 // set_as_offline(i);
             //                 // set_as_offline(otherclient);
 
-            //             }
+                        }
             //             else if (strcmp(buf, "back") == 0) {
             //                 /* Put the client again on the array */
             //                 // memset(player, 0, strlen(player));
