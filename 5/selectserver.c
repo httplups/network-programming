@@ -167,8 +167,9 @@ int main(int argc, char **argv) {
         selTimeout.tv_sec = timeout;       /* timeout (secs.) */
         selTimeout.tv_usec = 0;            /* 0 microseconds */
         
-        
         rset = allset;          /* structure assignment */
+
+        show_clients();
         if((nready = Select(maxfd + 1, &rset, NULL, NULL, &selTimeout)) == 0) 
             printf("No echo requests for %ld secs...Server still alive\n", timeout);
         else {
@@ -196,7 +197,6 @@ int main(int argc, char **argv) {
                 
             }
 
-            show_clients();
         
             // for (i = 0; i <= maxi; i++) {       /* check all clients for data */
 
