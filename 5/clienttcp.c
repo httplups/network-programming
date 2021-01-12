@@ -163,11 +163,11 @@ int main(int argc, char **argv)
                     buffer[n] = '\0'; 
                     printf("%s\n", buffer); 
 
-                    fgets(sendline, MAXLINE, stdin);
-                    sendline[strlen(sendline) -1] = '\0';
-                    printf("%s",sendline);
+                    // fgets(sendline, MAXLINE, stdin);
+                    // sendline[strlen(sendline) -1] = '\0';
+                    // printf("%s",sendline);
 
-                    Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);
+                    // Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);
                 }
 
                 /* Otherwise, DISCARD */
