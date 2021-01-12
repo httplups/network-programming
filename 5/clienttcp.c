@@ -108,14 +108,10 @@ int main(int argc, char **argv)
                 memset(buffer, 0, strlen(buffer));
                 memset(sendline, 0, strlen(sendline));
 
-                lencliudp = sizeof(cliudpaddr);
-
                 n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
                 // printf("n: %d\n", n);
 
                 printf("%s\n", buffer);
-
-                printf("%d %d\n",ntohs(cliudpaddr.sin_port), another_player_port);
 
                 if (ntohs(cliudpaddr.sin_port) == another_player_port) {
 
@@ -202,14 +198,12 @@ int main(int argc, char **argv)
                     servaddr.sin_port = htons(player_port); /*Connect UDP server port*/
                     servaddr.sin_addr.s_addr = INADDR_ANY; 
                     
-                    socklen_t len = sizeof(servaddr); 
+                    socklen_t len; 
                     char * hello = "Hello\n";
 
                     printf("connected: %s:%d\n", inet_ntoa(servaddr.sin_addr), ntohs(servaddr.sin_port));
 
-                    // Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-
-                    
+                    Connect(sockfd, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
 
                     /* tell tcp server we are not avaiable */
@@ -220,14 +214,13 @@ int main(int argc, char **argv)
                     playing_now = 1;
 
                     printf("Playing...\n");
-                    // Write(sockfd, hello, strlen(hello));
-                    Sendto(sockfd, hello, strlen(hello), 0, (struct sockaddr *) &servaddr, sizeof(servaddr));
-                    sleep(20); /*  PRETEDING PLAYING */
+                    Write(sockfd, hello, strlen(hello));
+                    sleep(10); /*  PRETEDING PLAYING */
 
                     memset(buffer, 0, strlen(buffer));
+                    /* tcp stop sending */
                     
-                    
-                    n = Recvfrom(sockfd, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len);
+                    n = Read(sockfd, buffer, strlen(buffer));
                     printf("n: %d\n", n);
                     printf("Result: %s\n", buffer);
                 }
