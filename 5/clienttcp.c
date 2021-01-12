@@ -171,6 +171,7 @@ int main(int argc, char **argv)
 
                      /* tell tcp server i am not avaiable */
                     Write(socktcp, playing, strlen(playing));
+                    sleep(10);
 
                     if (n == 0) {
                         /* get out*/
