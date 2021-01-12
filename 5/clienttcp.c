@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr, servaddr;
 	socklen_t lencli, lencliudp;
     struct timeval selTimeout;       /* Timeout for select() */
-    long timeout = 3;
+    long timeout = 10;
     int another_player_port = 0;
     char * playing = "playing";
     int playing_now = 0;
