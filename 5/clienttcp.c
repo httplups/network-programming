@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     long timeout = 1;
     int another_player_port = 0;
     char * playing = "playing";
-    int playing_now = 0, n;
+    int playing_now = 0;
 
     if (argc != 3)
 	{
