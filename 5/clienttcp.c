@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr, servaddr;
 	socklen_t lencli, lencliudp;
     struct timeval selTimeout;       /* Timeout for select() */
-    long timeout = 10;
+    long timeout = 3;
     int another_player_port = 0;
     char * playing = "playing";
 
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
                 Read(socktcp, players, MAXLINE);
 
                 if (strcmp(players, "NULL") == 0) {
-                    printf("No players avaiable. Trying again in 10s...\n\n");
+                    printf("No players avaiable. Trying again...\n\n");
                     sleep(10);
                 }
                 else if(strcmp(players, "NULL") != 0){
