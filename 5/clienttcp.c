@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     for (;;) {
 
         memset(players, 0, strlen(players));
-        
+        sleep(3);
         char * get = "get";
         Write(socktcp, get, strlen(get));
 
@@ -99,9 +99,50 @@ int main(int argc, char **argv)
         
         maxfdp1 = max(socktcp, sockudp)  +  1;
         if((nready = Select(maxfdp1, &rset, NULL, NULL, &selTimeout)) != 0) {
+
+            if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
+                printf("got something in udp...\n");
+
+                memset(buffer, 0, strlen(buffer));
+                memset(sendline, 0, strlen(sendline));
+
+                n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
+                // printf("n: %d\n", n);
+
+                if (ntohs(cliudpaddr.sin_port) == another_player_port) {
+
+                     /* tell tcp server i am not avaiable */
+                    Write(socktcp, playing, strlen(playing));
+                    playing_now = 1;
+
+                    /* tcp stop sending */
+                    FD_CLR(socktcp, &rset);
+
+
+                    if (n == 0) {
+                        /* get out*/
+                        continue;
+                    }
+
+
+                    buffer[n] = '\0'; 
+                    printf("recv UDP mssg: %s\n", buffer); 
+                    printf("Playing...\n");
+                    sleep(10);
+                    printf("%d won!\n",another_player_port);
+
+                    // fgets(sendline, MAXLINE, stdin);
+                    // sendline[strlen(sendline) -1] = '\0';
+                    // printf("%s",sendline);
+
+                    // Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);
+                }
+
+                /* Otherwise, DISCARD */
+            }
             
 
-            if (FD_ISSET(socktcp, &rset)) {
+            if (FD_ISSET(socktcp, &rset)) { /* TCP */
                 printf("got something in tcp...\n");
                 
                 Read(socktcp, players, MAXLINE);
@@ -166,46 +207,7 @@ int main(int argc, char **argv)
                 }
 
             }
-            if(FD_ISSET(sockudp, &rset)) { /* UDP SERVER*/
-                printf("got something in udp...\n");
-
-                memset(buffer, 0, strlen(buffer));
-                memset(sendline, 0, strlen(sendline));
-
-                n = Recvfrom(sockudp, &buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliudpaddr, &lencliudp);
-                // printf("n: %d\n", n);
-
-                if (ntohs(cliudpaddr.sin_port) == another_player_port) {
-
-                     /* tell tcp server i am not avaiable */
-                    Write(socktcp, playing, strlen(playing));
-                    playing_now = 1;
-
-                    /* tcp stop sending */
-                    FD_CLR(socktcp, &rset);
-
-
-                    if (n == 0) {
-                        /* get out*/
-                        continue;
-                    }
-
-
-                    buffer[n] = '\0'; 
-                    printf("recv UDP mssg: %s\n", buffer); 
-                    printf("Playing...\n");
-                    sleep(10);
-                    printf("%d won!\n",another_player_port);
-
-                    // fgets(sendline, MAXLINE, stdin);
-                    // sendline[strlen(sendline) -1] = '\0';
-                    // printf("%s",sendline);
-
-                    // Sendto(sockudp, sendline, strlen(sendline),MSG_CONFIRM, (const struct sockaddr *) &cliudpaddr, lencli);
-                }
-
-                /* Otherwise, DISCARD */
-            }
+            
                     // char delim[] = " ";
                     // char *ptr = strtok(player, delim);
                     // printf("IP:%s\n", ptr);
