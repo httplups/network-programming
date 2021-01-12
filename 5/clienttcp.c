@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	struct sockaddr_in servtcpaddr, servudpaddr, clitcpaddr, cliudpaddr;
 	socklen_t lencli;
     struct timeval selTimeout;       /* Timeout for select() */
-    long timeout = 1;
+    long timeout = 3;
 
     if (argc != 3)
 	{
@@ -92,12 +92,13 @@ int main(int argc, char **argv)
         
         maxfdp1 = max(socktcp, sockudp)  +  1;
         if((nready = Select(maxfdp1, &rset, NULL, NULL, &selTimeout)) != 0) {
-            printf("something...\n");
+        
 
             if (FD_ISSET(socktcp, &rset)) {
-                printf("at tcp\n");
+                
 
                 Read(socktcp, players, MAXLINE);
+
                     
 
                 if (strcmp(players, "NULL") == 0) {
